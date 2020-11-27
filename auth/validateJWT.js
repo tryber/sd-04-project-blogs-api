@@ -11,7 +11,11 @@ const validateToken = async (req, res, next) => {
       return res.status(401).json({ message: 'Token não encontrado' });
     }
 
-    jwt.verify(token, secret);
+    const validToken = jwt.verify(token, secret);
+
+    const { email } = validToken;
+
+    req.user = { ...req.user, email };
 
     return next();
   } catch (err) {
