@@ -12,7 +12,6 @@ router.post(
   usersValidation.checkPassword,
   usersValidation.checkUserExists,
   async (req, res) => {
-    console.log(req.body);
     const { displayName, email, password, image } = req.body;
 
     const token = createToken({ email, password });
