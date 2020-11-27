@@ -2,6 +2,7 @@ const express = require('express');
 const { Users } = require('../models');
 const usersValidation = require('../middlewares/usersValidation');
 const createToken = require('../auth/createJWT');
+const validateToken = require('../auth/validateJWT');
 
 const router = express.Router();
 
@@ -21,5 +22,10 @@ router.post(
     return res.status(201).json({ token });
   },
 );
+
+router.get('/', validateToken, async (req, res) => {
+  const users = await Users.findAll({ attributes: { exclude: ['password'] } });
+  return res.status(200).json(users);
+});
 
 module.exports = router;
