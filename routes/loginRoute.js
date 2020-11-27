@@ -2,10 +2,10 @@ const { Router } = require('express');
 const { usersController } = require('../controllers');
 const middleware = require('../middlewares');
 
-const usersRouter = Router();
+const loginRouter = Router();
 
-usersRouter.get('/', middleware.authJWT, usersController.getAllUsersCont);
+loginRouter.post('/', middleware.validateLogin, usersController.loginUserCont);
 
 module.exports = {
-  usersRouter,
+  loginRouter,
 };

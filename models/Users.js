@@ -1,5 +1,5 @@
 const createUser = (sequelize, DataTypes) => {
-  const user = sequelize.define(
+  const User = sequelize.define(
     'User',
     {
       id: {
@@ -36,7 +36,7 @@ const createUser = (sequelize, DataTypes) => {
   //     as: 'Post',
   //   });
   // };
-  return user;
+  return User;
 };
 
 module.exports = createUser;
