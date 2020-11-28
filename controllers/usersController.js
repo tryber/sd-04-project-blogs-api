@@ -11,6 +11,12 @@ const getAllUsersCont = rescue(async (_req, res) => {
 const loginUserCont = rescue(async (req, res) => {
   const { email, password } = req.body;
 
+  const user = await User.findAll({ where: { email } });
+
+  if (user.length <= 0) {
+    return res.status(400).json({ message: 'Campos inválidos' });
+  }
+
   const { token } = await usersServices.userLoginServ(email, password);
 
   return res.status(200).json({ token });
