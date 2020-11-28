@@ -4,8 +4,7 @@ const createToken = require('./createToken');
 const getAllUsersServ = async () => User.findAll();
 
 const getUserByEmailServ = async (email) => {
-  const { dataValues } = await User.findOne({ where: { email } });
-  console.log('getUserByEmailServ', dataValues);
+  const { dataValues } = await User.findAll({ where: { email } });
   return dataValues;
 };
 
