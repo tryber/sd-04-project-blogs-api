@@ -25,9 +25,15 @@ const createUserServ = async ({ displayName, email, password, image }) => {
   return createUser;
 };
 
+const getUserByIdServ = async (id) => {
+  const userId = User.findAll({ where: { id } });
+  return userId;
+};
+
 module.exports = {
   getAllUsersServ,
   userLoginServ,
   getUserByEmailServ,
   createUserServ,
+  getUserByIdServ,
 };

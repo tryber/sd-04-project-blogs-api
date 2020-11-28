@@ -36,8 +36,18 @@ const createUserCont = rescue(async (req, res) => {
   return res.status(201).json(newUser);
 });
 
+const getUserByIdCont = rescue(async (req, res) => {
+  const { id } = req.params;
+  const userId = await usersServices.getUserByIdServ(id);
+  if (userId.length <= 0) return res.status(404).json({ message: 'Usuário não existe' });
+
+  console.log(userId[0]);
+  return res.status(200).json(userId[0]);
+});
+
 module.exports = {
   getAllUsersCont,
   loginUserCont,
   createUserCont,
+  getUserByIdCont,
 };

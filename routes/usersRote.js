@@ -6,7 +6,8 @@ const usersRouter = Router();
 
 usersRouter
   .get('/', middleware.authJWT, usersController.getAllUsersCont)
-  .post('/', middleware.validateCreateUser, usersController.createUserCont);
+  .post('/', middleware.validateCreateUser, usersController.createUserCont)
+  .get('/:id', middleware.authJWT, usersController.getUserByIdCont);
 
 module.exports = {
   usersRouter,
