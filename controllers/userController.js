@@ -25,13 +25,13 @@ router.post('/', async (req, res) => {
     });
   }
 
-  if (email === undefined) {
+  if (!email) {
     res.status(400).json({
       message: '"email" is required',
     });
   }
 
-  if (password === undefined) {
+  if (!password) {
     res.status(400).json({
       message: '"password" is required',
     });
