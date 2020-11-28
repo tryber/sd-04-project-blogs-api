@@ -15,7 +15,16 @@ const loginUserCont = rescue(async (req, res) => {
   return res.status(200).json({ token });
 });
 
+const createUserCont = rescue(async (req, res) => {
+  const { displayName, email, password, image } = req.body;
+
+  const newUser = await usersServices.createUserServ({ displayName, email, password, image });
+
+  return res.status(201).json(newUser);
+});
+
 module.exports = {
   getAllUsersCont,
   loginUserCont,
+  createUserCont,
 };

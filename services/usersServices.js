@@ -4,8 +4,9 @@ const createToken = require('./createToken');
 const getAllUsersServ = async () => User.findAll();
 
 const getUserByEmailServ = async (email) => {
-  const userEmail = await User.findOne({ where: { email } });
-  return userEmail;
+  const { dataValues } = await User.findOne({ where: { email } });
+  console.log('getUserByEmailServ', dataValues);
+  return dataValues;
 };
 
 const userLoginServ = async (userEmail, userPassword) => {
@@ -20,7 +21,14 @@ const userLoginServ = async (userEmail, userPassword) => {
   throw Error('Login ou senha inválido');
 };
 
+const createUserServ = async ({ displayName, email, password, image }) => {
+  const createUser = User.create({ displayName, email, password, image });
+  return createUser;
+};
+
 module.exports = {
   getAllUsersServ,
   userLoginServ,
+  getUserByEmailServ,
+  createUserServ,
 };

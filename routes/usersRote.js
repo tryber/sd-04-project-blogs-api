@@ -4,7 +4,9 @@ const middleware = require('../middlewares');
 
 const usersRouter = Router();
 
-usersRouter.get('/', middleware.authJWT, usersController.getAllUsersCont);
+usersRouter
+  .get('/', middleware.authJWT, usersController.getAllUsersCont)
+  .post('/', middleware.validateCreateUser, usersController.createUserCont);
 
 module.exports = {
   usersRouter,
