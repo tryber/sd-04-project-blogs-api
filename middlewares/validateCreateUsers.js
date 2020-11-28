@@ -1,5 +1,4 @@
 const Joi = require('joi');
-// const { User } = require('../models');
 
 const schema = Joi.object({
   displayName: Joi.string().min(8),
@@ -9,18 +8,12 @@ const schema = Joi.object({
 });
 
 const validateCreateUser = async (req, res, next) => {
-  try {
-    const { displayName, email, password, image } = req.body;
-    const { error } = schema.validate({ displayName, email, password, image });
+  const { displayName, email, password, image } = req.body;
 
-    if (error) {
-      return res.status(400).json(error.message);
-    }
+  const { error } = schema.validate({ displayName, email, password, image });
 
-    // const user = await User.findAll({ where: { email } });
-    // if (user.length > 0) return next({ message: 'Usuário já existe' });
-  } catch (error) {
-    console.error('validateUser', error);
+  if (error) {
+    return res.status(400).json({ message: error.message });
   }
 
   next();
