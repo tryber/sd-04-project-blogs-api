@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const validateJWT = require('../auth/validateJWT');
 const { Router } = require('express');
+const validateJWT = require('../auth/validateJWT');
 const { Users } = require('../models');
 
 const router = Router();
