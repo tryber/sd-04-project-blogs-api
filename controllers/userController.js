@@ -72,4 +72,11 @@ router.get('/:id', validateJWT, async (req, res) => {
   res.status(200).json(user);
 });
 
+router.delete('/me', validateJWT, async (req, res) => {
+  const { data } = req.user;
+  await Users.destroy({ where: { displayName: data } });
+
+  res.status(204).json();
+});
+
 module.exports = router;
