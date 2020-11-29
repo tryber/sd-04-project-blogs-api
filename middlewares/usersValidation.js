@@ -22,7 +22,7 @@ const checkEmail = async (req, res, next) => {
   const regexEmail = /[A-Z0-9]{1,}@[A-Z0-9]{2,}\.[A-Z0-9]{2,}/i;
 
   if (!regexEmail.test(email)) {
-    return res.status(400).json({ message: '"email" inválido' });
+    return res.status(400).json({ message: '"email" must be a valid email' });
   }
 
   return next();
@@ -32,11 +32,11 @@ const checkPassword = async (req, res, next) => {
   const { password } = req.body;
 
   if (!password) {
-    return res.status(400).json({ message: '"password" é obrigatório' });
+    return res.status(400).json({ message: '"password" is required' });
   }
 
   if (password.length < 6) {
-    return res.status(400).json({ message: '"password" deve conter no mínimo 6 caracteres' });
+    return res.status(400).json({ message: '"password" length must be 6 characters long' });
   }
 
   return next();
