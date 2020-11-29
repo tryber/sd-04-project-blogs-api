@@ -1,5 +1,5 @@
-const { Users } = require("../models");
-const { createToken } = require("../services/auth");
+const { Users } = require('../models');
+const { createToken } = require('../services/auth');
 
 module.post = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -12,17 +12,17 @@ module.post = async (req, res) => {
 };
 
 module.get = async (_req, res) => {
-  const users = await Users.findAll({ attributes: { exclude: ["password"] } });
+  const users = await Users.findAll({ attributes: { exclude: ['password'] } });
   return res.status(200).json(users);
 };
 
 module.getById = async (req, res) => {
   const { id } = req.params;
   const user = await Users.findByPk(id, {
-    attributes: { exclude: ["password"] },
+    attributes: { exclude: ['password'] },
   });
   if (!user) {
-    return res.status(404).json({ message: "Usuário não existe" });
+    return res.status(404).json({ message: 'Usuário não existe' });
   }
   return res.status(200).json(user);
 };
@@ -30,5 +30,5 @@ module.getById = async (req, res) => {
 module.delete = async (req, res) => {
   const { email } = req.user;
   await Users.destroy({ where: { email } });
-  return res.status(204).json({ message: "Usuário deletado com sucesso" });
+  return res.status(204).json({ message: 'Usuário deletado com sucesso' });
 };

@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const loginValidation = require("../middlewares/loginValidation");
-const loginController = require("../controllers/loginController");
+const loginValidation = require('../middlewares/loginValidation');
+const loginController = require('../controllers/loginController');
 
 router.post(
-  "/",
+  '/',
   loginValidation.checkEmail,
   loginValidation.checkPassword,
   loginValidation.checkUserExists,
-  loginController.post
+  loginController.post,
 );

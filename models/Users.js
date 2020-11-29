@@ -1,13 +1,13 @@
 const createUsers = (sequelize, DataTypes) => {
   const Users = sequelize.define(
-    "Users",
+    'Users',
     {
       displayName: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       image: DataTypes.STRING,
     },
-    { timestamps: false }
+    { timestamps: false },
   );
 
   return Users;

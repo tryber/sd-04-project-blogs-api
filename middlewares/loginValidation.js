@@ -1,4 +1,4 @@
-const { Users } = require("../models");
+const { Users } = require('../models');
 
 const checkEmail = async (req, res, next) => {
   const { email } = req.body;
@@ -21,7 +21,7 @@ const checkPassword = async (req, res, next) => {
     return res.status(400).json({ message: '"password" é obrigatórios' });
   }
 
-  if (password === "") {
+  if (password === '') {
     return res.status(400).json({ message: '"password" não pode ser vazio' });
   }
 
@@ -33,7 +33,7 @@ const checkUserExists = async (req, res, next) => {
 
   const user = await Users.findOne({ where: { email, password } });
   if (!user) {
-    return res.status(400).json({ message: "Campos inválidos" });
+    return res.status(400).json({ message: 'Campos inválidos' });
   }
 
   return next();

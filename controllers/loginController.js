@@ -1,4 +1,4 @@
-const { createToken } = require("../services/auth");
+const { createToken } = require('../services/auth');
 
 module.post = async (req, res) => {
   const { email, password } = req.body;
