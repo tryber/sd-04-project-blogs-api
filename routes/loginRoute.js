@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
 const loginValidation = require('../middlewares/loginValidation');
 const loginController = require('../controllers/loginController');
+
+const router = express.Router();
 
 router.post(
   '/',
