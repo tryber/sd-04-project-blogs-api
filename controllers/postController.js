@@ -22,4 +22,17 @@ router.post('/', validateJWT, async (req, res) => {
 
   res.status(201).json(posts);
 });
+
+router.get('/', validateJWT, async (req, res) => {
+  const posts = await Posts.findAll({
+    attributes: { exclude: ['userId'] },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+      },
+    ],
+  });
+  res.status(200).json(posts);
+});
 module.exports = router;

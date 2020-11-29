@@ -5,18 +5,16 @@ const createPosts = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
       userId: { type: DataTypes.INTEGER, foreignKey: true },
-      published: DataTypes.INTEGER,
-      updated: DataTypes.INTEGER,
+      published: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+      updated: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     },
-    {
-      timestamps: false,
-    },
+    { timestamps: false },
   );
 
   Posts.associate = (models) => {
     Posts.belongsTo(models.Users, {
       foreignKey: 'userId',
-      as: 'Users',
+      as: 'user',
     });
   };
 
