@@ -1,7 +1,7 @@
 const { Users } = require('../models');
 const { createToken } = require('../services/auth');
 
-module.post = async (req, res) => {
+exports.post = async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   const token = createToken({ email, password });
@@ -11,12 +11,12 @@ module.post = async (req, res) => {
   return res.status(201).json({ token });
 };
 
-module.get = async (_req, res) => {
+exports.get = async (_req, res) => {
   const users = await Users.findAll({ attributes: { exclude: ['password'] } });
   return res.status(200).json(users);
 };
 
-module.getById = async (req, res) => {
+exports.getById = async (req, res) => {
   const { id } = req.params;
   const user = await Users.findByPk(id, {
     attributes: { exclude: ['password'] },
@@ -27,7 +27,7 @@ module.getById = async (req, res) => {
   return res.status(200).json(user);
 };
 
-module.delete = async (req, res) => {
+exports.delete = async (req, res) => {
   const { email } = req.user;
   await Users.destroy({ where: { email } });
   return res.status(204).json({ message: 'Usuário deletado com sucesso' });

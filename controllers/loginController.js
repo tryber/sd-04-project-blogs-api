@@ -1,6 +1,6 @@
 const { createToken } = require('../services/auth');
 
-module.post = async (req, res) => {
+exports.post = async (req, res) => {
   const { email, password } = req.body;
 
   const token = createToken({ email, password });
