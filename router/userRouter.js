@@ -15,8 +15,10 @@ userRouter.post(
   userControllers.createUser
 );
 
+userRouter.get('/:id', validToken, userControllers.getUserById);
+
 userRouter.get('/', validToken, userControllers.getAllUsers);
 
-userRouter.get('/:id', validToken, userControllers.getUserById);
+userRouter.delete('/me', validToken, userControllers.deleteUser);
 
 module.exports = userRouter;

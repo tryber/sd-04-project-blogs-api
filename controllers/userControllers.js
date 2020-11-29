@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
 
     return res.status(201).json(token);
   } catch (err) {
-    console.err('createUser', err.message);
+    console.error('createUser', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
 
     return res.status(200).json({ token });
   } catch (err) {
-    console.err('createUser', err.message);
+    console.error('createUser', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
@@ -43,7 +43,7 @@ const getAllUsers = async (_req, res) => {
 
     return res.status(200).json(allUsers);
   } catch (err) {
-    console.err('createUser', err.message);
+    console.error('createUser', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
@@ -58,9 +58,22 @@ const getUserById = async (req, res) => {
 
     return res.status(200).json(user);
   } catch (err) {
-    console.err('createUser', err.message);
+    console.error('createUser', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
 
-module.exports = { createUser, loginUser, getAllUsers, getUserById };
+const deleteUser = async (req, res) => {
+  try {
+    const { email } = req.user;
+
+    await Users.destroy({ where: { email } });
+
+    return res.status(204).end();
+  } catch (err) {
+    console.error('createUser', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createUser, loginUser, getAllUsers, getUserById, deleteUser };
