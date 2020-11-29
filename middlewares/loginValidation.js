@@ -33,7 +33,7 @@ const checkUserExists = async (req, res, next) => {
 
   const user = await Users.findOne({ where: { email, password } });
   if (!user) {
-    return res.status(400).json({ message: 'User already exists' });
+    return res.status(400).json({ message: 'Campos inválidos' });
   }
 
   return next();
