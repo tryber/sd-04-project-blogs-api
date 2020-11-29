@@ -1,13 +1,17 @@
 const createPosts = (sequelize, DataTypes) => {
-  const Posts = sequelize.define('Posts', {
-    id: { type: DataTypes.INTEGER, primaryKey: true },
-    title: DataTypes.STRING,
-    content: DataTypes.STRING,
-    userId: { type: DataTypes.INTEGER, foreignKey: true },
-    password: DataTypes.INTEGER,
-    published: DataTypes.DATE,
-    updated: DataTypes.DATE,
-  });
+  const Posts = sequelize.define(
+    'Posts',
+    {
+      title: DataTypes.STRING,
+      content: DataTypes.STRING,
+      userId: { type: DataTypes.INTEGER, foreignKey: true },
+      published: DataTypes.INTEGER,
+      updated: DataTypes.INTEGER,
+    },
+    {
+      timestamps: false,
+    },
+  );
 
   Posts.associate = (models) => {
     Posts.belongsTo(models.Users, {
