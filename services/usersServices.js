@@ -30,10 +30,15 @@ const getUserByIdServ = async (id) => {
   return userId;
 };
 
+const deleteUserByIdServ = async (id) => {
+  User.destroy({ where: { id } });
+};
+
 module.exports = {
   getAllUsersServ,
   userLoginServ,
   getUserByEmailServ,
   createUserServ,
   getUserByIdServ,
+  deleteUserByIdServ,
 };

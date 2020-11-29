@@ -41,8 +41,14 @@ const getUserByIdCont = rescue(async (req, res) => {
   const userId = await usersServices.getUserByIdServ(id);
   if (userId.length <= 0) return res.status(404).json({ message: 'Usuário não existe' });
 
-  console.log(userId[0]);
   return res.status(200).json(userId[0]);
+});
+
+const deleteUserByIdCont = rescue(async (res, req) => {
+  const { id } = req.req.body;
+  await usersServices.deleteUserByIdServ(id);
+
+  return res.res.status(204).end();
 });
 
 module.exports = {
@@ -50,4 +56,5 @@ module.exports = {
   loginUserCont,
   createUserCont,
   getUserByIdCont,
+  deleteUserByIdCont,
 };

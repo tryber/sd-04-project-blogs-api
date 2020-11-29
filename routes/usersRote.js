@@ -7,7 +7,8 @@ const usersRouter = Router();
 usersRouter
   .get('/', middleware.authJWT, usersController.getAllUsersCont)
   .post('/', middleware.validateCreateUser, usersController.createUserCont)
-  .get('/:id', middleware.authJWT, usersController.getUserByIdCont);
+  .get('/:id', middleware.authJWT, usersController.getUserByIdCont)
+  .delete('/me', middleware.authJWT, usersController.deleteUserByIdCont);
 
 module.exports = {
   usersRouter,
