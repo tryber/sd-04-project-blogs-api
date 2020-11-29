@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { Posts, Users } = require('../models');
 const postsValidation = require('../middlewares/postsValidation');
 const validateToken = require('../auth/validateJWT');
@@ -21,6 +22,30 @@ router.post(
     return res.status(201).json({ title, content, userId });
   },
 );
+
+router.get('/search', validateToken, async (req, res) => {
+  const { q } = req.query;
+
+  const posts = await Posts.findAll({
+    where: {
+      [Op.or]: [
+        {
+          title: {
+            [Op.like]: `%${q}%`,
+          },
+        },
+        {
+          content: {
+            [Op.like]: `%${q}%`,
+          },
+        },
+      ],
+    },
+    include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
+  });
+
+  return res.status(200).json(posts);
+});
 
 router.get('/', validateToken, async (_req, res) => {
   const posts = await Posts.findAll({
