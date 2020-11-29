@@ -30,11 +30,22 @@ const loginUser = async (req, res) => {
 
     const token = createToken({ email, password });
 
-    return res.status(200).json(token);
+    return res.status(200).json({ token });
   } catch (err) {
     console.err('createUser', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
 
-module.exports = { createUser, loginUser };
+const getAllUsers = async (_req, res) => {
+  try {
+    const allUsers = await Users.findAll({ attributes: { exclude: ['password'] } });
+
+    return res.status(200).json(allUsers);
+  } catch (err) {
+    console.err('createUser', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createUser, loginUser, getAllUsers };
