@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
 
     return res.status(200).json({ token });
   } catch (err) {
-    console.error('createUser', err.message);
+    console.error('loginUser', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
@@ -43,7 +43,7 @@ const getAllUsers = async (_req, res) => {
 
     return res.status(200).json(allUsers);
   } catch (err) {
-    console.error('createUser', err.message);
+    console.error('getAllUsers', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
@@ -58,7 +58,7 @@ const getUserById = async (req, res) => {
 
     return res.status(200).json(user);
   } catch (err) {
-    console.error('createUser', err.message);
+    console.error('getUserById', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
@@ -71,7 +71,7 @@ const deleteUser = async (req, res) => {
 
     return res.status(204).end();
   } catch (err) {
-    console.error('createUser', err.message);
+    console.error('deleteUser', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };

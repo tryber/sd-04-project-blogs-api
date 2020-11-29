@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { createUserValid } = require('../middlewares');
+const { validUser } = require('../middlewares');
 const { validToken } = require('../service');
 const { userControllers } = require('../controllers');
 
@@ -7,11 +7,11 @@ const userRouter = Router();
 
 userRouter.post(
   '/',
-  createUserValid.passwordRequired,
-  createUserValid.emailRequired,
-  createUserValid.passwordValid,
-  createUserValid.emailValid,
-  createUserValid.displayNameValid,
+  validUser.passwordRequired,
+  validUser.emailRequired,
+  validUser.passwordValid,
+  validUser.emailValid,
+  validUser.displayNameValid,
   userControllers.createUser
 );
 
