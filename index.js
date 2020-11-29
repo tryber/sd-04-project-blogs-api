@@ -9,6 +9,7 @@ app.use(express.json());
 
 app.use('/user', route.usersRouter);
 app.use('/login', route.loginRouter);
+app.use('/post', route.postsRouter);
 
 app.use((error, _req, res, _next) => {
   const { message, status } = error;

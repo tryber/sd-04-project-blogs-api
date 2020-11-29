@@ -1,5 +1,5 @@
 const createUser = (sequelize, DataTypes) => {
-  const User = sequelize.define(
+  const user = sequelize.define(
     'User',
     {
       id: {
@@ -30,13 +30,13 @@ const createUser = (sequelize, DataTypes) => {
     },
   );
 
-  // user.associate = (models) => {
-  //   user.hasMany(models.Post, {
-  //     foreingKey: 'userId',
-  //     as: 'Post',
-  //   });
-  // };
-  return User;
+  user.associate = (models) => {
+    user.hasMany(models.Post, {
+      foreingKey: 'userId',
+      as: 'Post',
+    });
+  };
+  return user;
 };
 
 module.exports = createUser;
