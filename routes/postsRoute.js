@@ -4,7 +4,9 @@ const middleware = require('../middlewares');
 
 const postsRouter = Router();
 
-postsRouter.get('/', middleware.authJWT, postsController.getAllPostsCont);
+postsRouter
+  .get('/', middleware.authJWT, postsController.getAllPostsCont)
+  .post('/', middleware.authJWT, middleware.validateCreatePost, postsController.createPostsCont);
 
 module.exports = {
   postsRouter,
