@@ -6,10 +6,6 @@ const userRouter = Router();
 
 userRouter.post(
   '/',
-  async (req, res, next) => {
-    console.log('body', req.body);
-    next();
-  },
   createUserValid.passwordRequired,
   createUserValid.emailRequired,
   createUserValid.passwordValid,

@@ -4,7 +4,7 @@ const displayNameValid = async (req, res, next) => {
   if (displayName.length >= 8) return next();
 
   return res
-    .status(422)
+    .status(400)
     .json({ message: '"displayName" length must be at least 8 characters long' });
 };
 
@@ -13,7 +13,7 @@ const emailValid = async (req, res, next) => {
 
   if (/[A-Z0-9]{1,}@[A-Z0-9]{2,}\.[A-Z0-9]{2,}/i.test(email)) return next();
 
-  return res.status(422).json({ message: '"email" must be a valid email' });
+  return res.status(400).json({ message: '"email" must be a valid email' });
 };
 
 const emailRequired = async (req, res, next) => {
@@ -21,15 +21,15 @@ const emailRequired = async (req, res, next) => {
 
   if (email) return next();
 
-  return res.status(422).json({ message: '"email" is required' });
+  return res.status(400).json({ message: '"email" is required' });
 };
 
 const passwordValid = async (req, res, next) => {
   const { password } = req.body;
 
-  if (password.length > 6) return next();
+  if (/^(\d|\w){6,}$/.test(password)) return next();
 
-  return res.status(422).json({ message: '"password" length must be 6 characters long' });
+  return res.status(400).json({ message: '"password" length must be 6 characters long' });
 };
 
 const passwordRequired = async (req, res, next) => {
@@ -37,7 +37,7 @@ const passwordRequired = async (req, res, next) => {
 
   if (password) return next();
 
-  return res.status(422).json({ message: '"password" is required' });
+  return res.status(400).json({ message: '"password" is required' });
 };
 
 module.exports = { displayNameValid, emailRequired, emailValid, passwordValid, passwordRequired };
