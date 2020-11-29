@@ -48,4 +48,19 @@ const getAllUsers = async (_req, res) => {
   }
 };
 
-module.exports = { createUser, loginUser, getAllUsers };
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await Users.findByPk(id);
+
+    if (!user) return res.status(404).json({ message: 'Usuário não existe' });
+
+    return res.status(200).json(user);
+  } catch (err) {
+    console.err('createUser', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createUser, loginUser, getAllUsers, getUserById };
