@@ -11,3 +11,5 @@ router.post(
   loginValidation.checkUserExists,
   loginController.post,
 );
+
+module.exports = router;
