@@ -2,6 +2,7 @@ const express = require('express');
 const { Posts, Users } = require('../models');
 const postsValidation = require('../middlewares/postsValidation');
 const validateToken = require('../auth/validateJWT');
+const { checkPostAuthor } = require('../middlewares/postsValidation');
 
 const router = express.Router();
 
@@ -41,5 +42,21 @@ router.get('/:id', validateToken, async (req, res) => {
 
   return res.status(200).json(post);
 });
+
+router.put(
+  '/:id',
+  validateToken,
+  postsValidation.checkTitle,
+  postsValidation.checkContent,
+  postsValidation.checkPostAuthor,
+  async (req, res) => {
+    const { title, content } = req.body;
+    const { id } = req.params;
+    const { userId } = req.user;
+
+    await Posts.update({ title, content }, { where: { id } });
+    return res.status(200).json({ title, content, userId });
+  },
+);
 
 module.exports = router;
