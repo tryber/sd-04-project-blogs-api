@@ -1,3 +1,4 @@
-const createUserValid = require('./validUser');
+const validUser = require('./validUser');
+const validPost = require('./validPost');
 
-module.exports = { createUserValid };
+module.exports = { validUser, validPost };
