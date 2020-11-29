@@ -5,7 +5,7 @@ const schema = Joi.object({
   content: Joi.string().required(),
 });
 
-const validateCreatePost = async (req, res, next) => {
+const validatePost = async (req, res, next) => {
   const { title, content } = req.body;
 
   const { error } = schema.validate({ title, content });
@@ -17,4 +17,4 @@ const validateCreatePost = async (req, res, next) => {
   next();
 };
 
-module.exports = validateCreatePost;
+module.exports = validatePost;

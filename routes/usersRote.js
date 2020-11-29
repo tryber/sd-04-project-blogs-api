@@ -6,7 +6,7 @@ const usersRouter = Router();
 
 usersRouter
   .get('/', middleware.authJWT, usersController.getAllUsersCont)
-  .post('/', middleware.validateCreateUser, usersController.createUserCont)
+  .post('/', middleware.validateUser, usersController.createUserCont)
   .get('/:id', middleware.authJWT, usersController.getUserByIdCont)
   .delete('/me', middleware.authJWT, usersController.deleteUserByIdCont);
 

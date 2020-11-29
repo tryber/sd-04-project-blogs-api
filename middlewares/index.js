@@ -1,11 +1,11 @@
 const { authJWT } = require('./authJWT');
 const validateLogin = require('./validateLogin');
-const validateCreateUser = require('./validateCreateUsers');
-const validateCreatePost = require('./validateCreatePosts');
+const validateUser = require('./validateUsers');
+const validatePost = require('./validatePosts');
 
 module.exports = {
   authJWT,
   validateLogin,
-  validateCreateUser,
-  validateCreatePost,
+  validateUser,
+  validatePost,
 };

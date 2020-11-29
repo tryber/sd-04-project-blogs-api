@@ -7,7 +7,7 @@ const schema = Joi.object({
   image: Joi.string(),
 });
 
-const validateCreateUser = async (req, res, next) => {
+const validateUser = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
 
   const { error } = schema.validate({ displayName, email, password, image });
@@ -19,4 +19,4 @@ const validateCreateUser = async (req, res, next) => {
   next();
 };
 
-module.exports = validateCreateUser;
+module.exports = validateUser;

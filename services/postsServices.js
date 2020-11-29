@@ -10,8 +10,14 @@ const getPostByIdServ = async (id) => {
   return postId;
 };
 
+const updatePostServ = async (title, content, id, userId) => {
+  await Post.update({ title, content }, { where: { id } });
+  return { title, content, userId };
+};
+
 module.exports = {
   getAllPostsServ,
   createPostsServ,
   getPostByIdServ,
+  updatePostServ,
 };

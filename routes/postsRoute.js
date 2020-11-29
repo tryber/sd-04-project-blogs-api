@@ -6,8 +6,9 @@ const postsRouter = Router();
 
 postsRouter
   .get('/', middleware.authJWT, postsController.getAllPostsCont)
-  .post('/', middleware.authJWT, middleware.validateCreatePost, postsController.createPostsCont)
-  .get('/:id', middleware.authJWT, postsController.getPostByIdCont);
+  .post('/', middleware.authJWT, middleware.validatePost, postsController.createPostsCont)
+  .get('/:id', middleware.authJWT, postsController.getPostByIdCont)
+  .put('/:id', middleware.authJWT, middleware.validatePost, postsController.updatePostCont);
 
 module.exports = {
   postsRouter,
