@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
     const secret = 'user';
     const token = jwt.sign({ data: emailUser.displayName }, secret, jwtConfig);
 
-    res.status(200).json(token);
+    res.status(200).json({ token });
   } catch (err) {
     return res.status(500).json({ message: 'Internal Error', error: err });
   }

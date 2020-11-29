@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const validateJWT = require('../auth/validateJWT');
 const { Router } = require('express');
 const { Users } = require('../models');
 
@@ -54,6 +55,11 @@ router.post('/', async (req, res) => {
   await Users.create({ displayName, email, password, image });
   const token = jwt.sign({ data: displayName }, secret, jwtConfig);
   res.status(201).json(token);
+});
+
+router.get('/', validateJWT, async (req, res) => {
+  const users = await Users.findAll();
+  res.status(200).json(users);
 });
 
 module.exports = router;
