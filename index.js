@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const usersRoute = require('./routes/usersRoute');
 const loginRoute = require('./routes/loginRoute');
+const postRoute = require('./routes/postRoute');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/user', usersRoute);
 app.use('/login', loginRoute);
+app.use('/post', postRoute);
 
 const PORT = process.env.PORT || 3000;
 
