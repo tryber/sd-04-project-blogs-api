@@ -83,4 +83,10 @@ router.put(
   },
 );
 
+router.delete('/:id', validateToken, postsValidation.checkPostAuthor, async (req, res) => {
+  const { id } = req.params;
+  await Posts.destroy({ where: { id } });
+  return res.status(204).json({ message: 'Post deletado com sucesso' });
+});
+
 module.exports = router;
