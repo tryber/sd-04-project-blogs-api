@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const usersController = require('./controllers/usersController');
 const loginController = require('./controllers/loginController');
+const postsController = require('./controllers/postsController');
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.use(express.json());
 
 app.use('/user', usersController);
 app.use('/login', loginController);
+app.use('/post', postsController);
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
