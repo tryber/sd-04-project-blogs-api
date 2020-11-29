@@ -2,7 +2,6 @@ const express = require('express');
 const { Posts, Users } = require('../models');
 const postsValidation = require('../middlewares/postsValidation');
 const validateToken = require('../auth/validateJWT');
-const { checkPostAuthor } = require('../middlewares/postsValidation');
 
 const router = express.Router();
 
