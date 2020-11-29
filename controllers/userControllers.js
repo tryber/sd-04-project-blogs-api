@@ -20,4 +20,21 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser };
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const emailExistOrNot = await Users.findOne({ where: { email } });
+
+    if (!emailExistOrNot) return res.status(400).json({ message: 'Campos inválidos' });
+
+    const token = createToken({ email, password });
+
+    return res.status(200).json(token);
+  } catch (err) {
+    console.err('createUser', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createUser, loginUser };

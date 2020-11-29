@@ -16,6 +16,15 @@ const emailValid = async (req, res, next) => {
   return res.status(400).json({ message: '"email" must be a valid email' });
 };
 
+const emailEmpty = async (req, res, next) => {
+  const { email } = req.body;
+
+  if (email === '') {
+    return res.status(400).json({ message: '"email" is not allowed to be empty' });
+  }
+  return next();
+};
+
 const emailRequired = async (req, res, next) => {
   const { email } = req.body;
 
@@ -32,6 +41,15 @@ const passwordValid = async (req, res, next) => {
   return res.status(400).json({ message: '"password" length must be 6 characters long' });
 };
 
+const passwordEmpty = async (req, res, next) => {
+  const { password } = req.body;
+
+  if (password === '') {
+    return res.status(400).json({ message: '"password" is not allowed to be empty' });
+  }
+  return next();
+};
+
 const passwordRequired = async (req, res, next) => {
   const { password } = req.body;
 
@@ -40,4 +58,12 @@ const passwordRequired = async (req, res, next) => {
   return res.status(400).json({ message: '"password" is required' });
 };
 
-module.exports = { displayNameValid, emailRequired, emailValid, passwordValid, passwordRequired };
+module.exports = {
+  displayNameValid,
+  emailRequired,
+  emailValid,
+  emailEmpty,
+  passwordEmpty,
+  passwordValid,
+  passwordRequired,
+};
