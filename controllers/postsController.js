@@ -57,10 +57,19 @@ const deletePostCont = rescue(async (req, res) => {
   return res.status(204).end();
 });
 
+const searchTermPostCont = rescue(async (req, res) => {
+  const { q: term } = req.query;
+
+  const result = await postsServices.searchTermPostServ(term);
+
+  return res.status(200).json(result);
+});
+
 module.exports = {
   getAllPostsCont,
   createPostsCont,
   getPostByIdCont,
   updatePostCont,
   deletePostCont,
+  searchTermPostCont,
 };

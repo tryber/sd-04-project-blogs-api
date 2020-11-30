@@ -1,5 +1,5 @@
+const { Op } = require('sequelize');
 const { Post } = require('../models');
-// const createToken = require('./createToken');
 
 const getAllPostsServ = async () => Post.findAll({ include: 'user' });
 
@@ -19,10 +19,21 @@ const deletePostServ = async (id) => {
   Post.destroy({ where: { id } });
 };
 
+const searchTermPostServ = async (term) => {
+  const searchPost = await Post.findAll({
+    where: {
+      [Op.or]: [{ title: { [Op.like]: `%${term}%` } }, { content: { [Op.like]: `%${term}%` } }],
+    },
+    include: 'user',
+  });
+  return searchPost || [];
+};
+
 module.exports = {
   getAllPostsServ,
   createPostsServ,
   getPostByIdServ,
   updatePostServ,
   deletePostServ,
+  searchTermPostServ,
 };
