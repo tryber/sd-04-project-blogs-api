@@ -16,6 +16,8 @@ postRouter.post(
 
 postRouter.get('/', validToken, postControllers.getAllPosts);
 
+postRouter.delete('/:id', validToken, verifyPostBelonging, postControllers.deletePostById);
+
 postRouter.get('/:id', validToken, postControllers.getPostById);
 
 postRouter.put(

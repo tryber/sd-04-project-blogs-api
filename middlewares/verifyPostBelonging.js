@@ -10,6 +10,8 @@ const verifyPostBelonging = async (req, res, next) => {
     where: { id },
   });
 
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+
   if (post.dataValues.userId === user.dataValues.id) return next();
 
   return res.status(401).json({ message: 'Usuário não autorizado' });

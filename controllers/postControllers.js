@@ -67,9 +67,22 @@ const updatePostById = async (req, res) => {
 
     return res.status(200).json(updatedPost);
   } catch (err) {
-    console.error('getPostById', err.message);
+    console.error('updatePostById', err.message);
     return res.status(500).json({ message: 'Error Intern' });
   }
 };
 
-module.exports = { createPosts, getAllPosts, getPostById, updatePostById };
+const deletePostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Posts.destroy({ where: { id } });
+
+    return res.status(204).end();
+  } catch (err) {
+    console.error('deletePostById', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createPosts, getAllPosts, getPostById, updatePostById, deletePostById };
