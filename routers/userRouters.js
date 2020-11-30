@@ -5,10 +5,12 @@ const userMiddlewares = require('../middlewares/userMiddlewares');
 
 const router = Router();
 
-router.post('/',
+router.post(
+  '/',
   userMiddlewares.validateUser,
   userMiddlewares.validaIfExist,
-  userControllers.addOne
+  userMiddlewares.validaToken,
+  userControllers.addOne,
 );
 
 module.exports = router;
