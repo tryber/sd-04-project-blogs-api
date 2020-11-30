@@ -53,4 +53,23 @@ const getPostById = async (req, res) => {
   }
 };
 
-module.exports = { createPosts, getAllPosts, getPostById };
+const updatePostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    await Posts.update({ title, content }, { where: { id } });
+
+    const updatedPost = await Posts.findOne({
+      where: { id },
+      attributes: { exclude: ['id', 'published', 'updated'] },
+    });
+
+    return res.status(200).json(updatedPost);
+  } catch (err) {
+    console.error('getPostById', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createPosts, getAllPosts, getPostById, updatePostById };

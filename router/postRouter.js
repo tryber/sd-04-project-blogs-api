@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const { validPost } = require('../middlewares');
+const { validPost, verifyPostBelonging } = require('../middlewares');
 const { validToken } = require('../service');
 const { postControllers } = require('../controllers');
 
@@ -17,5 +17,14 @@ postRouter.post(
 postRouter.get('/', validToken, postControllers.getAllPosts);
 
 postRouter.get('/:id', validToken, postControllers.getPostById);
+
+postRouter.put(
+  '/:id',
+  validToken,
+  verifyPostBelonging,
+  validPost.contentRequired,
+  validPost.titleRequired,
+  postControllers.updatePostById
+);
 
 module.exports = postRouter;
