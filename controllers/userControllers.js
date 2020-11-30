@@ -15,7 +15,7 @@ const addOne = async (req, res) => {
     const { body, token } = req;
     await Users.create(body);
 
-    res.status(200).json({ token });
+    res.status(201).json({ token });
   } catch (error) {
     res.status(404).json({ messa: 'Alguem de errado, não esta certo' });
   }
