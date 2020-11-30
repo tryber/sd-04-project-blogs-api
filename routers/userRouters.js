@@ -5,6 +5,10 @@ const userMiddlewares = require('../middlewares/userMiddlewares');
 
 const router = Router();
 
-router.post('/', userMiddlewares.validateUser, userControllers.addOne);
+router.post('/',
+  userMiddlewares.validateUser,
+  userMiddlewares.validaIfExist,
+  userControllers.addOne
+);
 
 module.exports = router;
