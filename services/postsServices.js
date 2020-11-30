@@ -15,9 +15,14 @@ const updatePostServ = async (title, content, id, userId) => {
   return { title, content, userId };
 };
 
+const deletePostServ = async (id) => {
+  Post.destroy({ where: { id } });
+};
+
 module.exports = {
   getAllPostsServ,
   createPostsServ,
   getPostByIdServ,
   updatePostServ,
+  deletePostServ,
 };

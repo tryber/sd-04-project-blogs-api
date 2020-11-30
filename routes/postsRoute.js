@@ -8,7 +8,8 @@ postsRouter
   .get('/', middleware.authJWT, postsController.getAllPostsCont)
   .post('/', middleware.authJWT, middleware.validatePost, postsController.createPostsCont)
   .get('/:id', middleware.authJWT, postsController.getPostByIdCont)
-  .put('/:id', middleware.authJWT, middleware.validatePost, postsController.updatePostCont);
+  .put('/:id', middleware.authJWT, middleware.validatePost, postsController.updatePostCont)
+  .delete('/:id', middleware.authJWT, postsController.deletePostCont);
 
 module.exports = {
   postsRouter,

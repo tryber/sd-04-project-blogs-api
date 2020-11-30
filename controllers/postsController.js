@@ -31,7 +31,6 @@ const updatePostCont = rescue(async (req, res) => {
   const { id: userId } = req.user;
 
   const { user } = await Post.findByPk(id, { include: 'user' });
-  console.log('postId', user);
   if (!user) return res.status(404).json({ message: 'Post não existe' });
 
   if (userId !== user.id) {
@@ -42,9 +41,26 @@ const updatePostCont = rescue(async (req, res) => {
   return res.status(200).json(updatePost);
 });
 
+const deletePostCont = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { id: userId } = req.user;
+
+  const post = await Post.findByPk(id, { include: 'user' });
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+  if (userId !== post.id) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  await postsServices.deletePostServ(id, userId);
+
+  return res.status(204).end();
+});
+
 module.exports = {
   getAllPostsCont,
   createPostsCont,
   getPostByIdCont,
   updatePostCont,
+  deletePostCont,
 };
