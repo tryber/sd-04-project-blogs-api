@@ -34,4 +34,23 @@ const getAllPosts = async (_req, res) => {
   }
 };
 
-module.exports = { createPosts, getAllPosts };
+const getPostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await Posts.findOne({
+      where: { id },
+      include: { model: Users, as: 'user' },
+      attributes: { exclude: ['userId'] },
+    });
+
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+    return res.status(200).json(post);
+  } catch (err) {
+    console.error('getPostById', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createPosts, getAllPosts, getPostById };
