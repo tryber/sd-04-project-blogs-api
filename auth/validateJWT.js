@@ -11,6 +11,8 @@ module.exports = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, secret);
+
+    // Passa os dados do usuario validado para ser usado nas rotas
     req.user = decoded;
     next();
   } catch (err) {

@@ -35,13 +35,15 @@ router.post('/', async (req, res) => {
       });
     }
 
+    // Verifica se usuário já foi cadastrado no banco
     const emailUser = await Users.findOne({ where: { email } });
-
     if (!emailUser) {
       res.status(400).json({
         message: 'Campos inválidos',
       });
     }
+
+    // Cria o token jwt que valida login do usuário
     const secret = 'user';
     const token = jwt.sign({ data: emailUser.displayName }, secret, jwtConfig);
 
