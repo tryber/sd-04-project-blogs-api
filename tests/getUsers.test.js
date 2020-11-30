@@ -13,11 +13,10 @@ describe('Sua aplicação deve ter o endpoint GET `/user`', () => {
   it('Será validado que é possível listar todos os usuários', async () => {
     let token;
     await frisby
-      .post(`${url}/login`,
-        {
-          email: 'lewishamilton@gmail.com',
-          password: '123456',
-        })
+      .post(`${url}/login`, {
+        email: 'lewishamilton@gmail.com',
+        password: '123456',
+      })
       .expect('status', 200)
       .then((response) => {
         const { body } = response;
@@ -42,10 +41,14 @@ describe('Sua aplicação deve ter o endpoint GET `/user`', () => {
         const secondUser = json[1];
         expect(firstUser.displayName).toBe('Lewis Hamilton');
         expect(firstUser.email).toBe('lewishamilton@gmail.com');
-        expect(firstUser.image).toBe('https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg');
+        expect(firstUser.image).toBe(
+          'https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg',
+        );
         expect(secondUser.displayName).toBe('Michael Schumacher');
         expect(secondUser.email).toBe('MichaelSchumacher@gmail.com');
-        expect(secondUser.image).toBe('https://sportbuzz.uol.com.br/media/_versions/gettyimages-52491565_widelg.jpg');
+        expect(secondUser.image).toBe(
+          'https://sportbuzz.uol.com.br/media/_versions/gettyimages-52491565_widelg.jpg',
+        );
       });
   });
 
