@@ -1,8 +1,55 @@
 const { Router } = require('express');
+const { Op } = require('sequelize');
 const validateJWT = require('../auth/validateJWT');
 const { Posts, Users } = require('../models');
 
 const router = Router();
+
+router.get('/search', validateJWT, async (req, res) => {
+  const { q } = req.query;
+
+  // Verifica se a busca foi passada vazia
+  if (q.length === 0) {
+    const posts = await Posts.findAll({
+      attributes: { exclude: ['userId'] },
+      include: [
+        {
+          model: Users,
+          as: 'user',
+        },
+      ],
+    });
+
+    res.status(200).json(posts);
+  }
+
+  // Busca query em Title e Content
+  const postByQuery = await Posts.findAll({
+    attributes: { exclude: ['userId'] },
+    where: {
+      [Op.or]: [
+        {
+          title: {
+            [Op.like]: `%${q}%`,
+          },
+        },
+        {
+          content: {
+            [Op.like]: `%${q}%`,
+          },
+        },
+      ],
+    },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+      },
+    ],
+  });
+
+  res.status(200).json(postByQuery);
+});
 
 router.post('/', validateJWT, async (req, res) => {
   const { title, content } = req.body;
