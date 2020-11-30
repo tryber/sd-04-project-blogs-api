@@ -20,4 +20,18 @@ const createPosts = async (req, res) => {
   }
 };
 
-module.exports = { createPosts };
+const getAllPosts = async (_req, res) => {
+  try {
+    const allPosts = await Posts.findAll({
+      include: { model: Users, as: 'user' },
+      attributes: { exclude: ['userId'] },
+    });
+
+    return res.status(200).json(allPosts);
+  } catch (err) {
+    console.error('getAllPosts', err.message);
+    return res.status(500).json({ message: 'Error Intern' });
+  }
+};
+
+module.exports = { createPosts, getAllPosts };
