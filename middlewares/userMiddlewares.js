@@ -8,7 +8,7 @@ const SECRET = 'trybe2020';
 const userSchema = Joi.object({
   displayName: Joi.string().min(8).required().messages({
     'string.base': '\'displayName\' should be a type of \'text\'',
-    'string.min':  '\'displayName\' length must be at least 8 characters long',
+    'string.min': '\'displayName\' length must be at least 8 characters long',
     'any.required': '\'displayName\' must exist',
   }),
   email: Joi.string()
