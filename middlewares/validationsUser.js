@@ -1,5 +1,6 @@
-const { User } = require('../models');
+const { Users } = require('../models');
 
+//  Validações referentes ao nome do usuário ----------------------------------
 const validateName = async (req, res, next) => {
   const { displayName } = req.body;
 
@@ -11,6 +12,7 @@ const validateName = async (req, res, next) => {
   return next();
 };
 
+//  Validações referentes a senha do usuário ----------------------------------
 const validatePassword = async (req, res, next) => {
   const { password } = req.body;
 
@@ -26,6 +28,7 @@ const validatePassword = async (req, res, next) => {
   return next();
 };
 
+//  Validações referentes ao email do usuário ---------------------------------
 const validateEmail = async (req, res, next) => {
   const emailRegex = /\S+@\S+\.\S+/;
 
@@ -41,10 +44,11 @@ const validateEmail = async (req, res, next) => {
   return next();
 };
 
+//  Procura um usuário já existente pelo email --------------------------------
 const validadeUser = async (req, res, next) => {
   const { email } = req.body;
 
-  const user = await User.findOne({ where: { email } });
+  const user = await Users.findOne({ where: { email } });
   if (user) {
     return res.status(409).json({ message: 'Usuário já existe' });
   }

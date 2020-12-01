@@ -6,6 +6,7 @@ const validationsToken = require('../middlewares/validationsToken');
 
 const router = express.Router();
 
+//  Cria um novo usuário ------------------------------------------------------
 router.post(
   '/',
   validationsUser.validateName,
@@ -23,32 +24,29 @@ router.post(
   },
 );
 
+//  Busca todos os usuários ---------------------------------------------------
 router.get('/', validationsToken, async (_req, res) => {
-  const users = await Users.findAll({
-    attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-  });
+  const users = await Users.findAll({ attributes: { exclude: ['password'] } });
 
   return res.status(200).json(users);
 });
 
+//  Busca um usuário pela id (primary key) ------------------------------------
 router.get('/:id', validationsToken, async (req, res) => {
   const user = await Users.findByPk(req.params.id, {
-    attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+    attributes: { exclude: ['password'] },
   });
 
-  if (!user) {
-    return res.status(404).json({ message: 'Usuário não existe' });
-  }
-
-  return res.status(200).json(user);
+  user
+    ? res.status(200).json(user)
+    : res.status(404).json({ message: 'Usuário não existe' });
 });
 
+//  Deleta um usuário pelo email ----------------------------------------------
 router.delete('/me', validationsToken, async (req, res) => {
   const { email } = req.user;
-
   await Users.destroy({ where: { email } });
 
   return res.status(204).json({ message: 'Usuário deletado com sucesso' });
 });
-
 module.exports = router;

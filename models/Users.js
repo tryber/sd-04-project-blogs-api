@@ -1,12 +1,16 @@
-const Users = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    displayName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    image: DataTypes.STRING,
-  });
+const createUsers = (sequelize, DataTypes) => {
+  const Users = sequelize.define(
+    'Users',
+    {
+      displayName: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      image: DataTypes.STRING,
+    },
+    { timestamps: false },
+  );
 
-  return User;
+  return Users;
 };
 
-module.exports = Users;
+module.exports = createUsers;

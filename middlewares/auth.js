@@ -1,14 +1,14 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-const secret = 'sddsRenatao';
+const JWT_SECRET = 'sddsRenatao';
 
 const authMiddleware = (payload) => {
   const options = {
     algorithm: 'HS256',
-    expiresIn: '12h',
+    expiresIn: '50m',
   };
-  const token = jwt.sign(payload, secret, options);
+  const token = jwt.sign(payload, JWT_SECRET, options);
 
   return token;
 };
