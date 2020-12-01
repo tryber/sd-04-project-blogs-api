@@ -9,7 +9,7 @@ router.get('/', validateToken, postController.get);
 
 router.get('/:id', validateToken, postController.getById);
 
-router.get('/search', validateToken, postController.searchGet);
+router.get('/search', validateToken, checkPostAuthor, postController.searchGet);
 
 router.put('/:id', validateToken, checkTitle, checkContent, checkPostAuthor, postController.put);
 
