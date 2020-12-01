@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User } = require('../models');
 const validation = require('../middlewares/validations');
 const createToken = require('../middlewares/createToken');
+const auth = require('../middlewares/auth');
 
 router.post(
   '/',
@@ -24,5 +25,10 @@ router.post(
     }
   },
 );
+
+router.get('/', auth, async (req, res) => {
+  const users = await User.findAll();
+  res.status(200).json(users);
+});
 
 module.exports = router;

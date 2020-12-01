@@ -1,24 +1,23 @@
-// const jwt = require('jsonwebtoken');
-// // const { User } = require('../models');
+const jwt = require('jsonwebtoken');
 
-// const auth = async (req, res, next) => {
-//   try {
-//     const secret = 'blogapi';
-//     const token = req.headers.authorization;
+const auth = async (req, res, next) => {
+  try {
+    const secret = 'blogapi';
+    const token = req.headers.authorization;
 
-//     if (!token) {
-//       return res.status(401).json({ message: 'missing auth token' });
-//     }
+    if (!token) {
+      return res.status(401).json({ message: 'Token não encontrado' });
+    }
 
-//     const data = jwt.verify(token, secret);
-//     // const user = await UserModel.findByEmail(data.data.email);
+    const user = jwt.verify(token, secret);
+    // const user = await UserModel.findByEmail(data.data.email);
 
-//     req.user = user;
+    req.user = user;
 
-//     next();
-//   } catch (_err) {
-//     return res.status(401).json({ message: 'jwt malformed' });
-//   }
-// };
+    next();
+  } catch (_err) {
+    return res.status(401).json({ message: 'Token expirado ou inválido' });
+  }
+};
 
-// module.exports = auth;
+module.exports = auth;
