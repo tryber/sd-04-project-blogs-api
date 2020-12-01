@@ -5,11 +5,16 @@ const { Users } = require('../models');
 
 const SECRET = 'trybe2020';
 
-const userSchema = Joi.object({
+const USERSCHEMA = Joi.object({
   displayName: Joi.string().min(8).required(),
   email: Joi.string().email().required(),
   password: Joi.string().length(6).required(),
 }).unknown(true);
+
+const LOGINSCHEMA = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+});
 
 function createToken(payload) {
   const headers = {
@@ -22,10 +27,11 @@ function createToken(payload) {
   return token;
 }
 
-const validateUser = async (req, res, next) => {
+const validateUserEntries = async (req, res, next) => {
   try {
     const { body } = req;
-    const { error } = userSchema.validate(body);
+    const { error } =
+      Object.keys(body).length > 2 ? USERSCHEMA.validate(body) : LOGINSCHEMA.validate(body);
 
     if (error) throw new Error(error.details[0].message);
 
@@ -59,8 +65,26 @@ const validaToken = async (req, _res, next) => {
   next();
 };
 
+const validateKeys = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await Users.findOne({ where: { email: `${email}` } });
+
+    if (!user) throw new Error();
+
+    const { password: _, ...userSafe } = user;
+
+    req.body = userSafe;
+
+    next();
+  } catch (_e) {
+    res.status(400).json({ message: 'Campos inválidos' });
+  }
+};
+
 module.exports = {
-  validateUser,
+  validateUserEntries,
   validaIfExist,
   validaToken,
+  validateKeys,
 };

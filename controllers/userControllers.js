@@ -10,18 +10,21 @@ const getAll = async (req, res) => {
   }
 };
 
-const addOne = async (req, res) => {
+const showToken = async (req, res) => {
   try {
     const { body, token } = req;
-    await Users.create(body);
+    let STATUS = 0;
 
-    res.status(201).json({ token });
+    Object.keys(body).length > 2 && (await Users.create(body));
+    Object.keys(body).length > 2 ? STATUS = 201 : STATUS = 200;
+
+    res.status(STATUS).json({ token });
   } catch (error) {
-    res.status(404).json({ messa: 'Alguem de errado, não esta certo' });
+    res.status(404).json({ message: 'Alguem de errado, não esta certo' });
   }
 };
 
 module.exports = {
   getAll,
-  addOne,
+  showToken,
 };
