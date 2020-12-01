@@ -15,18 +15,18 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { displayName, mail, password, image } = req.body;
+  const { displayName, email, password, image } = req.body;
   const secret = 'opensecret';
   const jwtConfig = {
     expiresIn: '15m',
     algorithm: 'HS256',
   };
   try {
-    const emailFound = await User.findOne({ where: { email: mail } });
+    const emailFound = await User.findOne({ where: { email } });
     if (!emailFound) {
       const { password: _, ...userWithoutPassword } = req.body;
       const tokenn = jwt.sign({ data: userWithoutPassword }, secret, jwtConfig);
-      await User.create({ displayName, mail, password, image });
+      await User.create({ displayName, email, password, image });
       res.status(201).json({ token: tokenn });
     } else {
       res.status(409).json({ message: 'Usuário já existe' });
