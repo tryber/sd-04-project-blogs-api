@@ -1,3 +1,5 @@
+const { Users, Posts } = require('../models');
+
 const checkTitle = async (req, res, next) => {
   const { title } = req.body;
   if (title === undefined) {
@@ -14,4 +16,25 @@ const checkContent = async (req, res, next) => {
   return next();
 };
 
-module.exports = { checkTitle, checkContent };
+const checkPostAuthor = async (req, res, next) => {
+  const { email } = req.user;
+  const { id } = req.params;
+
+  const user = await Users.findOne({ where: { email } });
+
+  const post = await Posts.findByPk(id);
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+
+  if (user.dataValues.id !== post.dataValues.userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  req.user = { ...req.user, userId: user.dataValues.id };
+
+  return next();
+};
+
+module.exports = { checkTitle, checkContent, checkPostAuthor };

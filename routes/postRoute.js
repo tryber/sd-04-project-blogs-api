@@ -1,17 +1,18 @@
 const express = require('express');
 const postController = require('../controllers/postController');
 const { validateToken } = require('../services/auth');
-const { checkTitle, checkContent } = require('../middlewares/postsValidations');
+const { checkTitle, checkContent, checkPostAuthor } = require('../middlewares/postsValidations');
+const { Op } = require('sequelize');
 
 const router = express.Router();
 
 router.get('/', validateToken, postController.get);
 
-// router.get('/:id', postController.getById);
+router.get('/:id', validateToken, postController.getById);
 
-// router.get('/search?q=:searchTerm', postController.getByTerm);
+router.get('/search', postController.searchGet);
 
-// router.put('/:id', postController.put);
+router.put('/:id', validateToken, checkTitle, checkContent, checkPostAuthor, postController.put);
 
 router.post('/', validateToken, checkTitle, checkContent, postController.post);
 
