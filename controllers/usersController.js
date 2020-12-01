@@ -37,9 +37,10 @@ router.get('/:id', validationsToken, async (req, res) => {
     attributes: { exclude: ['password'] },
   });
 
-  user
-    ? res.status(200).json(user)
-    : res.status(404).json({ message: 'Usuário não existe' });
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não existe' });
+  }
+  return res.status(200).json(user);
 });
 
 //  Deleta um usuário pelo email ----------------------------------------------
