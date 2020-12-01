@@ -1,13 +1,13 @@
 const registerUser = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "User",
+    'User',
     {
       displayName: {
         type: DataTypes.STRING,
         validate: {
           len: {
             args: [8, 255],
-            msg: "\"displayName\" length must be at least 8 characters long",
+            msg: '\"displayName\" length must be at least 8 characters long',
           },
         }
       },
@@ -16,18 +16,18 @@ const registerUser = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "\"email\" is required",
+            msg: '\"email\" is required',
           },
           notEmpty: {
-            msg: "\"email\" is not allowed to be empty",
+            msg: '\"email\" is not allowed to be empty',
           },
           isEmail: {
-            msg: "\"email\" must be a valid email",
+            msg: '\"email\" must be a valid email',
           },
         },
         unique: {
           args: true,
-          msg: "Usuário já existe",
+          msg: 'Usuário já existe',
         },
       },
       password: {
@@ -35,14 +35,14 @@ const registerUser = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "\"password\" is required",
+            msg: '\"password\" is required',
           },
           notEmpty: {
-            msg: "\"password\" is not allowed to be empty",
+            msg: '\"password\" is not allowed to be empty',
           },
           len: {
             args: [6, 255],
-            msg: "\"password\" length must be 6 characters long",
+            msg: '\"password\" length must be 6 characters long',
           },
         },
       },

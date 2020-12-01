@@ -14,7 +14,7 @@ const validateJwt = async (req, res, next) => {
     if (!registeredMail) {
       return res.status(401).json({ message: 'Incorrect username or password' });
     }
-    req.user = email;
+    req.user = registeredMail;
 
     next();
   } catch (er) {

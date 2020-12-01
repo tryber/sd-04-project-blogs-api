@@ -1,7 +1,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const UsersTable = queryInterface.createTable(
-      "Users",
+      'Users',
       {
         id: {
           alllowNull: false,
@@ -26,10 +26,10 @@ module.exports = {
           type: Sequelize.STRING,
         },
       },
-      { timestamps: false }
+      { timestamps: false },
     );
     return UsersTable;
   },
 
-  down: async (queryInterface) => queryInterface.dropTable("Users"),
+  down: async (queryInterface) => queryInterface.dropTable('Users'),
 };
