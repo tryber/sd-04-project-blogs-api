@@ -2,6 +2,7 @@ const router = require('express').Router();
 const rescue = require('express-rescue');
 const { INVALID_ENTRIES, USER_ALREADY_EXISTS } = require('../errors');
 const { validate, findUser } = require('../middlewares');
+const validateToken = require('../middlewares/validateToken');
 const { Users } = require('../models');
 const { createToken } = require('../services/JWT');
 
@@ -21,6 +22,13 @@ const postRegister = rescue(async (req, res, next) => {
   next();
 });
 
+const getUsers = rescue(async (_req, res) => {
+  const usersList = await Users.findAll({ attributes: { exclude: ['password'] } });
+  res.send(usersList);
+});
+
 router.post('/', validate('register'), findUser, postRegister, postLogin);
+
+router.get('/', validateToken, getUsers);
 
 module.exports = { postLogin: [validate('login'), findUser, postLogin], router };

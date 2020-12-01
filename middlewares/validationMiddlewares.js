@@ -1,4 +1,4 @@
-const allValidations = require('../utils/validations');
+const allValidations = require('../services/validations');
 
 const validate = (name) => (req, _res, next) => {
   allValidations[`${name}Validation`](req.body);
