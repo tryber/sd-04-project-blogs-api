@@ -16,8 +16,8 @@ const postLogin = rescue(async (req, res) => {
 
 const postRegister = rescue(async (req, res, next) => {
   if (req.user) throw USER_ALREADY_EXISTS;
-  await Users.create(req.body);
-  req.user = req.body;
+  const { dataValues } = await Users.create(req.body);
+  req.user = dataValues;
   res.status(201);
   next();
 });
@@ -34,10 +34,19 @@ const getUserById = rescue(async (req, res) => {
   res.json(user);
 });
 
+const deleteUser = rescue(async (req, res) => {
+  const { id } = req.user;
+  const result = await Users.destroy({ where: { id } });
+  if (!result) throw USER_NOT_FOUND;
+  res.status(204).send();
+});
+
 router.post('/', validate('register'), findUser, postRegister, postLogin);
 
 router.get('/', validateToken, getUsers);
 
 router.get('/:id', validateToken, getUserById);
+
+router.delete('/me', validateToken, deleteUser);
 
 module.exports = { postLogin: [validate('login'), findUser, postLogin], router };

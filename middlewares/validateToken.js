@@ -6,7 +6,7 @@ const validateToken = (req, _res, next) => {
   if (!authorization) throw MISSING_TOKEN;
   const result = verifyToken(authorization);
   if (!result) throw INVALID_TOKEN;
-  req.user = result.data;
+  req.user = result;
   next();
 };
 
