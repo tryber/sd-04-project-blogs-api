@@ -1,3 +1,5 @@
+const { User } = require('../models');
+
 const validateDisplayName = (displayName) => displayName.length >= 8;
 
 const validateEmail = (email) => {
@@ -6,6 +8,13 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => password.length >= 6;
+
+const emailExists = async (email) => User.findOne({ where: { email } });
+
+const userExists = async (email, password) => {
+  const user = await User.findOne({ where: { email, password } });
+  return user;
+};
 
 const validateUser = (displayName, email, password) => {
   if (!validateDisplayName(displayName)) {
@@ -21,6 +30,19 @@ const validateUser = (displayName, email, password) => {
   if (!validatePassword(password)) return { message: '"password" length must be 6 characters long' };
 };
 
+const validateLogin = (email, password) => {
+  if (email === undefined) return { message: '"email" is required' };
+
+  if (!email) return { message: '"email" is not allowed to be empty' };
+
+  if (password === undefined) return { message: '"password" is required' };
+
+  if (!password) return { message: '"password" is not allowed to be empty' };
+};
+
 module.exports = {
   validateUser,
+  validateLogin,
+  emailExists,
+  userExists,
 };
