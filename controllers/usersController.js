@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const rescue = require('express-rescue');
-const { INVALID_ENTRIES, USER_ALREADY_EXISTS } = require('../errors');
+const { INVALID_ENTRIES, USER_ALREADY_EXISTS, USER_NOT_FOUND } = require('../errors');
 const { validate, findUser } = require('../middlewares');
 const validateToken = require('../middlewares/validateToken');
 const { Users } = require('../models');
@@ -24,11 +24,20 @@ const postRegister = rescue(async (req, res, next) => {
 
 const getUsers = rescue(async (_req, res) => {
   const usersList = await Users.findAll({ attributes: { exclude: ['password'] } });
-  res.send(usersList);
+  res.json(usersList);
+});
+
+const getUserById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const user = await Users.findByPk(id, { attributes: { exclude: ['password'] } });
+  if (!user) throw USER_NOT_FOUND;
+  res.json(user);
 });
 
 router.post('/', validate('register'), findUser, postRegister, postLogin);
 
 router.get('/', validateToken, getUsers);
+
+router.get('/:id', validateToken, getUserById);
 
 module.exports = { postLogin: [validate('login'), findUser, postLogin], router };
