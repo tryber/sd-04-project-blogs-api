@@ -1,17 +1,26 @@
 const router = require('express').Router();
 const rescue = require('express-rescue');
-const { INVALID_ENTRIES } = require('../errors');
-const { validateLogin } = require('../middlewares/validationMiddlewares');
+const { INVALID_ENTRIES, USER_ALREADY_EXISTS } = require('../errors');
+const { validate, findUser } = require('../middlewares');
 const { Users } = require('../models');
 const { createToken } = require('../services/JWT');
 
 const postLogin = rescue(async (req, res) => {
-  const { email, password } = req.body;
-  const user = await Users.findOne({ where: { email } });
-  if (!user || user.dataValues.password !== password) throw INVALID_ENTRIES;
-  const { password: _, ...withoutPassword } = user.dataValues;
+  const { user, body } = req;
+  if (!user || user.password !== body.password) throw INVALID_ENTRIES;
+  const { password: _, ...withoutPassword } = req.user;
   const token = createToken(withoutPassword);
   res.json({ token });
 });
 
-module.exports = { postLogin: [validateLogin, postLogin], router };
+const postRegister = rescue(async (req, res, next) => {
+  if (req.user) throw USER_ALREADY_EXISTS;
+  await Users.create(req.body);
+  req.user = req.body;
+  res.status(201);
+  next();
+});
+
+router.post('/', validate('register'), findUser, postRegister, postLogin);
+
+module.exports = { postLogin: [validate('login'), findUser, postLogin], router };
