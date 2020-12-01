@@ -20,7 +20,7 @@ router.post('/', validation.isPossibleInsertPost, auth, async (req, res) => {
   }
 });
 
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async (_req, res) => {
   try {
     const posts = await Post.findAll({
       // Eager Loading
@@ -44,6 +44,23 @@ router.get('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: 'Post não existe' });
     }
     return res.status(200).json(post[0]);
+  } catch (err) {
+    return res.status(500).json({ message: 'Algo errado!', err });
+  }
+});
+
+router.put('/:id', validation.isPossibleInsertPost, auth, async (req, res) => {
+  const { user } = req;
+  const { title, content } = req.body;
+  const { id } = req.params;
+  const post = await Post.findByPk(id);
+  try {
+    if (user.id !== post.userId) {
+      res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+    await Post.update({ title, content }, { where: { id } });
+    const updatedPost = Post.findOne({ where: { id } });
+    return res.status(200).json(updatedPost);
   } catch (err) {
     return res.status(500).json({ message: 'Algo errado!', err });
   }
