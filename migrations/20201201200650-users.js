@@ -2,12 +2,11 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users', {
+    queryInterface.createTable('Users', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
       },
       displayName: {
         type: Sequelize.STRING,
@@ -24,30 +23,20 @@ module.exports = {
       },
       image: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
-
-      // createdAt: {
-      //   type: Sequelize.DATE,
-      //   allowNull: false,
-      // },
-      // updatedAt: {
-      //   type: Sequelize.DATE,
-      //   allowNull: false,
-      // },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
     });
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     */
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     */
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('Users');
   },
 };

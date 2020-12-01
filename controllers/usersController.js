@@ -1,19 +1,28 @@
 const express = require('express');
+const { User } = require('../models');
+const validationUser = require('../services/validationUser');
+const createToken = require('../auth/createToken');
 
 const users = express.Router();
 
 users.post('/', async (req, res) => {
   try {
-    return res.status(200).json(req.body);
+    const allUsers = await User.create({ ...req.body });
+    const token = await createToken({ ...allUsers });
+    return res.status(200).json({ token });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.log(error.message);
+    const valid = validationUser(error.message);
+    return res.status(500).json(valid);
   }
 });
 
 users.get('/:id', async (req, res) => {
   try {
     // FAZ UM PEDIDO DE UM MODEL TRAZENDO O ID
-    return res.status(200).json({ message: 'Quase' });
+    const { id } = req.params;
+    const result = await User.findByPk(id);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
