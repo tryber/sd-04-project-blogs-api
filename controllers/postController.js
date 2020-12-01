@@ -1,12 +1,12 @@
 const { Posts, Users } = require('../models');
 
-exports.get = async (req, res) => {};
+// exports.get = async (req, res) => {};
 
-exports.getById = async (req, res) => {};
+// exports.getById = async (req, res) => {};
 
-exports.getByTerm = async (req, res) => {};
+// exports.getByTerm = async (req, res) => {};
 
-exports.put = async (req, res) => {};
+// exports.put = async (req, res) => {};
 
 exports.post = async (req, res) => {
   const { email } = req.user;
@@ -19,4 +19,4 @@ exports.post = async (req, res) => {
   return res.status(201).json({ title, content, userId });
 };
 
-exports.delete = async (req, res) => {};
+// exports.delete = async (req, res) => {};
