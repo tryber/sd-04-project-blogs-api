@@ -1,7 +1,12 @@
 const createUserModel = (sequelize, DataTypes) => {
-  const Users = sequelize.define(
+  const users = sequelize.define(
     'Users',
     {
+      id: {
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+      },
       displayName: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.INTEGER,
@@ -10,7 +15,7 @@ const createUserModel = (sequelize, DataTypes) => {
     { timestamps: false },
   );
 
-  return Users;
+  return users;
 };
 
 module.exports = createUserModel;
