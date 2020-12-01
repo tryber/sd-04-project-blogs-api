@@ -33,7 +33,13 @@ const login = async (req, res) => {
   return res.status(200).json({ token });
 };
 
+const getUsers = async (req, res) => {
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
+  return res.status(200).json(users);
+};
+
 module.exports = {
   newUser,
   login,
+  getUsers,
 };
