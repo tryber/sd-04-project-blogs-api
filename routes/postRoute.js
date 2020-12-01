@@ -2,7 +2,6 @@ const express = require('express');
 const postController = require('../controllers/postController');
 const { validateToken } = require('../services/auth');
 const { checkTitle, checkContent, checkPostAuthor } = require('../middlewares/postsValidations');
-const { Op } = require('sequelize');
 
 const router = express.Router();
 
