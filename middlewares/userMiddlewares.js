@@ -8,7 +8,7 @@ const SECRET = 'trybe2020';
 const userSchema = Joi.object({
   displayName: Joi.string().min(8).required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string().length(6).required(),
 }).unknown(true);
 
 function createToken(payload) {
@@ -25,9 +25,7 @@ function createToken(payload) {
 const validateUser = async (req, res, next) => {
   try {
     const { body } = req;
-    const { error } = userSchema.validate(body, {
-      abortEarly: true,
-    });
+    const { error } = userSchema.validate(body);
 
     if (error) throw new Error(error.details[0].message);
 
