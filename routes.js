@@ -12,5 +12,6 @@ routes.get('/user/:id', validateToken, userController.findUserById);
 routes.delete('/user/me', validateToken, userController.deleteUser);
 
 routes.post('/post', validateToken, postController.newPost);
+routes.get('/post', validateToken, postController.getPosts);
 
 module.exports = routes;
