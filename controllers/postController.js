@@ -1,5 +1,5 @@
-const { Posts, Users } = require('../models');
 const { Op } = require('sequelize');
+const { Posts, Users } = require('../models');
 
 exports.get = async (_req, res) => {
   const posts = await Posts.findAll({
