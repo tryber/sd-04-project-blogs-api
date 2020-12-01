@@ -38,8 +38,17 @@ const getUsers = async (req, res) => {
   return res.status(200).json(users);
 };
 
+const findUserById = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
+  if (!user) return res.status(404).json({ message: 'Usuário não existe' });
+
+  return res.status(200).json(user);
+};
+
 module.exports = {
   newUser,
   login,
   getUsers,
+  findUserById,
 };
