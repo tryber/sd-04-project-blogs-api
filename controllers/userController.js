@@ -38,10 +38,20 @@ router.get('/', auth, async (_req, res) => {
 router.get('/:id', auth, async (req, res) => {
   const user = await User.findByPk(req.params.id);
   try {
-  if(!user){
-    return res.status(404).json({message: 'Usuário não existe'})
-  }
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não existe' });
+    }
     return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ message: 'Algo errado!', err });
+  }
+});
+
+router.delete('/me', auth, async (req, res) => {
+  const { id } = req.user;
+  try {
+    await User.destroy({ where: { id } });
+    return res.status(204).json();
   } catch (err) {
     return res.status(500).json({ message: 'Algo errado!', err });
   }
