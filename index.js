@@ -7,6 +7,7 @@ const PORT = 3000;
 
 const usersController = require('./controllers/usersController');
 const loginController = require('./controllers/loginController');
+const postsController = require('./controllers/postsController');
 
 app.use(bodyParser.json());
 
@@ -15,10 +16,13 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-// Rota para usuários
+// Rota de usuários
 app.use('/user', usersController);
 
 // Rota de login
 app.use('/login', loginController);
+
+// Rota de posts
+app.use('/post', postsController);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));

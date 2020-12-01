@@ -50,4 +50,5 @@ router.delete('/me', validationsToken, async (req, res) => {
 
   return res.status(204).json({ message: 'Usuário deletado com sucesso' });
 });
+
 module.exports = router;
