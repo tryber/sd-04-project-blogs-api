@@ -26,6 +26,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      createdAt: {
+        allowNull: false,
+        defaultValue: '2010/10/10',
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: '2010/10/10',
+        type: Sequelize.DATE,
+      },
     });
 
     return UsersTable;
