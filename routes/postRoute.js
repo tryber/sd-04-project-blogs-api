@@ -15,6 +15,6 @@ router.put('/:id', validateToken, checkTitle, checkContent, checkPostAuthor, pos
 
 router.post('/', validateToken, checkTitle, checkContent, postController.post);
 
-// router.delete('/:id', postController.delete);
+router.delete('/:id', validateToken, postController.delete);
 
 module.exports = router;
