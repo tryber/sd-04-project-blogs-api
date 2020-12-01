@@ -48,7 +48,9 @@ const deleteUser = rescue(async (req, res) => {
   try {
     const remove = await User.destroy({ where: { email: req.user.email } });
     return res.status(204).json(remove);
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ message: 'Algo deu errado' });
+  }
 });
 
 module.exports = {

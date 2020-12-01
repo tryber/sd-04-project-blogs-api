@@ -38,8 +38,7 @@ const verifyLogin = async (req, res, next) => {
     const { password, ...userToken } = result.toJSON();
     req.user = userToken;
     return next();
-  } else {
-    return res.status(400).json({ message: 'Campos inválidos' });
   }
+  return res.status(400).json({ message: 'Campos inválidos' });
 };
 module.exports = { verifyUser, verifyLogin };

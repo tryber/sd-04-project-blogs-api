@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const BlogTable = queryInterface.createTable('BlogPosts', {

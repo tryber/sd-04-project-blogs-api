@@ -1,5 +1,4 @@
 const rescue = require('express-rescue');
-const { User } = require('../models');
 const { createToken } = require('../services');
 
 const loginUser = rescue(async (req, res) => {
