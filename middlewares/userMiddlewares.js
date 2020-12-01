@@ -74,7 +74,7 @@ const validateKeys = async (req, res, next) => {
 
     const { password: _, ...userSafe } = user;
 
-    req.body = userSafe;
+    req.token = createToken(userSafe);
 
     next();
   } catch (_e) {

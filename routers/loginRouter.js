@@ -9,7 +9,6 @@ router.post(
   '/',
   userMiddlewares.validateUserEntries,
   userMiddlewares.validateKeys,
-  userMiddlewares.validaToken,
   userControllers.showToken,
 );
 
