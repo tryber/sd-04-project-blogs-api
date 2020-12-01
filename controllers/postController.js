@@ -1,3 +1,5 @@
+const { Posts, Users } = require('../models');
+
 exports.get = async (req, res) => {};
 
 exports.getById = async (req, res) => {};
