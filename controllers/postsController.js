@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const rescue = require('express-rescue');
-const { POST_NOT_FOUND } = require('../errors');
+const { POST_NOT_FOUND, USER_NOT_ALLOWED } = require('../errors');
 const { validateToken, validate } = require('../middlewares');
 const { Posts, Users } = require('../models');
 
@@ -28,10 +28,20 @@ const getPostById = rescue(async (req, res) => {
   res.json(post);
 });
 
+const updatePost = rescue(async (req, res) => {
+  const { params: { id }, user, body } = req;
+  const postInfo = { ...body, userId: user.id };
+  const result = await Posts.update(body, { where: { id, userId: user.id } });
+  if (!result[0]) throw USER_NOT_ALLOWED;
+  res.json(postInfo);
+});
+
 router.post('/', validateToken, validate('post'), newPost);
 
 router.get('/', validateToken, getAllPosts);
 
 router.get('/:id', validateToken, getPostById);
+
+router.put('/:id', validateToken, validate('post'), updatePost);
 
 module.exports = router;

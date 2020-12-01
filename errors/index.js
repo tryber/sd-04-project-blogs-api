@@ -3,7 +3,8 @@ const USER_ALREADY_EXISTS = { code: 409, message: 'Usuário já existe' };
 const MISSING_TOKEN = { code: 401, message: 'Token não encontrado' };
 const INVALID_TOKEN = { code: 401, message: 'Token expirado ou inválido' };
 const USER_NOT_FOUND = { code: 404, message: 'Usuário não existe' };
-const POST_NOT_FOUND = {code: 404, message: 'Post não existe'};
+const POST_NOT_FOUND = { code: 404, message: 'Post não existe' };
+const USER_NOT_ALLOWED = { code: 401, message: 'Usuário não autorizado' };
 
 module.exports = {
   INVALID_ENTRIES,
@@ -12,4 +13,5 @@ module.exports = {
   INVALID_TOKEN,
   USER_NOT_FOUND,
   POST_NOT_FOUND,
+  USER_NOT_ALLOWED,
 };
