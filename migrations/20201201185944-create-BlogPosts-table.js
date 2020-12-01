@@ -28,7 +28,7 @@ module.exports = {
       },
       updated: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
     });
     return blogPosts;
