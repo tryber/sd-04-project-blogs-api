@@ -5,7 +5,7 @@ const { checkTitle, checkContent } = require('../middlewares/postsValidations');
 
 const router = express.Router();
 
-// router.get('/', postController.get);
+router.get('/', validateToken, postController.get);
 
 // router.get('/:id', postController.getById);
 
