@@ -12,6 +12,11 @@ const registerSchema = Joi.object({
   image: Joi.string().required(),
 }).unknown(false);
 
+const postSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+}).unknown(false);
+
 const validation = (info, schema) => {
   const { error } = schema.validate(info);
   if (error) throw error;
@@ -20,4 +25,5 @@ const validation = (info, schema) => {
 module.exports = {
   loginValidation: (info) => validation(info, loginSchema),
   registerValidation: (info) => validation(info, registerSchema),
+  postValidation: (info) => validation(info, postSchema),
 };

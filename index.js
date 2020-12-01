@@ -16,4 +16,10 @@ app.use('/user', controllers.users.router);
 
 app.post('/login', controllers.users.postLogin);
 
-app.use(({ code = 400, message = 'Unknown error' }, _req, res, _next) => res.status(code).json({ message }));
+app.use('/post', controllers.posts);
+
+app.use((err, _req, res, _next) => {
+  const { code = 400, message = 'Unknown error' } = err;
+  // console.log(err);
+  res.status(code).json({ message });
+});

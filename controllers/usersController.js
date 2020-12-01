@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const rescue = require('express-rescue');
 const { INVALID_ENTRIES, USER_ALREADY_EXISTS, USER_NOT_FOUND } = require('../errors');
-const { validate, findUser } = require('../middlewares');
-const validateToken = require('../middlewares/validateToken');
+const { validate, findUser, validateToken } = require('../middlewares');
 const { Users } = require('../models');
 const { createToken } = require('../services/JWT');
 

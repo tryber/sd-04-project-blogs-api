@@ -1,3 +1,4 @@
 const users = require('./usersController');
+const posts = require('./postsController');
 
-module.exports = { users };
+module.exports = { users, posts };
