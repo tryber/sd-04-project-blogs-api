@@ -11,7 +11,7 @@ router.get('/', validateJwt, async (req, res) => {
     const users = await User.findAll();
     res.status(200).json(users);
   } catch (e) {
-    console.log(e.message);
+    console.log('aqui', e.message);
     res.status(500).json(e.message);
   }
 });

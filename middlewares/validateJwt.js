@@ -6,20 +6,17 @@ const secret = 'opensecret';
 const validateJwt = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
-    if (!token) {
+    if (token.length === 0) {
       return res.status(401).json({ message: 'Token não encontrado' });
+    } else {
+      const decoded = jwt.verify(token, secret);
+      console.log(decoded);
+      next();
     }
-    const decoded = jwt.verify(token, secret);
-    const registeredMail = await User.findOne({ where: { email: decoded.data.email } });
-    if (!registeredMail) {
-      return res.status(401).json({ message: 'Incorrect username or password' });
-    }
-    req.user = registeredMail;
-
-    next();
+    
   } catch (er) {
     console.log(er);
-    res.status(401).json({ message: 'jwt malformed' });
+    res.status(401).json({ message: 'Token expirado ou inválido' });
   }
 };
 
