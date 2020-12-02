@@ -47,6 +47,15 @@ const searchPost = rescue(async (req, res) => {
   res.json(postsList);
 });
 
+const deletePost = rescue(async (req, res) => {
+  const { params: { id }, user } = req;
+  const result = await Posts.findByPk(id);
+  if (!result) throw POST_NOT_FOUND;
+  if (result.dataValues.userId !== user.id) throw USER_NOT_ALLOWED;
+  await Posts.destroy({ where: { id } });
+  res.status(204).send();
+});
+
 router.post('/', validateToken, validate('post'), newPost);
 
 router.get('/', validateToken, getAllPosts);
@@ -56,5 +65,7 @@ router.get('/search', validateToken, searchPost);
 router.get('/:id', validateToken, getPostById);
 
 router.put('/:id', validateToken, validate('post'), updatePost);
+
+router.delete('/:id', validateToken, deletePost);
 
 module.exports = router;
