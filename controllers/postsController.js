@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const rescue = require('express-rescue');
+const { Op } = require('sequelize');
 const { POST_NOT_FOUND, USER_NOT_ALLOWED } = require('../errors');
 const { validateToken, validate } = require('../middlewares');
 const { Posts, Users } = require('../models');
@@ -36,9 +37,21 @@ const updatePost = rescue(async (req, res) => {
   res.json(postInfo);
 });
 
+const searchPost = rescue(async (req, res) => {
+  const { q } = req.query;
+  const postsList = await Posts.findAll({
+    attributes: { exclude: ['userId'] },
+    where: { [Op.or]: [{ title: { [Op.substring]: q } }, { content: { [Op.substring]: q } }] },
+    include: [{ model: Users, as: 'user' }],
+  });
+  res.json(postsList);
+});
+
 router.post('/', validateToken, validate('post'), newPost);
 
 router.get('/', validateToken, getAllPosts);
+
+router.get('/search', validateToken, searchPost);
 
 router.get('/:id', validateToken, getPostById);
 
