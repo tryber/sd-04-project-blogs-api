@@ -29,7 +29,7 @@ const loginErrorDealer = async (req, res, next) => {
     }
   } catch (er) {
     console.log(er);
-    res.status(400).json({ message: er.details[0].message  });
+    res.status(400).json({ message: er.details[0].message });
   }
 };
 

@@ -1,11 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { userErrorDealer } = require('../middlewares/validateInfo');
+const validateJwt = require('../middlewares/validateJwt');
 const { User } = require('../models');
 
 const router = express.Router();
 // validation sequelize https://www.youtube.com/watch?v=3RzW3IqtGR0
-router.get('/', async (req, res) => {
+router.get('/', validateJwt, async (req, res) => {
   try {
     const users = await User.findAll();
     res.status(200).json(users);

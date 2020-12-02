@@ -9,8 +9,8 @@ const userSchema = Joi.object({
 });
 
 const loginSchema = Joi.object({
-    email: Joi.string().email().allow('').required(),
-    password: Joi.string().allow('').required(),
-  });
+  email: Joi.string().email().allow('').required(),
+  password: Joi.string().allow('').required(),
+});
 
 module.exports = { userSchema, loginSchema };

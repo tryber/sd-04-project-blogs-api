@@ -7,7 +7,7 @@ const validateJwt = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (!token) {
-      return res.status(401).json({ message: 'missing auth token' });
+      return res.status(401).json({ message: 'Token não encontrado' });
     }
     const decoded = jwt.verify(token, secret);
     const registeredMail = await User.findOne({ where: { email: decoded.data.email } });
