@@ -27,10 +27,12 @@ module.exports = {
       },
       published: {
         allowNull: false,
+        defaultValue: '2010/10/10',
         type: Sequelize.DATE,
       },
       updated: {
         allowNull: false,
+        defaultValue: '2010/10/10',
         type: Sequelize.DATE,
       },
     });

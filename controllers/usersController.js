@@ -58,10 +58,25 @@ const getById = async (req, res) => {
   }
 };
 
+const excludeById = async (req, res) => {
+  try {
+    const { user } = req;
+    await Users.destroy({
+      where: {
+        id: user.id
+      }
+    });
+    res.status(204).send();
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
+};
+
 module.exports = {
   createUser,
   findByEmail,
   login,
   getAll,
   getById,
+  excludeById,
 };

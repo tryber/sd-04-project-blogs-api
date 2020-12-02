@@ -1,8 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { usersController } = require('./controllers');
-const { usersMiddlewares } = require('./middlewares');
+const {
+  usersController,
+  postsController,
+} = require('./controllers');
+const {
+  usersMiddlewares,
+  postsMiddlewares,
+} = require('./middlewares');
 const { auth } = require('./services');
 
 const app = express();
@@ -29,5 +35,13 @@ app.post('/login',
 app.get('/user', auth, usersController.getAll);
 
 app.get('/user/:id', auth, usersController.getById);
+
+app.delete('/user/me', auth, usersController.excludeById);
+
+app.post('/post',
+  auth,
+  postsMiddlewares.verifyTitleCreate,
+  postsMiddlewares.verifyContentCreate,
+  postsController.createPost);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
