@@ -17,8 +17,9 @@ const validateCreateUser = (req, res, next) => {
     });
   }
 
-  if (!emailRegex.test(email))
+  if (!emailRegex.test(email)) {
     return res.status(400).json({ message: '"email" must be a valid email' });
+  }
 
   if (!password) {
     res.status(400).json({
