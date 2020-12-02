@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const checkemail = require('../middlewares/checkemail');
 const { User } = require('../models');
 
 const router = express.Router();
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', checkemail, async (req, res) => {
   const { displayName, email, password, image } = req.body;
   const secret = 'opensecret';
   const jwtConfig = {
@@ -32,7 +33,8 @@ router.post('/', async (req, res) => {
       res.status(409).json({ message: 'Usuário já existe' });
     }
   } catch (e) {
-    console.log(e.message);
+    console.log('second');
+    console.log(e);
     res.status(400).json({ message: e.errors[0].message });
   }
 });

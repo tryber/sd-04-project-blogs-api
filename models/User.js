@@ -25,10 +25,6 @@ const registerUser = (sequelize, DataTypes) => {
             msg: '"email" must be a valid email',
           },
         },
-        unique: {
-          args: true,
-          msg: 'Usuário já existe',
-        },
       },
       password: {
         type: DataTypes.STRING,
