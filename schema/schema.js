@@ -4,7 +4,7 @@ const { Joi } = require('frisby');
 const userSchema = Joi.object({
   displayName: Joi.string().min(8),
   email: Joi.string().email().required(),
-  password: Joi.string().required(),  
+  password: Joi.string().required(),
   image: Joi.string(),
 });
 
