@@ -49,7 +49,7 @@ router.post('/', userErrorDealer, async (req, res) => {
 
 router.delete('/me', validateJwt, async (req, res) => {
   const { data } = req.user;
-  await User.destroy({ where: { displayName: data.dataValues.displayName}});
+  await User.destroy({ where: { displayName: data.dataValues.displayName } });
   res.status(204).json();
 });
 
