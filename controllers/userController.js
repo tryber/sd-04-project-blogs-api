@@ -6,12 +6,21 @@ const { User } = require('../models');
 
 const router = express.Router();
 // validation sequelize https://www.youtube.com/watch?v=3RzW3IqtGR0
+
+router.get('/:id', validateJwt, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    res.status(200).json(user);
+  } catch(e) {
+    res.status(404).json({ message: 'Usuário não existe'});
+  }
+});
+
 router.get('/', validateJwt, async (req, res) => {
   try {
     const users = await User.findAll();
     res.status(200).json(users);
   } catch (e) {
-    console.log('aqui', e.message);
     res.status(500).json(e.message);
   }
 });
