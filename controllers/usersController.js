@@ -5,6 +5,7 @@ const createToken = require('../auth/createToken');
 
 const users = express.Router();
 
+// Rota para adicionar um Usuario!!
 users.post('/', async (req, res) => {
   try {
     const allUsers = await User.create({ ...req.body });
@@ -17,6 +18,7 @@ users.post('/', async (req, res) => {
   }
 });
 
+// Trazer um ID especifico de usuario!!
 users.get('/:id', async (req, res) => {
   try {
     // FAZ UM PEDIDO DE UM MODEL TRAZENDO O ID
