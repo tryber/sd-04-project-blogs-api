@@ -1,5 +1,3 @@
-const { User } = require('../models');
-
 const checkemail = async (req, res, next) => {
   req.body.email
     ? next()
