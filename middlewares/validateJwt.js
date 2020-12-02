@@ -8,7 +8,7 @@ const validateJwt = async (req, res, next) => {
     if (token.length === 0) {
       return res.status(401).json({ message: 'Token não encontrado' });
     }
-    const decoded = jwt.verify(token, secret);
+    jwt.verify(token, secret);
     next();
   } catch (er) {
     console.log(er);
