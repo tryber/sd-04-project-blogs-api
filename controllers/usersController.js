@@ -2,6 +2,7 @@ const express = require('express');
 const { User } = require('../models');
 const validationUser = require('../services/validationUser');
 const createToken = require('../auth/createToken');
+const validateToken = require('../auth/validateToken');
 
 const users = express.Router();
 
