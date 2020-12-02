@@ -11,7 +11,7 @@ const userSchema = Joi.object({
       errors.forEach((err) => {
         switch (err.type) {
           case 'string.min':
-            err.message = '"password" length must be 6 characters long';
+            (err.message) = '"password" length must be 6 characters long';
             break;
           default:
             break;
