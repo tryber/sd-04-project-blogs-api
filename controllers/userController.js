@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const checkemail = require('../middlewares/checkemail');
+const { userErrorDealer } = require('../middlewares/validateInfo');
 const { User } = require('../models');
 
 const router = express.Router();
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', checkemail, async (req, res) => {
+router.post('/', userErrorDealer, async (req, res) => {
   const { displayName, email, password, image } = req.body;
   const secret = 'opensecret';
   const jwtConfig = {
@@ -33,9 +33,8 @@ router.post('/', checkemail, async (req, res) => {
       res.status(409).json({ message: 'Usuário já existe' });
     }
   } catch (e) {
-    console.log('second');
     console.log(e);
-    res.status(400).json({ message: e.errors[0].message });
+    res.status(400).json(e.message);
   }
 });
 
