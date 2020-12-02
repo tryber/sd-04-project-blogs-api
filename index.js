@@ -44,4 +44,8 @@ app.post('/post',
   postsMiddlewares.verifyContentCreate,
   postsController.createPost);
 
+app.get('/post',
+  auth,
+  postsController.getAll);
+
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
