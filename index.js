@@ -19,14 +19,12 @@ app.post('/user',
   usersMiddlewares.verifyDisplayNameCreate,
   usersMiddlewares.verifyEmailCreate,
   usersMiddlewares.verifyPasswordCreate,
-  usersController.createUser,
-);
+  usersController.createUser);
 
 app.post('/login',
   usersMiddlewares.verifyEmailLogin,
   usersMiddlewares.verifyPasswordLogin,
-  usersController.login,
-);
+  usersController.login);
 
 app.get('/user', auth, usersController.getAll);
 

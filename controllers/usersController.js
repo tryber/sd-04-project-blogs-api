@@ -8,7 +8,6 @@ const findByEmail = async (email) => {
   return user;
 };
 
-
 const createUser = async (req, res) => {
   try {
     const { displayName, email, password, image } = req.body;

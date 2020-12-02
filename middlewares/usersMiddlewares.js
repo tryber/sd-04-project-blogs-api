@@ -2,7 +2,7 @@ const { usersController } = require('../controllers');
 
 const verifyEmailLogin = (req, res, next) => {
   const { email } = req.body;
-  if (email === "") {
+  if (email === '') {
     return res.status(400).send({ message: '"email" is not allowed to be empty' });
   }
   if (!email) {
@@ -14,7 +14,7 @@ const verifyEmailLogin = (req, res, next) => {
 
 const verifyPasswordLogin = (req, res, next) => {
   const { password } = req.body;
-  if (password === "") {
+  if (password === '') {
     return res.status(400).send({ message: '"password" is not allowed to be empty' });
   }
   if (!password) {
@@ -33,7 +33,6 @@ const verifyDisplayNameCreate = (req, res, next) => {
 };
 
 const verifyEmailCreate = async (req, res, next) => {
-  console.log(usersController)
   const { email } = req.body;
   if (!email) {
     res.status(400).send({ message: '"email" is required' });

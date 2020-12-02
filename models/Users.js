@@ -9,8 +9,7 @@ const Users = (sequelize, DataTypes) => {
   },
   {
     timestamps: false,
-  },
-  );
+  });
   return user;
 };
 

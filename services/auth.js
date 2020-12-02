@@ -11,7 +11,7 @@ const findByEmail = async (email) => {
 const auth = async (req, res, next) => {
   const secret = 'brucewayne';
 
-  const token = req.headers['authorization'];
+  const token = req.headers.authorization;
 
   if (!token) {
     return res.status(401).send({ message: 'Token não encontrado' });
@@ -21,7 +21,6 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(token, secret);
     const user = await findByEmail(decoded.data.email);
 
-
     if (!user) {
       res.status(401).send({ message: 'Erro ao procurar usuário do token.' });
     }
@@ -30,7 +29,6 @@ const auth = async (req, res, next) => {
 
     next();
   } catch (e) {
-    console.log(e.message)
     res.status(401).send({ message: 'Token expirado ou inválido' });
   }
 };
