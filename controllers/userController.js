@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/:id', validateJwt, async (req, res) => {
   const user = await User.findByPk(req.params.id);
   if (user === null) {
-    res.status(404).json({ message: 'Usuário não existe'});
+    res.status(404).json({ message: 'Usuário não existe' });
   }
   res.status(200).json(user);
 });
