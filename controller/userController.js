@@ -26,7 +26,13 @@ const loginUserControl = async (req, res) => {
   return res.status(200).json({ token });
 };
 
+const getAllUserControl = async (_req, res) => {
+  const allUsers = await Users.findAll({ attributes: { exclude: ['password'] } });
+  return res.status(200).json(allUsers);
+};
+
 module.exports = {
   createUserControl,
   loginUserControl,
+  getAllUserControl,
 };
