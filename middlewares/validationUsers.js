@@ -1,6 +1,5 @@
-const { Users } = require('../models');
-
 const Joi = require('joi');
+const { Users } = require('../models');
 
 const schema = Joi.object({
   displayName: Joi.string().min(8),
