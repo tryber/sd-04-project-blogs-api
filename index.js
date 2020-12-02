@@ -28,4 +28,6 @@ app.post('/login',
 
 app.get('/user', auth, usersController.getAll);
 
+app.get('/user/:id', auth, usersController.getById);
+
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
