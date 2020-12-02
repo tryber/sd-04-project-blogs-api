@@ -45,7 +45,7 @@ const getUserByIdCont = rescue(async (req, res) => {
 });
 
 const deleteUserByIdCont = rescue(async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.user;
   await usersServices.deleteUserByIdServ(id);
 
   return res.status(204).end();
