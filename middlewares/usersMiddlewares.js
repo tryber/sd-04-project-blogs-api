@@ -34,17 +34,17 @@ const verifyDisplayNameCreate = (req, res, next) => {
 
 const verifyEmailCreate = async (req, res, next) => {
   const { email } = req.body;
+  if (!email) {
+    res.status(400).send({ message: '"email" is required' });
+  }
   const use = await usersController.findByEmail(email);
   if (use) {
-    res.status(400).send({ message: 'Usuário já existe' });
+    res.status(409).send({ message: 'Usuário já existe' });
   }
   const emailRegex = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
   const testEmailRegex = emailRegex.test(email);
   if (!testEmailRegex) {
     res.status(400).send({ message: '"email" must be a valid email' });
-  }
-  if (!email) {
-    res.status(400).send({ message: '"email" is required' })
   }
 
   return next();
@@ -52,11 +52,11 @@ const verifyEmailCreate = async (req, res, next) => {
 
 const verifyPasswordCreate = (req, res, next) => {
   const { password } = req.body;
-  if (password.toString().length < 6) {
-    res.status(400).send({ message: '"password" length must be 6 characters long' });
-  }
   if (!password) {
     res.status(400).send({ message: '"password" is required' });
+  }
+  if (password.toString().length < 6) {
+    res.status(400).send({ message: '"password" length must be 6 characters long' });
   }
 
   return next();

@@ -1,9 +1,9 @@
-const { Users } = require('../models');
 const jwt = require('jsonwebtoken');
+const { Users } = require('../models');
 
 const findByEmail = async (email) => {
   const user = await Users.findOne({
-    where: { email: email },
+    where: { email },
   });
   return user;
 };
@@ -16,7 +16,7 @@ const generateToken = (user) => {
   };
   const token = jwt.sign({ data: user }, secret, jwtConfig);
   return token;
-}
+};
 
 const createUser = async (req, res) => {
   try {
@@ -29,7 +29,6 @@ const createUser = async (req, res) => {
     });
     res.status(201).json({ token: generateToken(user) });
   } catch (e) {
-    console.log(e.message)
     res.status(500).send(e.message);
   }
 };
@@ -39,19 +38,16 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await findByEmail(email);
     if (!user || password !== user.password) {
-      return res.status(401).send({ message: 'Campos inválidos' });
+      return res.status(400).send({ message: 'Campos inválidos' });
     }
-
     res.status(200).json({ token: generateToken(user) });
   } catch (e) {
-
     res.status(400).send({ message: 'Algo deu errado ao tentar fazer o login' });
   }
-}
+};
 
 module.exports = {
   createUser,
   findByEmail,
   login,
 };
-
