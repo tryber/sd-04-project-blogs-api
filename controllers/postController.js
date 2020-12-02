@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { User, Posts } = require('../models');
 const { validatePost } = require('../services/postServices');
 
@@ -58,9 +59,34 @@ const editPost = async (req, res) => {
   return res.status(200).json({ title, content, userId });
 };
 
+const findPostByTerm = async (req, res) => {
+  const { q } = req.query;
+
+  const posts = await Posts.findAll({
+    where: {
+      [Op.or]: [
+        {
+          title: {
+            [Op.like]: `%${q}%`,
+          },
+        },
+        {
+          content: {
+            [Op.like]: `%${q}%`,
+          },
+        },
+      ],
+    },
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
+  });
+
+  return res.status(200).json(posts);
+};
+
 module.exports = {
   newPost,
   getPosts,
   findPostById,
   editPost,
+  findPostByTerm,
 };
