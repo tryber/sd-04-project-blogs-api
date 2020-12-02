@@ -4,21 +4,7 @@ const { Joi } = require('frisby');
 const userSchema = Joi.object({
   displayName: Joi.string().min(8),
   email: Joi.string().email().required(),
-  password: Joi.string()
-    .min(6)
-    .required()
-    .error((errors) => {
-      errors.forEach((err) => {
-        switch (err.type) {
-          case 'string.min':
-            (err.message) = '"password" length must be 6 characters long';
-            break;
-          default:
-            break;
-        }
-      });
-      return errors;
-    }),
+  password: Joi.string().required(),  
   image: Joi.string(),
 });
 
