@@ -11,8 +11,8 @@ router.get('/:id', validateJwt, async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     res.status(200).json(user);
-  } catch(e) {
-    res.status(404).json({ message: 'Usuário não existe'});
+  } catch (e) {
+    res.status(404).json({ message: 'Usuário não existe' });
   }
 });
 
