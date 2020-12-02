@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
+const { generateToken } = require('../services');
 
 const findByEmail = async (email) => {
   const user = await Users.findOne({
@@ -8,15 +8,6 @@ const findByEmail = async (email) => {
   return user;
 };
 
-const generateToken = (user) => {
-  const secret = 'brucewayne';
-  const jwtConfig = {
-    expiresIn: '1d',
-    algorithm: 'HS256',
-  };
-  const token = jwt.sign({ data: user }, secret, jwtConfig);
-  return token;
-};
 
 const createUser = async (req, res) => {
   try {
@@ -37,7 +28,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await findByEmail(email);
-    if (!user || password !== user.password) {
+    if (!user || password.toString() !== user.password) {
       return res.status(400).send({ message: 'Campos inválidos' });
     }
     res.status(200).json({ token: generateToken(user) });
@@ -46,8 +37,18 @@ const login = async (req, res) => {
   }
 };
 
+const getAll = async (_req, res) => {
+  try {
+    const users = await Users.findAll();
+    res.status(200).json(users);
+  } catch (e) {
+    res.status(401).send({ message: e.message });
+  }
+};
+
 module.exports = {
   createUser,
   findByEmail,
   login,
+  getAll,
 };

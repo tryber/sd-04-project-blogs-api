@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const { usersController } = require('./controllers');
 const { usersMiddlewares } = require('./middlewares');
+const { auth } = require('./services');
 
 const app = express();
 
@@ -26,5 +27,7 @@ app.post('/login',
   usersMiddlewares.verifyPasswordLogin,
   usersController.login,
 );
+
+app.get('/user', auth, usersController.getAll);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

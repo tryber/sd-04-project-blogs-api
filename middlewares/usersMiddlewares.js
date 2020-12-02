@@ -33,12 +33,13 @@ const verifyDisplayNameCreate = (req, res, next) => {
 };
 
 const verifyEmailCreate = async (req, res, next) => {
+  console.log(usersController)
   const { email } = req.body;
   if (!email) {
     res.status(400).send({ message: '"email" is required' });
   }
-  const use = await usersController.findByEmail(email);
-  if (use) {
+  const user = await usersController.findByEmail(email);
+  if (user) {
     res.status(409).send({ message: 'Usuário já existe' });
   }
   const emailRegex = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
