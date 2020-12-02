@@ -1,36 +1,21 @@
 const { Users } = require('../models');
 
-const emailRegex = /[A-Z0-9]{1,}@[A-Z0-9]{2,}\.[A-Z0-9]{2,}/i;
+const Joi = require('joi');
 
-const validateCreateUser = (req, res, next) => {
-  const { displayName, email, password } = req.body;
+const schema = Joi.object({
+  displayName: Joi.string().min(8),
+  email: Joi.string().email().required(),
+  password: Joi.string().length(6).required(),
+  image: Joi.string(),
+});
 
-  if (displayName.length < 8) {
-    return res
-      .status(400)
-      .json({ message: '"displayName" length must be at least 8 characters long' });
-  }
+const validateCreateUser = async (req, res, next) => {
+  const { displayName, email, password, image } = req.body;
 
-  if (!email) {
-    res.status(400).json({
-      message: '"email" is required',
-    });
-  }
+  const { error } = schema.validate({ displayName, email, password, image });
 
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: '"email" must be a valid email' });
-  }
-
-  if (!password) {
-    res.status(400).json({
-      message: '"password" is required',
-    });
-  }
-
-  if (String(password).length < 6) {
-    res.status(400).json({
-      message: '"password" length must be 6 characters long',
-    });
+  if (error) {
+    return res.status(400).json({ message: error.message });
   }
 
   next();
