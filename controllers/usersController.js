@@ -44,11 +44,11 @@ const getUserByIdCont = rescue(async (req, res) => {
   return res.status(200).json(userId[0]);
 });
 
-const deleteUserByIdCont = rescue(async (res, req) => {
-  const { id } = req.req.body;
+const deleteUserByIdCont = rescue(async (req, res) => {
+  const { id } = req.body;
   await usersServices.deleteUserByIdServ(id);
 
-  return res.res.status(204).end();
+  return res.status(204).end();
 });
 
 module.exports = {
