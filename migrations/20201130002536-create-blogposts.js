@@ -1,4 +1,3 @@
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const BlogPostsTable = queryInterface.createTable('Posts', {
