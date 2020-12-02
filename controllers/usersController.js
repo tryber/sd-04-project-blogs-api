@@ -63,8 +63,8 @@ const excludeById = async (req, res) => {
     const { user } = req;
     await Users.destroy({
       where: {
-        id: user.id
-      }
+        id: user.id,
+      },
     });
     res.status(204).send();
   } catch (e) {

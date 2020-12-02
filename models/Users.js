@@ -7,14 +7,13 @@ const Users = (sequelize, DataTypes) => {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
-    {
-      timestamps: false,
-    });
+  {
+    timestamps: false,
+  });
 
   users.associate = (models) => {
-    users.hasMany(models.Posts, {
-      foreignKey: 'userId', as: 'posts',
-    });
+    users.hasMany(models.Posts,
+      { foreignKey: 'userId', as: 'posts' });
   };
 
   return users;

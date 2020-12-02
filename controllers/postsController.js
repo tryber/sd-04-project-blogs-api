@@ -11,7 +11,7 @@ const createPost = async (req, res) => {
     });
     res.status(201).json(post);
   } catch (e) {
-    res.status(401).send(e.message)
+    res.status(401).send(e.message);
   }
 };
 
