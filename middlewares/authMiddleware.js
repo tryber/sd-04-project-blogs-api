@@ -1,12 +1,17 @@
-const validateToken = require('../auth/validateToken');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const secret = process.env.SECRET;
 
 const authMiddleware = (req, res, next) => {
   try {
     const token = req.headers.authorization;
 
-    if (!token) res.redirect('/login');
+    if (!token) res.status(401).json({ message: 'Token não encontrado' });
 
-    const validation = validateToken(token);
+    console.log('aqui');
+
+    const validation = jwt.verify(token, secret);
 
     const { passoword: _, ...user } = validation.dataValues;
 
@@ -14,7 +19,7 @@ const authMiddleware = (req, res, next) => {
 
     next();
   } catch (_err) {
-    res.status(500).json({ message: 'token inválido!' });
+    res.status(500).json({ message: 'Token expirado ou inválido' });
   }
 };
 
