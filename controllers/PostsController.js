@@ -1,4 +1,5 @@
 const { Posts, Users } = require('../models');
+const { Op } = require('sequelize');
 
 const createPostController = async (req, res) => {
   const { title, content } = req.body;
@@ -38,9 +39,29 @@ const putPostController = async (req, res) => {
   return res.status(200).json({ title, content, userId: id });
 };
 
+const searchController = async (req, res) => {
+  const { q } = req.query;
+
+  if (q.length === 0) {
+    const posts = await Posts.findAll({
+      include: { model: Users, as: 'user' },
+    });
+    return res.status(200).json(posts);
+  }
+
+  const searchPost = await Posts.findAll({
+    where: {
+      [Op.or]: [{ title: { [Op.like]: `%${q}%` } }, { content: { [Op.like]: `%${q}%` } }],
+    },
+    include: { model: Users, as: 'user' },
+  });
+  return res.status(200).json(searchPost);
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
   getByIdController,
   putPostController,
+  searchController,
 };
