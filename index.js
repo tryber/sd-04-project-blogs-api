@@ -45,7 +45,7 @@ app.post('/post',
   postsController.createPost);
 
 app.get('/post/search',
-  
+  auth,
   postsController.searchPost);
 
 app.get('/post',
