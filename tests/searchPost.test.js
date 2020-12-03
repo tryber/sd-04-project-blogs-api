@@ -10,7 +10,7 @@ describe('Sua aplicação deve ter o endpoint GET `post/search?q=:searchTerm`', 
     shell.exec('npx sequelize-cli db:seed:all $');
   });
 
-  it.skip('Será validado que é possível buscar um blogpost pelo `title`', async () => {
+  it('Será validado que é possível buscar um blogpost pelo `title`', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -51,7 +51,7 @@ describe('Sua aplicação deve ter o endpoint GET `post/search?q=:searchTerm`', 
       });
   });
 
-  it.skip('Será validado que é possível buscar um blogpost pelo `content`', async () => {
+  it('Será validado que é possível buscar um blogpost pelo `content`', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -92,7 +92,7 @@ describe('Sua aplicação deve ter o endpoint GET `post/search?q=:searchTerm`', 
       });
   });
 
-  it.skip('Será validado que é possível buscar todos os blogpost quando passa a busca vazia', async () => {
+  it('Será validado que é possível buscar todos os blogpost quando passa a busca vazia', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -145,7 +145,7 @@ describe('Sua aplicação deve ter o endpoint GET `post/search?q=:searchTerm`', 
       });
   });
 
-  it.skip('Será validado que é possível buscar um blogpost inexistente e retornar array vazio', async () => {
+  it('Será validado que é possível buscar um blogpost inexistente e retornar array vazio', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -178,7 +178,7 @@ describe('Sua aplicação deve ter o endpoint GET `post/search?q=:searchTerm`', 
       });
   });
 
-  it.skip('Será validado que não é possível buscar um blogpost sem o token', async () => {
+  it('Será validado que não é possível buscar um blogpost sem o token', async () => {
     await frisby
       .setup({
         request: {
@@ -197,7 +197,7 @@ describe('Sua aplicação deve ter o endpoint GET `post/search?q=:searchTerm`', 
       });
   });
 
-  it.skip('Será validado que não é possível buscar um blogpost com o token inválido', async () => {
+  it('Será validado que não é possível buscar um blogpost com o token inválido', async () => {
     await frisby
       .setup({
         request: {

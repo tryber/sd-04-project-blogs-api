@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const rescue = require('express-rescue');
 const express = require('express');
 const { Posts, User } = require('../models');
@@ -27,6 +28,26 @@ router.get(
     });
 
     res.status(200).json(products);
+  }),
+);
+
+router.get(
+  '/search',
+  validateJWT,
+  rescue(async (req, res) => {
+    const { q } = req.query;
+
+    const searchedPost = await Posts.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${q}%` } },
+          { content: { [Op.like]: `%${q}%` } },
+        ],
+      },
+      include: 'user',
+    });
+
+    return res.status(200).json(searchedPost);
   }),
 );
 
