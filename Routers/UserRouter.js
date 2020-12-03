@@ -9,6 +9,7 @@ userRouter
 
   .post('/', middlewares.validateUsers, userController.createUserControl)
   .get('/', validateToken, userController.getAllUserControl)
-  .get('/:id', validateToken, userController.getUserId);
+  .get('/:id', validateToken, userController.getUserId)
+  .delete('/me', validateToken, userController.deleteUser);
 
 module.exports = userRouter;

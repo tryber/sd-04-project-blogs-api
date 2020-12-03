@@ -9,9 +9,9 @@ const createUserControl = async (req, res) => {
     return res.status(409).json({ message: 'Usuário já existe' });
   }
 
-  const newUser = await Users.create({ displayName, email, password, image });
-
-  return res.status(201).json(newUser);
+  await Users.create({ displayName, email, password, image });
+  const token = createToken({ email, password });
+  return res.status(201).json({ token });
 };
 
 const loginUserControl = async (req, res) => {
@@ -40,9 +40,19 @@ const getUserId = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const deleteUser = async (req, res) => {
+  const { id } = req.body;
+
+  Users.destroy({ where: { id } });
+  // não precisa do await, espera o retorno de uma promise
+  // o sequelize não está retornando um promise
+  return res.status(204).json();
+};
+
 module.exports = {
   createUserControl,
   loginUserControl,
   getAllUserControl,
   getUserId,
+  deleteUser,
 };
