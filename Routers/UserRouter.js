@@ -6,7 +6,9 @@ const middlewares = require('../middlewares');
 const userRouter = Router();
 
 userRouter
+
   .post('/', middlewares.validateUsers, userController.createUserControl)
-  .get('/', validateToken, userController.getAllUserControl);
+  .get('/', validateToken, userController.getAllUserControl)
+  .get('/:id', validateToken, userController.getUserId);
 
 module.exports = userRouter;

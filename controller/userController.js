@@ -31,8 +31,18 @@ const getAllUserControl = async (_req, res) => {
   return res.status(200).json(allUsers);
 };
 
+const getUserId = async (req, res) => {
+  const { id } = req.params;
+  const user = await Users.findOne({ where: { id } });
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não existe' });
+  }
+  return res.status(200).json(user);
+};
+
 module.exports = {
   createUserControl,
   loginUserControl,
   getAllUserControl,
+  getUserId,
 };
