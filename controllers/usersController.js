@@ -1,54 +1,72 @@
 const rescue = require('express-rescue');
 const express = require('express');
 const { User } = require('../models');
+const createToken = require('../auth/createJWT');
+const { validateJWT } = require('../auth/validateJWT');
+
 const router = express.Router();
-
-
+const userValidation = require('../middlewares/userValidation');
 
 router.post(
   '/',
-   async (req, res) => {
-    const { displayName, email, password, image } = req.body;
-
-
-    await Users.create({ displayName, email, password, image });
-
-    return res.status(201).json();
+  userValidation.userDataValidation,
+  userValidation.emailAlreadyExist,
+  async (req, res) => {
+    try {
+      const { displayName, email, password, image } = req.body;
+      const emailFromDB = await User.create({
+        displayName,
+        email,
+        password,
+        image,
+      });
+      const { password: _, ...userWithoutPassword } = emailFromDB;
+      const token = await createToken(userWithoutPassword);
+      return res.status(201).json({ token });
+    } catch (e) {
+      console.log(e.message);
+      res.status(500).send({ message: 'Erro ao salvar o usuário no banco' });
+    }
   },
 );
 
+router.get('/', validateJWT, async (req, res) => {
+  try {
+    const allUsers = await User.findAll();
+    return res.status(200).json(allUsers);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).send({ message: 'Erro ao puxar os usuários no banco' });
+  }
+});
 
+router.get('/:id', validateJWT, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não existe' });
+    }
+    res.status(200).json(user);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).send({ message: 'Erro ao puxar um usuário no banco' });
+  }
+});
 
+router.delete(
+  '/me',
+  validateJWT,
+  async (req, res) => {
+    try {
+      const id = req.data.dataValues.id;
+      await User.destroy({ where: { id } });
+      res.status(204).end();
+    } catch (e) {
+      console.log("pb",e.message);
+      res.status(500).send({ message: 'Erro ao deletar um usuário no banco' });
+    }
+  },
+);
 
-//  const createUser =  async (req, res) => {
-//   const { displayName, email, password, image } = req.body;
-
-//   User.create({ displayName, email, password, image })
-//     .then((newUser) => {
-//       //  password removed to avoid passing it to teh API
-//       const { id, displayName, image, email, createdAt, updatedAt } = newUser;
-
-//       res.status(200).json({ id, displayName, image, email, createdAt, updatedAt });
-//     })
-//     .catch((e) => {
-//       console.log(e.message);
-//       res.status(500).send({ message: 'Erro ao salvar o usuário no banco' });
-//     });
-// };
-
-module.exports = {
-  router
-};
-
-// async (req, res) => {
-//   try {
-//     const { name, email, password } = req.body;
-//     const user = await userModel.registerUser(name, email, password);
-//     res.status(201).json({ user });
-//   } catch (_e) {
-//     res.status(501).json({
-//       message: 'Erro ao salvar o usuário no banco',
-//       _e,
-//     });
-//   }
-// },
+module.exports = router;
