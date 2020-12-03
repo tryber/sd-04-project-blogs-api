@@ -1,6 +1,11 @@
+require('dotenv').config();
 const express = require('express');
+const usersControllers = require('./controllers/usersController');
 
 const app = express();
+app.use(express.json());
+
+app.use('/user', usersControllers);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
