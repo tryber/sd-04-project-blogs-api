@@ -1,5 +1,5 @@
-const userRouter = require('./userRouter.js');
-const loginRouter = require('./loginRouter.js');
-const postsRouter = require('./postsRouter.js');
+const loginRouter = require('./loginRouter');
+const postsRouter = require('./postsRouter');
+const userRouter = require('./userRouter');
 
 module.exports = { userRouter, loginRouter, postsRouter };
