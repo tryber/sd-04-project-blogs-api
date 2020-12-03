@@ -91,10 +91,18 @@ const excludeById = async (req, res) => {
 
 const searchPost = async (req, res) => {
   try {
-    const query = req.query;
-    res.status(200).json(query)
+    const { q } = req.query;
+    const posts = await Posts.findAll({
+      include: { model: Users, as: 'user' },
+    });
+    if (!q) {
+      res.status(200).json(posts);
+    }
+    const postsFilter = posts.filter((post) =>
+      post.title.includes(q) || post.content.includes(q));
+    res.status(200).json(postsFilter);
   } catch (e) {
-    res.status(400).send();
+    res.status(400).send(e.message);
   }
 };
 

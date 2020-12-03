@@ -44,8 +44,8 @@ app.post('/post',
   postsMiddlewares.verifyContentExist,
   postsController.createPost);
 
-app.get('/post/search?q=:searchTerm',
-  auth,
+app.get('/post/search',
+  
   postsController.searchPost);
 
 app.get('/post',
@@ -56,11 +56,11 @@ app.get('/post/:id',
   auth,
   postsController.getById);
 
-/* app.put('/post/:id',
+app.put('/post/:id',
   auth,
   postsMiddlewares.verifyTitleExist,
   postsMiddlewares.verifyContentExist,
-  postsController.updateById); */
+  postsController.updateById);
 
 app.delete('/post/:id',
   auth,
