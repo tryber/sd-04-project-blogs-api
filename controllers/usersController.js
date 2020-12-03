@@ -55,7 +55,7 @@ router.get('/:id', validateJWT, async (req, res) => {
 
 router.delete('/me', validateJWT, async (req, res) => {
   try {
-    const {id} = req.data.dataValues.id;
+    const { id } = req.data.dataValues.id;
     await User.destroy({ where: { id } });
     res.status(204).end();
   } catch (e) {
