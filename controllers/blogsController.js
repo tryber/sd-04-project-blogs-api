@@ -1,7 +1,6 @@
 const rescue = require('express-rescue');
 const express = require('express');
 const { Posts, User } = require('../models');
-const createToken = require('../auth/createJWT');
 const { validateJWT } = require('../auth/validateJWT');
 
 const router = express.Router();
@@ -77,14 +76,14 @@ router.delete(
     });
     if (product === null) {
       return res.status(404).json({ message: 'Post não existe' });
-     }
+    }
     if (userId !== product.userId) {
       return res.status(401).json({ message: 'Usuário não autorizado' });
     }
     await Posts.destroy({
       where: { id: req.params.id },
     });
-    
+
     return res.status(204).json({ message: 'Blog excluído com sucesso' });
   }),
 );

@@ -1,5 +1,5 @@
-const { User } = require('../models');
 const Joi = require('joi');
+const { User } = require('../models');
 
 const schema = Joi.object({
   displayName: Joi.string().min(8),
@@ -29,7 +29,6 @@ const loginDataValidation = async (req, res, next) => {
 
   next();
 };
-
 
 // Check if POST request contain an unique email
 const emailAlreadyExist = async (req, res, next) => {

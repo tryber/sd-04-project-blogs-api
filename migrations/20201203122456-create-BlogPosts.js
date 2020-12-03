@@ -1,8 +1,6 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Posts', {
+    const blogTable = queryInterface.createTable('Posts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -31,6 +29,8 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    return blogTable;
   },
 
   down: async (queryInterface, _Sequelize) => {

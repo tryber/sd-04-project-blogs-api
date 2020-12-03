@@ -1,4 +1,3 @@
-const rescue = require('express-rescue');
 const express = require('express');
 const { User } = require('../models');
 const createToken = require('../auth/createJWT');
@@ -54,19 +53,15 @@ router.get('/:id', validateJWT, async (req, res) => {
   }
 });
 
-router.delete(
-  '/me',
-  validateJWT,
-  async (req, res) => {
-    try {
-      const id = req.data.dataValues.id;
-      await User.destroy({ where: { id } });
-      res.status(204).end();
-    } catch (e) {
-      console.log("pb",e.message);
-      res.status(500).send({ message: 'Erro ao deletar um usuário no banco' });
-    }
-  },
-);
+router.delete('/me', validateJWT, async (req, res) => {
+  try {
+    const id = req.data.dataValues.id;
+    await User.destroy({ where: { id } });
+    res.status(204).end();
+  } catch (e) {
+    console.log('pb', e.message);
+    res.status(500).send({ message: 'Erro ao deletar um usuário no banco' });
+  }
+});
 
 module.exports = router;

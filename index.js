@@ -1,6 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const controllers = require('./controllers');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -17,10 +17,7 @@ app.use((error, _req, res, _next) => {
   res.status(500).send({ message });
 });
 
-
-
 app.listen(PORT, () => console.log(`ouvindo na porta ${PORT}!`));
-
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
