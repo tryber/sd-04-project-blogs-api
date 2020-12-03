@@ -84,6 +84,7 @@ router.delete(
     await Posts.destroy({
       where: { id: req.params.id },
     });
+    
     return res.status(204).json({ message: 'Blog excluído com sucesso' });
   }),
 );
