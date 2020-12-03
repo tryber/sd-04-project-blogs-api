@@ -25,7 +25,13 @@ const createUsersController = async (req, res) => {
   }
 };
 
+const getAllUsersController = async (req, res) => {
+  const allUsers = await Users.findAll();
+  return res.status(200).json(allUsers);
+};
+
 module.exports = {
   createUsersController,
   loginController,
+  getAllUsersController,
 };
