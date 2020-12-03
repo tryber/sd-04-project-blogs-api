@@ -58,10 +58,26 @@ const searchController = async (req, res) => {
   return res.status(200).json(searchPost);
 };
 
+const deletePostController = async (req, res) => {
+  const { id } = req.user;
+  const post = await Posts.findOne({ where: { id: req.params.id } });
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+
+  if (id !== post.userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  await Posts.destroy({ where: { id: req.params.id } });
+  return res.status(204).json();
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
   getByIdController,
   putPostController,
   searchController,
+  deletePostController,
 };
