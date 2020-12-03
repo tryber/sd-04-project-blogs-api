@@ -44,6 +44,10 @@ app.post('/post',
   postsMiddlewares.verifyContentExist,
   postsController.createPost);
 
+app.get('/post/search?q=:searchTerm',
+  auth,
+  postsController.searchPost);
+
 app.get('/post',
   auth,
   postsController.getAll);
@@ -52,10 +56,15 @@ app.get('/post/:id',
   auth,
   postsController.getById);
 
-app.put('/post/:id',
+/* app.put('/post/:id',
   auth,
   postsMiddlewares.verifyTitleExist,
   postsMiddlewares.verifyContentExist,
-  postsController.updateById);
+  postsController.updateById); */
+
+app.delete('/post/:id',
+  auth,
+  postsController.excludeById);
+
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

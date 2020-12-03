@@ -49,7 +49,7 @@ const updateById = async (req, res) => {
       res.status(401).send({ message: 'Usuário não autorizado' });
     }
     if (!post) {
-      res.status(401).send({ message: 'Post não encontrado' });
+      res.status(404).send({ message: 'Post não existe' });
     }
     const { title, content } = req.body;
     await Posts.update(
@@ -67,9 +67,42 @@ const updateById = async (req, res) => {
   }
 };
 
+const excludeById = async (req, res) => {
+  try {
+    const { user } = req;
+    const { id } = req.params;
+    const post = await Posts.findByPk(id);
+    if (!post) {
+      res.status(404).send({ message: 'Post não existe' });
+    }
+    if (user.id !== post.id) {
+      res.status(401).send({ message: 'Usuário não autorizado' });
+    }
+    await Posts.destroy({
+      where: {
+        id,
+      },
+    });
+    res.status(204).send();
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
+};
+
+const searchPost = async (req, res) => {
+  try {
+    const query = req.query;
+    res.status(200).json(query)
+  } catch (e) {
+    res.status(400).send();
+  }
+};
+
 module.exports = {
   createPost,
   getAll,
   getById,
   updateById,
+  searchPost,
+  excludeById,
 };
