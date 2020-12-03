@@ -33,7 +33,7 @@ const getAllUsersController = async (req, res) => {
   return res.status(200).json(allUsers);
 };
 
-const getById = async (req, res) => {
+const getByIdController = async (req, res) => {
   const { id } = req.params;
   const user = await Users.findOne({ where: { id } });
   if (!user) {
@@ -42,9 +42,16 @@ const getById = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const deleteUserController = async (req, res) => {
+  const { id } = req.user;
+  await Users.destroy({ where: { id } });
+  return res.status(204).json();
+};
+
 module.exports = {
   createUsersController,
   loginController,
   getAllUsersController,
-  getById,
+  getByIdController,
+  deleteUserController,
 };

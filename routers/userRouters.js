@@ -10,6 +10,8 @@ router.post('/', validateCreateUser, checkIfEmailExist, UsersController.createUs
 
 router.get('/', validateToken, UsersController.getAllUsersController);
 
-router.get('/:id', validateToken, UsersController.getById);
+router.get('/:id', validateToken, UsersController.getByIdController);
+
+router.delete('/me', validateToken, UsersController.deleteUserController);
 
 module.exports = router;
