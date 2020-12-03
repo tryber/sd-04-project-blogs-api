@@ -1,5 +1,5 @@
-const { Posts, Users } = require('../models');
 const { Op } = require('sequelize');
+const { Posts, Users } = require('../models');
 
 const createPostController = async (req, res) => {
   const { title, content } = req.body;
