@@ -3,12 +3,10 @@ const createToken = require('../auth/createToken');
 
 const loginController = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const result = await Users.findOne({ email, password });
-
+    const { email } = req.body;
+    const result = await Users.findOne({ where: { email } });
     const { id, displayName, image } = result.dataValues;
     const userData = { id, displayName, image };
-
     const token = createToken(userData);
     return res.status(200).json({ token });
   } catch (error) {

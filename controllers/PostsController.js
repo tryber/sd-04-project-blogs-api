@@ -29,7 +29,8 @@ const putPostController = async (req, res) => {
   if (!post) {
     return res.status(404).json({ message: 'Post não existe' });
   }
-  if (id !== post.dataValue.userId) {
+
+  if (id !== post.userId) {
     return res.status(401).json({ message: 'Usuário não autorizado' });
   }
 
