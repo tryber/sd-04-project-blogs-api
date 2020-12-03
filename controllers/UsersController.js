@@ -5,7 +5,10 @@ const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await Users.findOne({ email, password });
-    const { password: _, ...userData } = result;
+
+    const { id, displayName, image } = result.dataValues;
+    const userData = { id, displayName, image };
+
     const token = createToken(userData);
     return res.status(200).json({ token });
   } catch (error) {
@@ -30,8 +33,18 @@ const getAllUsersController = async (req, res) => {
   return res.status(200).json(allUsers);
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const user = await Users.findOne({ where: { id } });
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não existe' });
+  }
+  return res.status(200).json(user);
+};
+
 module.exports = {
   createUsersController,
   loginController,
   getAllUsersController,
+  getById,
 };

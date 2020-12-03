@@ -10,4 +10,6 @@ router.post('/', validateCreateUser, checkIfEmailExist, UsersController.createUs
 
 router.get('/', validateToken, UsersController.getAllUsersController);
 
+router.get('/:id', validateToken, UsersController.getById);
+
 module.exports = router;
