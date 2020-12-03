@@ -10,12 +10,13 @@ const createUserModel = (sequelize, DataTypes) => {
     { timestamps: false },
   );
 
-  // users.associate = (models) => {
-  //   users.hasMany(models.Post, {
-  //     foreingKey: 'userId',
-  //     as: 'Post',
-  //   });
-  // };
+  // criar relacionamento entre a Users e Posts.
+  users.associate = (models) => {
+    users.hasMany(models.Posts, {
+      foreingKey: 'userId',
+      as: 'Post',
+    });
+  };
 
   return users;
 };

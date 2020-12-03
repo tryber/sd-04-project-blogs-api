@@ -12,7 +12,7 @@ const validateToken = (req, res, next) => {
     if (!token) { // 2
       return res.status(401).json({ message: 'Token não encontrado' });
     }
-    const data = jwt.verify(token, secret);// 3
+    const data = jwt.verify(token, secret);// 3  data = { email e senha }
 
     const { email } = data;
 
@@ -34,7 +34,7 @@ module.exports = validateToken;
 // 2 - Caso o token não seja informado, simplesmente retornamos
 // o código de status 401 - não autorizado.
 
-// 3 - Através o método verify, podemos validar e decodificar o nosso JWT.
+// 3 - Através o método verify, podemos validar e decodificar o nosso JWT. DATA = email e senha
 /*
   A variável data será um objeto equivalente ao seguinte:
   {
