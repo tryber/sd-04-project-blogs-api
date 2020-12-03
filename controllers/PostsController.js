@@ -12,7 +12,17 @@ const getAllPostsController = async (req, res) => {
   return res.status(200).json(allPosts);
 };
 
+const getByIdController = async (req, res) => {
+  const { id } = req.params;
+  const post = await Posts.findOne({ where: { id }, include: { model: Users, as: 'user' } });
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+  return res.status(200).json(post);
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
+  getByIdController,
 };
