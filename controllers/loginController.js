@@ -1,4 +1,3 @@
-const rescue = require('express-rescue');
 const express = require('express');
 const { User } = require('../models');
 const createToken = require('../auth/createJWT');
