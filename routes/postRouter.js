@@ -16,6 +16,8 @@ router.post(
   postController.createPost,
 );
 
+router.get('/search', tokenAuthorization, postController.searchPost);
+
 router.get('/', tokenAuthorization, postController.getAllPosts);
 
 router.get('/:id', tokenAuthorization, postController.getPostById);
