@@ -1,7 +1,8 @@
-const { userSchema, loginSchema } = require('../schema/schema');
+const { userSchema, loginSchema, postSchema } = require('../schema/schema');
 
 const checkUser = async (user) => userSchema.validate(user);
 const checkLogin = async (user) => loginSchema.validate(user);
+const checkPost = async (post) => postSchema.validate(post);
 
 const userErrorDealer = async (req, res, next) => {
   try {
@@ -33,4 +34,13 @@ const loginErrorDealer = async (req, res, next) => {
   }
 };
 
-module.exports = { userErrorDealer, loginErrorDealer };
+const postErrorDealer = async ( req, res, next) => {
+  try {
+    await checkPost(req.body);
+    next();
+  } catch (er) {
+    res.status(400).json({ message: er.details[0].message })
+  }
+}
+
+module.exports = { userErrorDealer, loginErrorDealer, postErrorDealer };

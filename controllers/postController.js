@@ -1,4 +1,5 @@
 const express = require('express');
+const { postErrorDealer } = require('../middlewares/validateInfo');
 const validateJwt = require('../middlewares/validateJwt');
 const { Post, User } = require('../models');
 
@@ -10,6 +11,14 @@ router.get('/', validateJwt, async (req, res) => {
     include: { model: User, as: 'user' },
   });
   res.status(200).json(postsList);
+});
+
+router.post('/', validateJwt, postErrorDealer, async (req, res) => {
+  const { data } = req.user;
+  const userId = data.dataValues.id;
+  const { title, content } = req.body;
+  const post = await Post.create({ title, content, userId });
+  res.status(201).json(post);
 });
 
 module.exports = router;
