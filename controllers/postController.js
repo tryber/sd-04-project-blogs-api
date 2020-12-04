@@ -42,7 +42,7 @@ router.put('/:id', validateJwt, postErrorDealer, async (req, res) => {
     const post = await Post.findByPk(paramsId);
 
     if (post.userId === userLogId) {
-      await Post.update({ title, content }, { where: {id: paramsId } });
+      await Post.update({ title, content }, { where: { id: paramsId } });
       const editedPost = await Post.findByPk(paramsId);
       res.status(200).json(editedPost);
     }
