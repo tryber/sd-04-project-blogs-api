@@ -19,4 +19,6 @@ router.post(
 
 router.get('/', tokenAuthorization, userController.getAllUsers);
 
+router.get('/:id', tokenAuthorization, userController.getUserById);
+
 module.exports = router;

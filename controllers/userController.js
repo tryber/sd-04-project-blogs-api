@@ -33,6 +33,17 @@ const getUserByEmail = async (req, res) => {
   res.status(200).json(foundUser);
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const foundUser = await User.findOne({ where: { id } });
+
+  if (!foundUser) {
+    return res.status(404).json({ message: 'Usuário não existe' });
+  }
+
+  res.status(200).json(foundUser);
+};
+
 const getAllUsers = async (req, res) => {
   const foundUsers = await User.findAll();
   res.status(200).json(foundUsers);
@@ -40,6 +51,7 @@ const getAllUsers = async (req, res) => {
 
 module.exports = {
   createUser,
+  getUserById,
   getUserByEmail,
   getAllUsers,
 };
