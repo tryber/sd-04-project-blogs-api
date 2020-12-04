@@ -21,4 +21,15 @@ router.post('/', validateJwt, postErrorDealer, async (req, res) => {
   res.status(201).json(post);
 });
 
+router.get('/:id', validateJwt, async (req, res) => {
+  const post = await Post.findByPk(req.params.id, {
+    attributes: { exclude: ['userId'] },
+    include: { model: User, as: 'user' },
+  });
+  if (post === null) {
+    res.status(404).json({ message: 'Post não existe' });
+  }
+  res.status(200).json(post);
+});
+
 module.exports = router;
