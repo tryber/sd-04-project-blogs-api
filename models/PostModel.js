@@ -1,5 +1,5 @@
-const PostModel = (sequelize, DataTypes) =>
-  sequelize.define(
+const PostModel = (sequelize, DataTypes) => {
+  const Post = sequelize.define(
     'Post',
     {
       title: DataTypes.STRING,
@@ -17,5 +17,12 @@ const PostModel = (sequelize, DataTypes) =>
     },
     { timestamps: false },
   );
+
+  Post.associate = (models) => {
+    Post.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+  };
+
+  return Post;
+};
 
 module.exports = PostModel;

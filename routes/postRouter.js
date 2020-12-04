@@ -16,4 +16,6 @@ router.post(
   postController.createPost,
 );
 
+router.get('/', tokenAuthorization, postController.getAllPosts);
+
 module.exports = router;

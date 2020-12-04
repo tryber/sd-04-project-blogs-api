@@ -1,5 +1,5 @@
-const UserModel = (sequelize, DataTypes) =>
-  sequelize.define(
+const UserModel = (sequelize, DataTypes) => {
+  const User = sequelize.define(
     'User',
     {
       displayName: DataTypes.STRING,
@@ -9,5 +9,12 @@ const UserModel = (sequelize, DataTypes) =>
     },
     { timestamps: false },
   );
+
+  User.associate = (models) => {
+    User.hasMany(models.Post, { foreignKey: 'id', as: 'user' });
+  };
+
+  return User;
+};
 
 module.exports = UserModel;
