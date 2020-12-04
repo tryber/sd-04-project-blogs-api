@@ -17,6 +17,12 @@ const registerUser = (sequelize, DataTypes) => {
     },
     { timestamps: false },
   );
+  User.associate = (models) => {
+    User.hasMany(models.Post, {
+      foreignKey: 'id',
+      as: 'user',
+    });
+  };
   return User;
 };
 
