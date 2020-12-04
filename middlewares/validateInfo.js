@@ -34,7 +34,7 @@ const loginErrorDealer = async (req, res, next) => {
   }
 };
 
-const postErrorDealer = async ( req, res, next ) => {
+const postErrorDealer = async (req, res, next) => {
   try {
     await checkPost(req.body);
     next();
