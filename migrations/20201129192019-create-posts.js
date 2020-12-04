@@ -14,7 +14,7 @@ module.exports = {
       content: { type: Sequelize.STRING, allowNull: false },
       published: { type: Sequelize.DATE, allowNull: false },
       updated: { type: Sequelize.DATE, allowNull: false },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         onUpdate: 'CASCADE',

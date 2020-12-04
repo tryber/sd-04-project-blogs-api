@@ -53,8 +53,30 @@ const validatePassword = (req, res, next) => {
   next();
 };
 
+const validatePostTitle = (req, res, next) => {
+  const { title } = req.body;
+
+  if (!title) {
+    return res.status(400).json({ message: '"title" is required' });
+  }
+
+  next();
+};
+
+const validatePostContent = (req, res, next) => {
+  const { content } = req.body;
+
+  if (!content) {
+    return res.status(400).json({ message: '"content" is required' });
+  }
+
+  next();
+};
+
 module.exports = {
   validateDisplayName,
   validateEmail,
   validatePassword,
+  validatePostTitle,
+  validatePostContent,
 };

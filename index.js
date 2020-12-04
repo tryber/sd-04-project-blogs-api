@@ -15,5 +15,6 @@ app.get('/', (request, response) => {
 
 app.use('/user', routes.userRouter);
 app.use('/login', routes.loginRouter);
+app.use('/post', routes.postRouter);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
