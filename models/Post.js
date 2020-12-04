@@ -24,7 +24,7 @@ const createPost = (sequelize, DataTypes) => {
         defaultValue: DataTypes.NOW,
       },
     },
-    { timestamps: false }
+    { timestamps: false },
   );
   Post.associate = (models) => {
     Post.belongsTo(models.User, {
