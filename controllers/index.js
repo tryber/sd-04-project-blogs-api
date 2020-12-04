@@ -5,7 +5,11 @@ const {
   deleteUser,
 } = require('./userController');
 const { loginUser } = require('./loginController');
-const { createPost, getAllPostsUser } = require('./blogController');
+const {
+  createPost,
+  getAllPostsUser,
+  getPostById,
+} = require('./blogController');
 
 module.exports = {
   registerUser,
@@ -15,4 +19,5 @@ module.exports = {
   loginUser,
   createPost,
   getAllPostsUser,
+  getPostById,
 };

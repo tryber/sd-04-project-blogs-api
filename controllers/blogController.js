@@ -47,4 +47,20 @@ const getAllPostsUser = rescue(async (req, res) => {
   return res.status(200).json(allPost);
 });
 
-module.exports = { createPost, getAllPostsUser };
+const getPostById = rescue(async (req, res) => {
+  const postId = await BlogPost.findByPk(req.params.id, {
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+    ],
+  });
+
+  if (!postId) return res.status(404).json({ message: 'Post não existe' });
+
+  return res.status(200).json(postId);
+});
+
+module.exports = { createPost, getAllPostsUser, getPostById };
