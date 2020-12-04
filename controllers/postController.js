@@ -37,11 +37,11 @@ router.delete('/:id', validateJwt, async (req, res) => {
     const { data } = req.user;
     const userLogId = data.dataValues.id;
     const paramsId = req.params.id;
-    const post = await Post.findByPk( paramsId, {
+    const post = await Post.findByPk(paramsId, {
       attributes: { exclude: ['userId'] },
       include: { model: User, as: 'user' },
     });
-    if ( post.user.id === userLogId) {
+    if (post.user.id === userLogId) {
       await User.destroy({ where: { id: paramsId } });
       res.status(204).json();
     }
