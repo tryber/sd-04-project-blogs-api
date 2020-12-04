@@ -12,10 +12,6 @@ module.exports = async (req, res, next) => {
 
     const payload = JWT.verify(authorization, secretKey);
 
-    // if (!payload) {
-    //   return res.status(401).json({ message: 'Token expirado ou inválido' });
-    // }
-
     const user = await User.findByPk(payload.userId);
     req.user = user;
     next();
