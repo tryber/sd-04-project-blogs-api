@@ -1,5 +1,20 @@
 const { User } = require('../models');
 
+/**
+ * getDate
+ *
+ * Função que obtên a data e hora atual
+ * Referência
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC
+ * 2020-12-1 12:00:00
+ */
+const getDate = async () => {
+  const date = await new Date();
+  const formatDate = new Date(date).toISOString();
+
+  return formatDate;
+};
+
 const findUserByEmail = async (find) => {
   const findUser = await User.findOne({ where: { email: find } });
   // console.log('Resulte', result);
@@ -41,4 +56,4 @@ const verifyLogin = async (req, res, next) => {
   }
   return res.status(400).json({ message: 'Campos inválidos' });
 };
-module.exports = { verifyUser, verifyLogin };
+module.exports = { verifyUser, verifyLogin, findUserByEmail, getDate };

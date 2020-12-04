@@ -5,6 +5,7 @@ const {
   deleteUser,
 } = require('./userController');
 const { loginUser } = require('./loginController');
+const { createPost, getAllPostsUser } = require('./blogController');
 
 module.exports = {
   registerUser,
@@ -12,4 +13,6 @@ module.exports = {
   getUserById,
   deleteUser,
   loginUser,
+  createPost,
+  getAllPostsUser,
 };

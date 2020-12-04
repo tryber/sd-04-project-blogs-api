@@ -1,14 +1,13 @@
-const inputs = require('./validateInputs');
+const { validateUser } = require('./validateInputs');
 
 const validateCreateUser = async (req, res, next) => {
   const { displayName, email, password } = req.body;
 
-  const validations = inputs.validate({ displayName, email, password });
-
-  if (validations.error) {
-    return res.status(400).json({ message: validations.error.message });
+  const verify = await validateUser.validate({ displayName, email, password });
+  if (verify.error) {
+    // console.log(verify);
+    return res.status(400).json({ message: verify.error.message });
   }
-
   next();
 };
 

@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-const fieldsValidate = Joi.object({
+const validateUser = Joi.object({
   displayName: Joi.string()
     .options({ allowUnknown: true })
     .trim()
@@ -21,11 +21,27 @@ const fieldsValidate = Joi.object({
       'string.empty': '"email" is not allowed to be empty',
       'any.required': '"email" is required',
     }),
-  password: Joi.string().min(6).required().messages({
+  password: Joi.string().required().min(6).messages({
     'string.min': '"password" length must be 6 characters long',
     'string.empty': '"password" is not allowed to be empty',
     'any.required': '"password" is required',
   }),
 });
 
-module.exports = fieldsValidate;
+const validateBlog = Joi.object({
+  title: Joi.string().required().messages({
+    'string.base': '"title" is required',
+    'string.empty': '"title" is required',
+    'any.required': '"title" is required',
+  }),
+  content: Joi.string().required().messages({
+    'string.base': '"content" is required',
+    'string.empty': '"content" is required',
+    'any.required': '"content" is required',
+  }),
+});
+
+module.exports = {
+  validateUser,
+  validateBlog,
+};
