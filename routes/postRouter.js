@@ -30,4 +30,6 @@ router.put(
   postController.updatePost,
 );
 
+router.delete('/:id', tokenAuthorization, postController.deletePost);
+
 module.exports = router;

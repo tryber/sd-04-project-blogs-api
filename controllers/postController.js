@@ -99,10 +99,31 @@ const searchPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  const { id: postId } = req.params;
+  const { id: userId } = req.user;
+
+  const postToDelete = await Post.findByPk(postId);
+
+  console.log(postToDelete);
+
+  if (!postToDelete) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+
+  if (postToDelete.dataValues.userId !== userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  await Post.destroy({ where: { id: postId } });
+  res.status(204).end();
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   updatePost,
   searchPost,
+  deletePost,
 };
