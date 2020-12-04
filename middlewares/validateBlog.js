@@ -1,4 +1,3 @@
-const { verify } = require('jsonwebtoken');
 const { validateBlog } = require('./validateInputs');
 
 const validateCreatBlog = async (req, res, next) => {

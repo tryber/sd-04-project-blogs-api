@@ -10,7 +10,7 @@ const createPost = rescue(async (req, res) => {
     // // Obtên o id do usuário logado
     const reqEmail = req.user.email;
     const userEmail = await findUserByEmail(reqEmail);
-    const { id } = await userEmail.toJSON();    
+    const { id } = await userEmail.toJSON();
     const userId = id;
 
     // Obtên a data e hora da criação do Post

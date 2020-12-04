@@ -12,7 +12,7 @@ const blogPost = (sequelize, DataTypes) => {
     {
       createdAt: 'published',
       updatedAt: 'published',
-    }
+    },
   );
 
   defineBlog.associate = (models) => {
