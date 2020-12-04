@@ -20,4 +20,12 @@ router.get('/', tokenAuthorization, postController.getAllPosts);
 
 router.get('/:id', tokenAuthorization, postController.getPostById);
 
+router.put(
+  '/:id',
+  tokenAuthorization,
+  validatePostTitle,
+  validatePostContent,
+  postController.updatePost,
+);
+
 module.exports = router;

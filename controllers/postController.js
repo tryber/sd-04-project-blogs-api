@@ -53,8 +53,32 @@ const getPostById = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  try {
+    const { id: postId } = req.params;
+    const { id: userId } = req.user;
+    const { title, content } = req.body;
+
+    const updatedPost = await Post.update(
+      { title, content },
+      { where: { id: postId, userId } },
+    );
+
+    if (!updatedPost[0]) throw new Error('ERR_USER_NOT_AUTHORIZED');
+
+    res.status(200).json({ title, content, userId });
+  } catch (err) {
+    console.error(err);
+    if (err.message === 'ERR_USER_NOT_AUTHORIZED') {
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };
