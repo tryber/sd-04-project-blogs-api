@@ -6,6 +6,8 @@ const { validateToken } = require('../service');
 const postsRouter = Router();
 
 postsRouter
-  .post('/', validateToken, middleware.validatePosts, postsController.createPostsControl);
+  .post('/', validateToken, middleware.validatePosts, postsController.createPostsControl)
+  .get('/', validateToken, postsController.listAllPostControl)
+  .get('/:id', validateToken, postsController.getPostById);
 
 module.exports = postsRouter;

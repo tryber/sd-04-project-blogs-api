@@ -14,4 +14,29 @@ const createPostsControl = async (req, res) => {
   });
 };
 
-module.exports = { createPostsControl };
+const listAllPostControl = async (req, res) => {
+  const allPosts = await Posts.findAll({
+    include: { model: Users, as: 'user' },
+    atributes: { exclude: ['userId'] },
+  });
+
+  return res.status(200).json(allPosts);
+};
+
+const getPostById = async (req, res) => {
+  const { id } = req.params;
+  const post = await Posts.findOne({
+    where: { id },
+    include: { model: Users, as: 'user' },
+    atributes: { exclude: ['userId'] },
+  });
+
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+  return res.status(200).json(post);
+};
+
+module.exports = {
+  createPostsControl,
+  listAllPostControl,
+  getPostById,
+};
