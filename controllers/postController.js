@@ -32,4 +32,24 @@ router.get('/:id', validateJwt, async (req, res) => {
   res.status(200).json(post);
 });
 
+router.delete('/:id', validateJwt, async (req, res) => {
+  try {
+    const { data } = req.user;
+    const userLogId = data.dataValues.id;
+    const paramsId = req.params.id;
+    const post = await Post.findByPk( paramsId, {
+      attributes: { exclude: ['userId'] },
+      include: { model: User, as: 'user' },
+    });
+    if ( post.user.id === userLogId) {
+      await User.destroy({ where: { id: paramsId } });
+      res.status(204).json();
+    }
+    res.status(401).json({ message: 'Usuário não autorizado' });
+  } catch (e) {
+    console.log(e.message);
+    res.status(404).json({ message: 'Post não existe' });
+  }
+});
+
 module.exports = router;
