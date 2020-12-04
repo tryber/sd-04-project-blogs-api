@@ -8,6 +8,7 @@ const postsRouter = Router();
 postsRouter
   .post('/', validateToken, middleware.validatePosts, postsController.createPostsControl)
   .get('/', validateToken, postsController.listAllPostControl)
-  .get('/:id', validateToken, postsController.getPostById);
+  .get('/:id', validateToken, postsController.getPostById)
+  .put('/:id', validateToken, middleware.validatePosts, postsController.updatePost);
 
 module.exports = postsRouter;

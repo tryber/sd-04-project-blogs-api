@@ -35,8 +35,26 @@ const getPostById = async (req, res) => {
   return res.status(200).json(post);
 };
 
+const updatePost = async (req, res) => {
+  const { title, content } = req.body;
+  const { email } = req.user;
+
+  const post = await Posts.findOne({ where: { id: req.params.id } });
+  const user = await Users.findOne({ where: { email } });
+
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+  if (post.dataValues.userId !== user.dataValues.id) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  Posts.update({ title, content }, { where: { id: req.params.id } });
+
+  return res.status(200).json({ title, content, userId: post.dataValues.userId });
+};
+
 module.exports = {
   createPostsControl,
   listAllPostControl,
   getPostById,
+  updatePost,
 };
