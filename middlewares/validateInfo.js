@@ -34,13 +34,13 @@ const loginErrorDealer = async (req, res, next) => {
   }
 };
 
-const postErrorDealer = async ( req, res, next) => {
+const postErrorDealer = async ( req, res, next ) => {
   try {
     await checkPost(req.body);
     next();
   } catch (er) {
-    res.status(400).json({ message: er.details[0].message })
+    res.status(400).json({ message: er.details[0].message });
   }
-}
+};
 
 module.exports = { userErrorDealer, loginErrorDealer, postErrorDealer };
