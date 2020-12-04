@@ -105,8 +105,6 @@ const deletePost = async (req, res) => {
 
   const postToDelete = await Post.findByPk(postId);
 
-  console.log(postToDelete);
-
   if (!postToDelete) {
     return res.status(404).json({ message: 'Post não existe' });
   }
