@@ -9,6 +9,7 @@ const {
   createPost,
   getAllPostsUser,
   getPostById,
+  deletePost,
 } = require('./blogController');
 
 module.exports = {
@@ -20,4 +21,5 @@ module.exports = {
   createPost,
   getAllPostsUser,
   getPostById,
+  deletePost,
 };

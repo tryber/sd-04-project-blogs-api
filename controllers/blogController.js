@@ -63,4 +63,23 @@ const getPostById = rescue(async (req, res) => {
   return res.status(200).json(postId);
 });
 
-module.exports = { createPost, getAllPostsUser, getPostById };
+const deletePost = rescue(async (req, res) => {
+  const { email } = req.user;
+
+  const userEmail = await findUserByEmail(email);
+  const userPost = await BlogPost.findOne({ where: { userId: req.params.id } });
+
+  if (!userPost) return res.status(404).json({ message: 'Post não existe' });
+
+  if (userEmail.dataValues.id !== userPost.dataValues.userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  await BlogPost.destroy({
+    where: { userId: req.params.id },
+  });
+
+  return res.status(204).json();
+});
+
+module.exports = { createPost, getAllPostsUser, getPostById, deletePost };
