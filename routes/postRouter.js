@@ -18,4 +18,6 @@ router.post(
 
 router.get('/', tokenAuthorization, postController.getAllPosts);
 
+router.get('/:id', tokenAuthorization, postController.getPostById);
+
 module.exports = router;

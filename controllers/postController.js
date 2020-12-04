@@ -20,7 +20,7 @@ const createPost = async (req, res) => {
   }
 };
 
-const getAllPosts = async (req, res) => {
+const getAllPosts = async (_req, res) => {
   try {
     const foundPosts = await Post.findAll({
       include: { model: User, as: 'user' },
@@ -33,7 +33,28 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+const getPostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const foundPost = await Post.findOne({
+      where: { id },
+      include: { model: User, as: 'user' },
+      attributes: { exclude: ['userId'] },
+    });
+
+    if (!foundPost) {
+      return res.status(404).json({ message: 'Post não existe' });
+    }
+
+    res.status(200).json(foundPost);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
+  getPostById,
 };
