@@ -5,6 +5,7 @@ const {
   validateEmail,
   validatePassword,
 } = require('../middlewares/inputsValidation');
+const tokenAuthorization = require('../middlewares/tokenAuthorization');
 
 const router = express.Router();
 
@@ -16,6 +17,6 @@ router.post(
   userController.createUser,
 );
 
-router.get('/', userController.getUser);
+router.get('/', tokenAuthorization, userController.getAllUsers);
 
 module.exports = router;

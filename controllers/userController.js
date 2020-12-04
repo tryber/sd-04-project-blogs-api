@@ -27,13 +27,19 @@ const createUser = async (req, res) => {
   }
 };
 
-const getUser = async (req, res) => {
+const getUserByEmail = async (req, res) => {
   const { email } = req.body;
   const foundUser = await User.findOne({ where: { email } });
   res.status(200).json(foundUser);
 };
 
+const getAllUsers = async (req, res) => {
+  const foundUsers = await User.findAll();
+  res.status(200).json(foundUsers);
+};
+
 module.exports = {
   createUser,
-  getUser,
+  getUserByEmail,
+  getAllUsers,
 };
