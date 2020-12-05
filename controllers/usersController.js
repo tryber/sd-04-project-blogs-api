@@ -36,7 +36,7 @@ router.get('/:id', validateToken, async (req, res) => {
   }
   return res.status(200).json(user);
 });
-
+// evaluator
 router.delete('/me', validateToken, async (req, res) => {
   const { email } = req.user;
   await Users.destroy({ where: { email } });
