@@ -6,7 +6,7 @@ const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({ message: 'Missing auth token' });
+    return res.status(401).json({ message: 'Token não encontrado' });
   }
 
   try {
@@ -14,7 +14,7 @@ const validateToken = async (req, res, next) => {
     req.user = verify;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Malformed token' });
+    return res.status(401).json({ message: 'Token expirado ou inválido' });
   }
 };
 
