@@ -44,4 +44,20 @@ router.get('/:id', validateToken, async (req, res) => {
   return res.status(200).json(post);
 });
 
+router.put(
+  '/:id',
+  validateToken,
+  postsValidation.validateTitle,
+  postsValidation.validateContent,
+  postsValidation.validatePostAuthor,
+  async (req, res) => {
+    const { userId } = req.user;
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    await Posts.update({ title, content }, { where: { id } });
+    return res.status(200).json({ title, content, userId });
+  },
+);
+
 module.exports = router;
