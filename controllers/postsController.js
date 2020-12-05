@@ -24,4 +24,11 @@ router.post(
   },
 );
 
+router.get('/', validateToken, async (_req, res) => {
+  const allPosts = await Posts.findAll({
+    include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
+  });
+  return res.status(200).json(allPosts);
+});
+
 module.exports = router;
