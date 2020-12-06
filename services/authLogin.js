@@ -19,10 +19,10 @@ const authLogin = async (email, password) => {
         return { token };
       }
       default:
-        return { message: 'Cargos inválidos' };
+        return;
     }
   } catch (error) {
-    return { message: 'Cargos inválidos' };
+    return { message: 'Campos inválidos', code: 400 };
   }
 };
 

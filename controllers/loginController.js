@@ -4,14 +4,9 @@ const authLogin = require('../services/authLogin');
 const login = express.Router();
 
 login.post('/', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const sucessLogin = await authLogin(email, password);
-    console.log('sucess', sucessLogin);
-    return res.status(200).json(sucessLogin);
-  } catch (error) {
-    return res.status(400).json({ message: error.message });
-  }
+  const { email, password } = req.body;
+  const sucessLogin = await authLogin(email, password);
+  return res.status(sucessLogin.code).json({ message: sucessLogin.message });
 });
 
 module.exports = login;

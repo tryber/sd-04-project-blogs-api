@@ -15,7 +15,7 @@ users.post('/', async (req, res) => {
   } catch (error) {
     console.log(error.message);
     const valid = validationUser(error.message);
-    return res.status(valid.code).json(valid.message);
+    return res.status(valid.code).json({ message: valid.message });
   }
 });
 
@@ -30,14 +30,13 @@ users.get('/', authMiddleware, async (req, res) => {
 });
 
 // Trazer um ID especifico de usuario!!
-users.get('/:id', async (req, res) => {
+users.get('/:id', authMiddleware, async (req, res) => {
   try {
-    // FAZ UM PEDIDO DE UM MODEL TRAZENDO O ID
-    const { id } = req.params;
-    const result = await User.findByPk(id);
+    const { email } = req.body;
+    const result = await User.findOne({ where: { email } });
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(404).json({ message: 'Usuário não existe' });
   }
 });
 
