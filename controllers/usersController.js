@@ -11,11 +11,11 @@ users.post('/', async (req, res) => {
   try {
     const allUsers = await User.create({ ...req.body });
     const token = await createToken({ ...allUsers });
-    return res.status(200).json({ token });
+    return res.status(201).json({ token });
   } catch (error) {
     console.log(error.message);
     const valid = validationUser(error.message);
-    return res.status(500).json(valid);
+    return res.status(valid.code).json(valid.message);
   }
 });
 
@@ -27,7 +27,7 @@ users.get('/:id', async (req, res) => {
     const result = await User.findByPk(id);
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 });
 
