@@ -19,6 +19,16 @@ users.post('/', async (req, res) => {
   }
 });
 
+// ROTA PARA TRAZER TODOS OS USUARIOS CADASTRADOS NO SISTEMA
+users.get('/', authMiddleware, async (req, res) => {
+  try {
+    const result = await User.findAll();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 // Trazer um ID especifico de usuario!!
 users.get('/:id', async (req, res) => {
   try {
@@ -28,16 +38,6 @@ users.get('/:id', async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     return res.status(400).json({ message: error.message });
-  }
-});
-
-// ROTA PARA TRAZER TODOS OS USUARIOS CADASTRADOS NO SISTEMA
-users.get('/', authMiddleware, async (req, res) => {
-  try {
-    const result = await User.findAll();
-    return res.status(200).json(result);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
   }
 });
 
