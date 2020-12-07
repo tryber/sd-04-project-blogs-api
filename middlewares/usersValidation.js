@@ -14,9 +14,9 @@ const isEmailAlreadyRegistered = async (req, res, next) => {
   const { email } = req.body;
   const emailAlreadyRegistered = await Users.findOne({ where: { email } });
 
-  if (!emailAlreadyRegistered) return next();
+  if (emailAlreadyRegistered) return res.status(409).json({ message: 'Usuário já existe' });
 
-  return res.status(409).json({ message: 'Usuário já existe' });
+  next();
 };
 
 const isEmailValid = async (req, res, next) => {
@@ -46,8 +46,8 @@ const isEmailRequired = async (req, res, next) => {
 
 const passwordLengthValidation = async (req, res, next) => {
   const { password } = req.body;
-
-  if (password.length >= 6) return next();
+  const passwordRegex = /^(\d|\w){6,}$/;
+  if (passwordRegex.test(password)) return next();
 
   return res.status(400).json({ message: '"password" length must be 6 characters long' });
 };
@@ -55,9 +55,17 @@ const passwordLengthValidation = async (req, res, next) => {
 const isPasswordEmpty = async (req, res, next) => {
   const { password } = req.body;
 
-  if (password !== '') return next();
+  if (password === '') return res.status(400).json({ message: '"password" is not allowed to be empty' });
 
-  return res.status(400).json({ message: '"password" is not allowed to be empty' });
+  next();
+};
+
+const passwordRequired = async (req, res, next) => {
+  const { password } = req.body;
+
+  if (password) return next();
+
+  return res.status(400).json({ message: '"password" is required' });
 };
 
 module.exports = {
@@ -68,4 +76,5 @@ module.exports = {
   isEmailRequired,
   passwordLengthValidation,
   isPasswordEmpty,
+  passwordRequired,
 };

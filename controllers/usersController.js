@@ -3,12 +3,12 @@ const { Users } = require('../models');
 const createToken = require('../services/createToken');
 const {
   displayNameValidation,
-  isEmailAlreadyRegistered,
   isEmailValid,
   isEmailEmpty,
   isEmailRequired,
   passwordLengthValidation,
-  isPasswordEmpty } = require('../middlewares/usersValidation');
+  isPasswordEmpty,
+  passwordRequired, } = require('../middlewares/usersValidation');
 
 const router = Router();
 
@@ -27,18 +27,23 @@ router.get('/', async (_req, res) => {
 
 // cadastrar um novo usuário.
 router.post('/',
-  isEmailAlreadyRegistered,
-  isEmailEmpty,
+  isPasswordEmpty,
+  passwordRequired,
   isEmailRequired,
+  passwordLengthValidation,
+  isEmailEmpty,
   isEmailValid,
   displayNameValidation,
-  isPasswordEmpty,
-  passwordLengthValidation,
   async (req, res) => {
     try {
       const { displayName, email, password, image } = req.body;
+
+      const emailAlreadyRegistered = await Users.findOne({ where: { email } });
+      if (emailAlreadyRegistered) return res.status(409).json({ message: 'Usuário já existe' });
+
       const token = createToken({ email, password });
       await Users.create({ displayName, email, password, image });
+
       return res.status(201).json(token);
     } catch (e) {
       console.error('createUser', e.message);
