@@ -8,7 +8,7 @@ const {
   isEmailRequired,
   passwordLengthValidation,
   isPasswordEmpty,
-  passwordRequired, } = require('../middlewares/usersValidation');
+  passwordRequired } = require('../middlewares/usersValidation');
 
 const router = Router();
 
