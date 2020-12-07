@@ -22,8 +22,6 @@ const createUser = async ({ displayName, email, password, image }) => {
 const loginUser = async ({ email, password }) => {
   const dbUser = await User.findAll({ where: { email } });
 
-  console.log(dbUser);
-
   if (dbUser.length === 0) return { message: 'Campos inválidos' };
 
   const token = await createToken({

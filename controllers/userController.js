@@ -1,4 +1,5 @@
-const { userService: { createUser, loginUser } } = require('../services');
+const { userService: { createUser, loginUser, getUsers } } = require('../services');
+const { User } = require('../models');
 
 const createUserController = async ({ body }, res) => {
   try {
@@ -26,7 +27,18 @@ const loginUserController = async ({ body }, res) => {
   }
 };
 
+const getUsersController = async (req, res) => {
+  try {
+    const users = await User.findAll();
+
+    return res.status(200).json(users);
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createUserController,
   loginUserController,
+  getUsersController,
 };
