@@ -9,7 +9,16 @@ const validateName = (status, message) =>
 
 const validateEmail = (status, message) =>
   ({ body: { email } }, res, next) => {
-    if (!email) return res.status(status).json({ message });
+    console.log(email);
+    console.log(email === true);
+    if (typeof email === 'undefined') return res.status(status).json({ message });
+
+    next();
+  };
+
+const validateEmailEmpty = (status, message) =>
+  ({ body: { email } }, res, next) => {
+    if (email === '') return res.status(status).json({ message });
 
     next();
   };
@@ -25,7 +34,14 @@ const validateEmailRegex = (status, message) =>
 
 const validatePassword = (status, message) =>
   ({ body: { password } }, res, next) => {
-    if (!password) return res.status(status).json({ message });
+    if (typeof password === 'undefined') return res.status(status).json({ message });
+
+    next();
+  };
+
+const validatePasswordEmpty = (status, message) =>
+  ({ body: { password } }, res, next) => {
+    if (password === '') return res.status(status).json({ message });
 
     next();
   };
@@ -40,7 +56,9 @@ const validatePasswordSize = (status, message) =>
 module.exports = {
   validateName,
   validateEmail,
+  validateEmailEmpty,
   validateEmailRegex,
   validatePassword,
+  validatePasswordEmpty,
   validatePasswordSize,
 };
