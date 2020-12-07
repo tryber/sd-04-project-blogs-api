@@ -3,9 +3,9 @@ module.exports = {
     .createTable('Users', {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
       },
       displayName: {
         type: Sequelize.STRING,
@@ -21,14 +21,6 @@ module.exports = {
         allowNull: false,
       },
       image: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
         type: Sequelize.STRING,
         allowNull: false,
       },
