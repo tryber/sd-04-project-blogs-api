@@ -46,7 +46,7 @@ router.get('/:id',
     }
   });
 
-// cadastrar um novo usuário.
+// Cadastrar um novo usuário.
 router.post('/',
   isPasswordEmpty,
   passwordRequired,
@@ -68,6 +68,22 @@ router.post('/',
       return res.status(201).json(token);
     } catch (e) {
       console.error('createUser', e.message);
+      return res.status(500).json({ message: 'Error Intern' });
+    }
+  });
+
+// Deletar um usuário
+router.delete('/me',
+  validateToken,
+  async (req, res) => {
+    try {
+      const { email } = req.user;
+
+      await Users.destroy({ where: { email } });
+
+      return res.status(204).end();
+    } catch (e) {
+      console.error('deleteUser', e.message);
       return res.status(500).json({ message: 'Error Intern' });
     }
   });
