@@ -5,7 +5,7 @@ const schema = Joi.object({
   password: Joi.string().required(),
 });
 
-const validateLogin = (req, res, next) => {
+const validadeUsers = (req, res, next) => {
   const { email, password } = req.body;
   const { error } = schema.validate({ email, password });
 
@@ -15,4 +15,4 @@ const validateLogin = (req, res, next) => {
   next();
 };
 
-module.exports = validateLogin;
+module.exports = validadeUsers;
