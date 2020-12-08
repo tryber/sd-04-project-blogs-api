@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const secret = 'mayTheForceBeWithYou';
 
-const validateToken = (req, res, next) => {
+const validateJWT = (req, res, next) => {
   try {
     const token = req.headers.authorization;
 
@@ -22,4 +22,4 @@ const validateToken = (req, res, next) => {
   }
 };
 
-module.exports = validateToken;
+module.exports = validateJWT;

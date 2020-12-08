@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use('/user', controllers.userController);
-// app.use('/login', controllers.loginController);
+app.use('/login', controllers.loginController);
 // app.use('/post', controllers.postController);
 
 // não remova esse endpoint, e para o avaliador funcionar
