@@ -1,42 +1,36 @@
 module.exports = {
-
   up: async (queryInterface, Sequelize) => {
-    const PostsTable = queryInterface.createTable('Posts', {
+    const blogTable = queryInterface.createTable('Posts', {
       id: {
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      content: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      title: { allowNull: false, type: Sequelize.STRING },
+      content: { allowNull: false, type: Sequelize.STRING },
       userId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
+        allowNull: false,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: { model: 'Users', key: 'id' },
+        type: Sequelize.INTEGER,
       },
       createdAt: {
-        type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: new Date(),
         field: 'published',
+        type: Sequelize.DATE,
       },
       updatedAt: {
-        type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: new Date(),
         field: 'updated',
+        type: Sequelize.DATE,
       },
     });
-    return PostsTable;
+
+    return blogTable;
   },
 
   down: async (queryInterface, _Sequelize) => {
