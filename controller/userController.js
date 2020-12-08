@@ -17,3 +17,8 @@ router.post('/', middlewares.validateUsers, async (req, res) => {
   const token = JWT.createJWT({ email, password });
   return res.status(201).json({ token });
 });
+
+router.get('/', JWT.validateJWT, async (req, res) => {
+  const allUsers = await Users.findAll({ attributes: { exclues: ['password'] } });
+  return res.status(200).json(allUsers);
+});
