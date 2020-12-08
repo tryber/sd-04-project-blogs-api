@@ -24,11 +24,11 @@ router.get('/', JWT.validateJWT, async (req, res) => {
   return res.status(200).json(allUsers);
 });
 
-router.get('/:id', JWT.validateJWT, async(req, res) => {
+router.get('/:id', JWT.validateJWT, async (req, res) => {
   const { id } = req.params;
   const user = await Users.findOne({ where: { id } });
   if (!user) {
     return res.status(404).json({ message: 'Usuário não existe' });
   }
   return res.status(200).json(user);
-};
+});
