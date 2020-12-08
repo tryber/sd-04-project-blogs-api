@@ -33,4 +33,21 @@ router.post('/',
     }
   });
 
+// Lista todos os Posts.
+router.get('/',
+  validateToken,
+  async (_req, res) => {
+    try {
+      const allPosts = await Posts.findAll({
+        include: { model: Users, as: 'user' },
+        attributes: { exclude: ['userId'] },
+      });
+
+      return res.status(200).json(allPosts);
+    } catch (e) {
+      console.error('getAllPosts', e.message);
+      return res.status(500).json({ message: 'Error Intern' });
+    }
+  });
+
 module.exports = router;

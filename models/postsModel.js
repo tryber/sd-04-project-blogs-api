@@ -7,7 +7,7 @@ const PostsModel = (sequelize, DataTypes) => {
       content: DataTypes.STRING,
       userId: { type: DataTypes.INTEGER, foreignKey: true },
     },
-    { timestamps: false },
+    { createdAt: 'published', updatedAt: 'updated' },
   );
 
   Posts.associate = (models) => {
