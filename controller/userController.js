@@ -2,7 +2,6 @@ const express = require('express');
 const { Users } = require('../models');
 const JWT = require('../service');
 const middlewares = require('../middlewares');
-const validateToken = require('../service/validateJWT');
 
 const router = express.Router();
 
