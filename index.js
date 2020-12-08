@@ -20,4 +20,6 @@ app.get('/', (request, response) => {
 // ROTA PARA CONTROLAR USUARIOS!!
 app.use('/user', controllers.users);
 
+app.use('/login', controllers.login);
+
 app.listen(PORT, () => console.log(`Listening PORT: ${PORT}`));
