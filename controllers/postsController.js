@@ -50,4 +50,26 @@ router.get('/',
     }
   });
 
+// Lista post pelo ID.
+router.get('/:id',
+  validateToken,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const post = await Posts.findOne({
+        where: { id },
+        include: { model: Users, as: 'user' },
+        attributes: { exclude: ['userId'] },
+      });
+
+      if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+      return res.status(200).json(post);
+    } catch (e) {
+      console.error('getPostById', e.message);
+      return res.status(500).json({ message: 'Error Intern' });
+    }
+  });
+
 module.exports = router;
