@@ -5,7 +5,7 @@ const middlewares = require('../middlewares');
 
 const router = express.Router();
 
-router.post('/', middlewares.validateUsers, async (req, res) => {
+router.post('/', middlewares.validadeUsers, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   const userMail = await Users.findAll({ where: { email } });
