@@ -1,8 +1,7 @@
 const express = require('express');
-const { Users } = require('...models');
-const { createJTW } = require('../service');
+const { Users } = require('../model');
+const JWT = require('../service');
 const middlewares = require('../middlewares');
-const createToken = require('../services/createJWT');
 
 const router = express.Router();
 
@@ -15,6 +14,6 @@ router.post('/', middlewares.validateUsers, async (req, res) => {
   }
 
   await Users.create({ displayName, email, password, image });
-  const roken = createToken({ email, password });
+  const token = JWT.createJWT({ email, password });
   return res.status(201).json({ token });
 });
