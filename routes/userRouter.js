@@ -1,5 +1,9 @@
 const { Router } = require('express');
-const { userController: { createUserController, getUsersController } } = require('../controllers');
+const { userController: {
+  createUserController,
+  getAllUsersController,
+  getUserController,
+} } = require('../controllers');
 const { tokenAuth, userMiddlewares: {
   validateName,
   validateEmail,
@@ -26,6 +30,7 @@ userRouter.post('/',
   validatePasswordSize(400, PASSWORD_SIZE),
   createUserController);
 
-userRouter.get('/', tokenAuth, getUsersController);
+userRouter.get('/', tokenAuth, getAllUsersController);
+userRouter.get('/:id', tokenAuth, getUserController);
 
 module.exports = userRouter;

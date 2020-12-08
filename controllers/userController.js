@@ -1,4 +1,4 @@
-const { userService: { createUser, loginUser, getUsers } } = require('../services');
+const { userService: { createUser, loginUser } } = require('../services');
 const { User } = require('../models');
 
 const createUserController = async ({ body }, res) => {
@@ -27,7 +27,7 @@ const loginUserController = async ({ body }, res) => {
   }
 };
 
-const getUsersController = async (req, res) => {
+const getAllUsersController = async (_req, res) => {
   try {
     const users = await User.findAll();
 
@@ -37,8 +37,23 @@ const getUsersController = async (req, res) => {
   }
 };
 
+const getUserController = async ({ params: { id } }, res) => {
+  try {
+    const user = await User.findAll({ where: { id } });
+
+    console.log('User:', user);
+
+    if (user.length === 0) return res.status(404).json({ message: 'Usuário não existe' });
+
+    return res.status(200).json(user[0]);
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createUserController,
   loginUserController,
-  getUsersController,
+  getAllUsersController,
+  getUserController,
 };
