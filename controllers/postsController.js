@@ -4,6 +4,7 @@ const validateToken = require('../services/validateToken');
 const {
   titleRequired,
   contentRequired,
+  postOwnerValidation,
 } = require('../middlewares/postsValidation');
 
 const router = Router();
@@ -68,6 +69,31 @@ router.get('/:id',
       return res.status(200).json(post);
     } catch (e) {
       console.error('getPostById', e.message);
+      return res.status(500).json({ message: 'Error Intern' });
+    }
+  });
+
+// Atualiza um post (somente dono do post);.
+router.put('/:id',
+  validateToken,
+  titleRequired,
+  contentRequired,
+  postOwnerValidation,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { title, content } = req.body;
+
+      await Posts.update({ title, content }, { where: { id } });
+
+      const updatedPost = await Posts.findOne({
+        where: { id },
+        attributes: { exclude: ['id', 'published', 'updated'] },
+      });
+
+      return res.status(200).json(updatedPost);
+    } catch (e) {
+      console.error('putPostById', e.message);
       return res.status(500).json({ message: 'Error Intern' });
     }
   });
