@@ -8,7 +8,7 @@ const PORT = 3000;
 app.use(bodyParse.json());
 
 app.use('/user', controller.users);
-// app.use('/login', loginRouter);
+app.use('/login', controller.login);
 
 app.get('/', (_req, res) => res.send());
 app.listen(PORT, () => console.log(`ouvindo na porta ${PORT}!`));
