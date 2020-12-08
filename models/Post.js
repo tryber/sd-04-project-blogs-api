@@ -5,11 +5,11 @@ const Post = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     // published: DataTypes.DATE,
     // updated: DataTypes.DATE,
-  });
+  },);
   Post.associate = (models) => {
-    Post.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
+    Post.belongsTo(models.Users, { as: 'user', foreignKey: 'userId' });
   };
-  return Posts;
+  return Post;
 };
 
-module.exports = Posts;
+module.exports = Post;
