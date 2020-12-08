@@ -98,4 +98,21 @@ router.put('/:id',
     }
   });
 
+// Deleta Post (somente dono do post)
+router.delete('/:id',
+  validateToken,
+  postOwnerValidation,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      await Posts.destroy({ where: { id } });
+
+      return res.status(204).end();
+    } catch (e) {
+      console.error('deletePostById', e.message);
+      return res.status(500).json({ message: 'Error Intern' });
+    }
+  });
+
 module.exports = router;
