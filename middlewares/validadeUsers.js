@@ -11,7 +11,7 @@ const validateUser = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
   const { error } = schema.validate({ displayName, email, password, image });
   if (error) {
-    return res.statur(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 
   next();

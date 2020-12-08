@@ -14,7 +14,7 @@ router.post('/', middlewares.validadeLogin, async (req, res) => {
   }
 
   const token = JWT.createJWT({ email, password });
-  return res.status(400).json({ token });
+  return res.status(200).json({ token });
 });
 
 module.exports = router;
