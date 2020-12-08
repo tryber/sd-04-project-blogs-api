@@ -31,3 +31,10 @@ router.get('/:id', JWT.validateJWT, async (req, res) => {
   }
   return res.status(200).json(user);
 });
+
+router.delete('/me', JWT.validateJWT, async (req, res) => {
+  const { id } = req.body;
+
+  Users.destroy({ where: { id } });
+  return res.status(204).json();
+});
