@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'MinhaSenhaMuitoComplexa123';
+const secret = 'mayTheForceBeWithYou';
 
 const validateToken = (req, res, next) => {
   try {
