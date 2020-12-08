@@ -38,3 +38,5 @@ router.delete('/me', JWT.validateJWT, async (req, res) => {
   Users.destroy({ where: { id } });
   return res.status(204).json();
 });
+
+module.exports = router;
