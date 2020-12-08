@@ -6,12 +6,9 @@ const createUser = async ({ displayName, email, password, image }) => {
 
   if (dbUser.length > 0) return { message: 'Usuário já existe' };
 
-  const { id } = await User.create({ displayName, email, password, image });
-
-  console.log(id);
+  await User.create({ displayName, email, password, image });
 
   const token = await createToken({
-    id,
     email,
     password,
   });

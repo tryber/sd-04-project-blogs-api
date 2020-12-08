@@ -9,7 +9,7 @@ const createUserController = async ({ body }, res) => {
 
     return res.status(201).json(newUser);
   } catch (_err) {
-    return res.status(500).json({ message: 'Unknow error' });
+    return res.status(500).json({ message: 'unknow error' });
   }
 };
 
@@ -23,7 +23,7 @@ const loginUserController = async ({ body }, res) => {
 
     return res.status(200).json(user);
   } catch (_err) {
-    return res.status(500).json({ message: 'Unknow error' });
+    return res.status(500).json({ message: 'unknow error' });
   }
 };
 
@@ -51,9 +51,20 @@ const getUserController = async ({ params: { id } }, res) => {
   }
 };
 
+const deleteUserController = async ({ user: { email } }, res) => {
+  try {
+    await User.destroy({ where: { email } });
+
+    return res.status(204).end();
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createUserController,
   loginUserController,
   getAllUsersController,
   getUserController,
+  deleteUserController,
 };

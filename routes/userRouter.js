@@ -3,6 +3,7 @@ const { userController: {
   createUserController,
   getAllUsersController,
   getUserController,
+  deleteUserController,
 } } = require('../controllers');
 const { tokenAuth, userMiddlewares: {
   validateName,
@@ -32,5 +33,6 @@ userRouter.post('/',
 
 userRouter.get('/', tokenAuth, getAllUsersController);
 userRouter.get('/:id', tokenAuth, getUserController);
+userRouter.delete('/me', tokenAuth, deleteUserController);
 
 module.exports = userRouter;
