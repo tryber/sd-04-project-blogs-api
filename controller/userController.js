@@ -1,5 +1,5 @@
 const express = require('express');
-const { Users } = require('../model');
+const { Users } = require('../models');
 const JWT = require('../service');
 const middlewares = require('../middlewares');
 
