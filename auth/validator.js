@@ -1,7 +1,7 @@
 const validator = (data, res) => {
   const teste = Object.keys(data);
-  if (teste.length < 2) {
-    return teste[0] === 'password'
+  if (teste.length < 2 || teste.length === 3) {
+    return teste.includes('password')
       ? res.status(400).json({ message: '"email" is required' })
       : res.status(400).json({ message: '"password" is required' });
   }
