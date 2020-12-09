@@ -8,12 +8,12 @@ const loginRoute = express.Router();
 
 loginRoute.post('/', async (req, res) => {
   try {
+    isRequireds(req.body, res);
     const usuario = await User.findOne({
       where: {
         [Op.and]: [{ email: req.body.email, password: req.body.password }],
       },
     });
-    isRequireds(req.body, res);
     console.log('usuuario', usuario);
     if (usuario) {
       const token = createToken(usuario.dataValues);

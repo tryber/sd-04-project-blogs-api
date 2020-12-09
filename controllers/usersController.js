@@ -1,5 +1,6 @@
 const express = require('express');
 const { User } = require('../models');
+const validateToken = require('../auth/validateToken');
 const createToken = require('../auth/createToken');
 const isRequireds = require('../auth/isRequireds');
 
@@ -22,6 +23,11 @@ usersRoute.post('/', async (req, res) => {
     const message = error.message.slice(18);
     res.status(400).json({ message });
   }
+});
+
+usersRoute.get('/', validateToken, async (req, res) => {
+  const getAll = await User.findAll();
+  res.status(200).json(getAll);
 });
 
 module.exports = usersRoute;
