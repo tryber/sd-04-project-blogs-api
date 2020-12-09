@@ -27,4 +27,10 @@ userRoute.get('/', validatejwt, async (_req, res) => {
   return res.status(200).json(users);
 });
 
+userRoute.get('/:id', validatejwt, async (req, res) => {
+  const user = await User.findByPk(req.params.id);
+  if (!user) return res.status(404).json({ message: 'Usuário não existe' });
+  return res.status(200).json(user);
+});
+
 module.exports = userRoute;
