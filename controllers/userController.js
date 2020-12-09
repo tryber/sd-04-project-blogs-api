@@ -17,8 +17,6 @@ const loginUserController = async ({ body }, res) => {
   try {
     const user = await loginUser(body);
 
-    console.log(user);
-
     if (user.message) return res.status(400).json(user);
 
     return res.status(200).json(user);
@@ -40,8 +38,6 @@ const getAllUsersController = async (_req, res) => {
 const getUserController = async ({ params: { id } }, res) => {
   try {
     const user = await User.findAll({ where: { id } });
-
-    console.log('User:', user);
 
     if (user.length === 0) return res.status(404).json({ message: 'Usuário não existe' });
 

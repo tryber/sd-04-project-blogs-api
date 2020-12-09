@@ -6,9 +6,10 @@ const createUser = async ({ displayName, email, password, image }) => {
 
   if (dbUser.length > 0) return { message: 'Usuário já existe' };
 
-  await User.create({ displayName, email, password, image });
+  const { dataValues: { id } } = await User.create({ displayName, email, password, image });
 
   const token = await createToken({
+    id,
     email,
     password,
   });
@@ -17,11 +18,12 @@ const createUser = async ({ displayName, email, password, image }) => {
 };
 
 const loginUser = async ({ email, password }) => {
-  const dbUser = await User.findAll({ where: { email } });
+  const { dataValues: { id } } = await User.findOne({ where: { email } });
 
-  if (dbUser.length === 0) return { message: 'Campos inválidos' };
+  if (!id) return { message: 'Campos inválidos' };
 
   const token = await createToken({
+    id,
     email,
     password,
   });

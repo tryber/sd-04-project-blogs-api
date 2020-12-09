@@ -9,8 +9,6 @@ const validateName = (status, message) =>
 
 const validateEmail = (status, message) =>
   ({ body: { email } }, res, next) => {
-    console.log(email);
-    console.log(email === true);
     if (typeof email === 'undefined') return res.status(status).json({ message });
 
     next();

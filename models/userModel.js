@@ -29,6 +29,11 @@ const createUserModel = (sequlize, DataTypes) => {
       timestamps: false,
     },
   );
+
+  User.associate = (models) => {
+    User.hasMany(models.Post, { foreignKey: 'userId', as: 'Post' });
+  };
+
   return User;
 };
 
