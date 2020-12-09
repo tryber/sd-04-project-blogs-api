@@ -13,6 +13,17 @@ const createPostController = async ({ body, user: { id } }, res) => {
   }
 };
 
+const getAllPostsController = async (req, res) => {
+  try {
+    const posts = await Post.findAll({ include: 'user' });
+
+    return res.status(200).json(posts);
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createPostController,
+  getAllPostsController,
 };
