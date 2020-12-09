@@ -2,6 +2,7 @@ const express = require('express');
 const { User } = require('../models');
 const createToken = require('../auth/jwtCreate');
 const validator = require('../auth/validator');
+const validatejwt = require('../auth/validatejwt');
 
 const userRoute = express.Router();
 
@@ -19,6 +20,11 @@ userRoute.post('/', async (req, res) => {
     const msg = error.message.slice(18);
     res.status(400).json({ message: msg });
   }
+});
+
+userRoute.get('/', validatejwt, async (_req, res) => {
+  const users = await User.findAll();
+  return res.status(200).json(users);
 });
 
 module.exports = userRoute;
