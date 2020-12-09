@@ -33,4 +33,10 @@ userRoute.get('/:id', validatejwt, async (req, res) => {
   return res.status(200).json(user);
 });
 
+userRoute.delete('/me', validatejwt, async (req, res) => {
+  const userId = req.user.id;
+  await User.destroy({ where: { id: userId } });
+  return res.status(204).json({});
+});
+
 module.exports = userRoute;
