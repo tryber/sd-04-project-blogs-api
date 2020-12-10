@@ -8,7 +8,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/users', controllers.users);
+app.use('/user', controllers.users);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
