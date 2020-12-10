@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { id, displayName, email, password, image } = req.body;
-  const newUser = await Users.create({ id, displayName, email, password, image });
+  const { displayName, email, password, image } = req.body;
+  const newUser = await Users.create({ displayName, email, password, image });
   res.status(200).json({ User: newUser });
 });
 
