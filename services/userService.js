@@ -18,12 +18,12 @@ const createUser = async ({ displayName, email, password, image }) => {
 };
 
 const loginUser = async ({ email, password }) => {
-  const { dataValues: { id } } = await User.findOne({ where: { email } });
+  const user = await User.findOne({ where: { email } });
 
-  if (!id) return { message: 'Campos inválidos' };
+  if (!user) return { message: 'Campos inválidos' };
 
   const token = await createToken({
-    id,
+    id: user.dataValues.id,
     email,
     password,
   });
