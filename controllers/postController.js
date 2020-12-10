@@ -1,5 +1,5 @@
 const { Post } = require('../models');
-const { postService: { getPost } } = require('../services');
+const { postService: { getPost, editPost } } = require('../services');
 
 const createPostController = async ({ body, user: { id } }, res) => {
   try {
@@ -35,8 +35,27 @@ const getPostController = async (req, res) => {
   }
 };
 
+const editPostController = async ({
+  body: { title, content },
+  params: { id },
+  user: { id: userId },
+}, res) => {
+  try {
+    const { status, message } = await editPost(title, content, id, userId);
+
+    if (status === 404) return res.status(status).json(message);
+
+    if (status === 401) return res.status(401).json({ message: 'Usuário não autorizado' });
+
+    return res.status(200).json({ title, content, userId });
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
   getPostController,
+  editPostController,
 };

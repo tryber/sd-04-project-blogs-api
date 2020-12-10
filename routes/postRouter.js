@@ -1,5 +1,10 @@
 const { Router } = require('express');
-const { postController: { createPostController, getAllPostsController, getPostController } } = require('../controllers');
+const { postController: {
+  createPostController,
+  getAllPostsController,
+  getPostController,
+  editPostController,
+} } = require('../controllers');
 const { tokenAuth, postMiddlewares: {
   validateTitle,
   validateContent,
@@ -19,5 +24,10 @@ postRouter.post('/',
 
 postRouter.get('/', tokenAuth, getAllPostsController);
 postRouter.get('/:id', tokenAuth, getPostController);
+postRouter.put('/:id',
+  tokenAuth,
+  validateTitle(400, TITLE_FIELD),
+  validateContent(400, CONTENT_FIELD),
+  editPostController);
 
 module.exports = postRouter;
