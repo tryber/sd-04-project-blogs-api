@@ -1,5 +1,5 @@
 const { Post } = require('../models');
-// const { postService } = require('../services');
+const { postService: { getPost } } = require('../services');
 
 const createPostController = async ({ body, user: { id } }, res) => {
   try {
@@ -13,7 +13,7 @@ const createPostController = async ({ body, user: { id } }, res) => {
   }
 };
 
-const getAllPostsController = async (req, res) => {
+const getAllPostsController = async (_req, res) => {
   try {
     const posts = await Post.findAll({ include: 'user' });
 
@@ -23,7 +23,20 @@ const getAllPostsController = async (req, res) => {
   }
 };
 
+const getPostController = async (req, res) => {
+  try {
+    const { message, id, title, content, published, updated, user } = await getPost(req.params.id);
+
+    if (message) return res.status(404).json({ message });
+
+    return res.status(200).json({ id, title, content, published, updated, user });
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
+  getPostController,
 };
