@@ -4,6 +4,7 @@ const { postController: {
   getAllPostsController,
   getPostController,
   editPostController,
+  searchPostController,
 } } = require('../controllers');
 const { tokenAuth, postMiddlewares: {
   validateTitle,
@@ -23,6 +24,7 @@ postRouter.post('/',
   createPostController);
 
 postRouter.get('/', tokenAuth, getAllPostsController);
+postRouter.get('/search', tokenAuth, searchPostController);
 postRouter.get('/:id', tokenAuth, getPostController);
 postRouter.put('/:id',
   tokenAuth,

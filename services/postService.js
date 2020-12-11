@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Post } = require('../models');
 
 const getPost = async (id) => {
@@ -19,7 +20,19 @@ const editPost = async (title, content, id, userId) => {
   return { status: 200 };
 };
 
+const searchPost = async (q) => {
+  const post = await Post.findAll({
+    where: {
+      [Op.or]: [{ title: { [Op.like]: `%${q}%` } }, { content: { [Op.like]: `%${q}%` } }],
+    },
+    include: 'user',
+  });
+  console.log('Post:', post);
+  return post;
+};
+
 module.exports = {
   getPost,
   editPost,
+  searchPost,
 };

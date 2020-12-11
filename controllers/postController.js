@@ -1,5 +1,5 @@
 const { Post } = require('../models');
-const { postService: { getPost, editPost } } = require('../services');
+const { postService: { getPost, editPost, searchPost } } = require('../services');
 
 const createPostController = async ({ body, user: { id } }, res) => {
   try {
@@ -53,9 +53,20 @@ const editPostController = async ({
   }
 };
 
+const searchPostController = async ({ query: { q } }, res) => {
+  try {
+    const post = await searchPost(q);
+
+    return res.status(200).json(post);
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
   getPostController,
   editPostController,
+  searchPostController,
 };
