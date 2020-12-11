@@ -5,6 +5,7 @@ const { postController: {
   getPostController,
   editPostController,
   searchPostController,
+  deletePostController,
 } } = require('../controllers');
 const { tokenAuth, postMiddlewares: {
   validateTitle,
@@ -31,5 +32,7 @@ postRouter.put('/:id',
   validateTitle(400, TITLE_FIELD),
   validateContent(400, CONTENT_FIELD),
   editPostController);
+
+postRouter.delete('/:id', tokenAuth, deletePostController);
 
 module.exports = postRouter;

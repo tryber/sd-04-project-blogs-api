@@ -1,5 +1,5 @@
 const { Post } = require('../models');
-const { postService: { getPost, editPost, searchPost } } = require('../services');
+const { postService: { getPost, editPost, searchPost, deletePost } } = require('../services');
 
 const createPostController = async ({ body, user: { id } }, res) => {
   try {
@@ -43,11 +43,11 @@ const editPostController = async ({
   try {
     const { status, message } = await editPost(title, content, id, userId);
 
-    if (status === 404) return res.status(status).json(message);
+    if (status === 404) return res.status(status).json({ message });
 
-    if (status === 401) return res.status(401).json({ message: 'Usuário não autorizado' });
+    if (status === 401) return res.status(status).json({ message });
 
-    return res.status(200).json({ title, content, userId });
+    return res.status(status).json({ title, content, userId });
   } catch (_err) {
     return res.status(500).json({ message: 'unknow error' });
   }
@@ -63,10 +63,28 @@ const searchPostController = async ({ query: { q } }, res) => {
   }
 };
 
+const deletePostController = async ({
+  params: { id },
+  user: { id: userId },
+}, res) => {
+  try {
+    const { status, message } = await deletePost(id, userId);
+
+    if (status === 404) return res.status(status).json({ message });
+
+    if (status === 401) return res.status(status).json({ message });
+
+    return res.status(status).end();
+  } catch (_err) {
+    return res.status(500).json({ message: 'unknow error' });
+  }
+};
+
 module.exports = {
   createPostController,
   getAllPostsController,
   getPostController,
   editPostController,
   searchPostController,
+  deletePostController,
 };
