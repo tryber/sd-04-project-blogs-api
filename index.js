@@ -1,8 +1,10 @@
 const express = require('express');
-
-const app = express();
+const bodyParser = require('body-parser');
 
 const controllers = require('./controllers');
+
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /*
 Iniciando o projeto
