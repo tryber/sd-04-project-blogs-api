@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        references: { model: 'Users', kew: 'id' },
+        references: { model: 'Users', key: 'id' },
       },
       published: {
         allowNull: false,
@@ -33,6 +33,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+    return BlogPostsTable;
   },
 
   down: async (queryInterface) => {
