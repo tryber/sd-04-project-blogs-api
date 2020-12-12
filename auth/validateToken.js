@@ -4,11 +4,9 @@ const secret = 'mySecret';
 
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization;
-
   if (!token) {
     return res.status(401).json({ message: 'Token não encontrado' });
   }
-
   try {
     const verify = jwt.verify(token, secret);
     req.user = verify;
@@ -18,6 +16,4 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  verifyToken,
-};
+module.exports = verifyToken;

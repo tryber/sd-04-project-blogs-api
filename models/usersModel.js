@@ -1,6 +1,6 @@
 const createUsers = (sequelize, DataTypes) => {
-  const Users = sequelize.define(
-    'Users',
+  const User = sequelize.define(
+    'User',
     {
       displayName: DataTypes.STRING,
       email: DataTypes.STRING,
@@ -10,13 +10,13 @@ const createUsers = (sequelize, DataTypes) => {
     { timestamps: false },
   );
 
-  Users.associate = (models) => {
-    Users.hasMany(models.Posts, {
-      foreignKey: 'userId',
-      as: 'posts' });
+  User.associate = (models) => {
+    User.hasMany(models.Post, {
+      foreignKey: 'id',
+      as: 'user' });
   };
 
-  return Users;
+  return User;
 };
 
 module.exports = createUsers;

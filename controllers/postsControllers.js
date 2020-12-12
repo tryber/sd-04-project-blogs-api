@@ -1,6 +1,6 @@
 const express = require('express');
-const { Users, Posts } = require('../models');
-const { validateToken } = require('../auth/validateToken');
+const { User, Post } = require('../models');
+const validateToken = require('../auth/validateToken');
 const postsValidation = require('../middlewares/postsValidations');
 
 const router = express.Router();
@@ -15,11 +15,11 @@ router.post(
 
     const { title, content } = req.body;
 
-    const user = await Users.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
 
     const userId = user.dataValues.id;
 
-    await Posts.create({ title, content, userId });
+    await Post.create({ title, content, userId });
     return res.status(201).json({ title, content, userId });
   },
 );
@@ -28,8 +28,8 @@ router.get(
   '/',
   validateToken,
   async (_req, res) => {
-    const allPosts = await Posts.findAll({
-      include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
+    const allPosts = await Post.findAll({
+      include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
     });
     return res.status(200).json(allPosts);
   },
@@ -40,8 +40,8 @@ router.get(
   validateToken,
   async (req, res) => {
     const { id } = req.params;
-    const post = await Posts.findByPk(id, {
-      include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
+    const post = await Post.findByPk(id, {
+      include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
     });
 
     if (!post) {
@@ -63,7 +63,7 @@ router.put(
     const { id } = req.params;
     const { title, content } = req.body;
 
-    await Posts.update({ title, content }, { where: { id } });
+    await Post.update({ title, content }, { where: { id } });
     return res.status(200).json({ title, content, userId });
   },
 );

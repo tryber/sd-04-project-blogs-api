@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { User } = require('../models');
 
 const buildResponse = (message) => {
   const resp = { message };
@@ -36,7 +36,7 @@ const verifyPassword = async (req, res, next) => {
 const verifyUserExistence = async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await Users.findOne({ where: { email, password } });
+  const user = await User.findOne({ where: { email, password } });
   if (!user) {
     return res.status(400).json(buildResponse('Campos inválidos'));
   }

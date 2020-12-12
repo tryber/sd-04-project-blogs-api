@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { User } = require('../models');
 
 const buildResponse = (message) => {
   const resp = { message };
@@ -50,7 +50,7 @@ const verifyPassword = async (req, res, next) => {
 const verifyUserExistence = async (req, res, next) => {
   const { email } = req.body;
 
-  const user = await Users.findOne({ where: { email } });
+  const user = await User.findOne({ where: { email } });
   if (user) {
     return res.status(409).json(buildResponse('Usuário já existe'));
   }
@@ -58,4 +58,9 @@ const verifyUserExistence = async (req, res, next) => {
   return next();
 };
 
-module.exports = { verifyDisplayName, verifyEmail, verifyPassword, verifyUserExistence };
+module.exports = {
+  verifyDisplayName,
+  verifyEmail,
+  verifyPassword,
+  verifyUserExistence,
+};

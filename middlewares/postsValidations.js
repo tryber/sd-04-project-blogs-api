@@ -1,4 +1,4 @@
-const { Users, Posts } = require('../models');
+const { User, Post } = require('../models');
 
 const verifyTitle = async (req, res, next) => {
   const { title } = req.body;
@@ -20,8 +20,8 @@ const verifyPostAuthor = async (req, res, next) => {
   const { id } = req.params;
   const { email } = req.user;
 
-  const user = await Users.findOne({ where: { email } });
-  const post = await Posts.findOne({ where: { id } });
+  const user = await User.findOne({ where: { email } });
+  const post = await Post.findOne({ where: { id } });
 
   if (user.dataValues.id !== post.dataValues.userId) {
     return res.status(401).json({ message: 'Usuário não autorizado' });
