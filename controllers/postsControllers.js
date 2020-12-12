@@ -11,11 +11,11 @@ router.post(
   postsValidation.verifyTitle,
   postsValidation.verifyContent,
   async (req, res) => {
-    const { email } = req.user;
+    const { userData } = req.user;
 
     const { title, content } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email: userData.dataValues.email } });
 
     const userId = user.dataValues.id;
 
@@ -37,7 +37,7 @@ router.get(
 
 router.get(
   '/:id',
-  // validateToken,
+  validateToken,
   async (req, res) => {
     const { id } = req.params;
     const post = await Post.findByPk(id, {
@@ -59,12 +59,12 @@ router.put(
   postsValidation.verifyContent,
   postsValidation.verifyPostAuthor,
   async (req, res) => {
-    const { userId } = req.user;
+    const { userData } = req.user;
     const { id } = req.params;
     const { title, content } = req.body;
 
     await Post.update({ title, content }, { where: { id } });
-    return res.status(200).json({ title, content, userId });
+    return res.status(200).json({ title, content, userId: userData.dataValues.userId });
   },
 );
 
@@ -72,13 +72,13 @@ router.delete(
   '/:id',
   validateToken,
   async (req, res) => {
-    const { userWithoutPassword } = req.user;
+    const { userData } = req.user;
     // console.log(req.user);
     const post = await Post.findOne({ where: { id: req.params.id } });
     if (!post) {
       return res.status(404).json({ message: 'Post não existe' });
     }
-    if (userWithoutPassword.dataValues.id !== post.userId) {
+    if (userData.dataValues.id !== post.userId) {
       return res.status(401).json({ message: 'Usuário não autorizado' });
     }
     await Post.destroy({ where: { id: req.params.id } });

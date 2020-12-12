@@ -14,9 +14,9 @@ router.post(
     // const { email, password } = req.body;
     // to desestruturando e tentando chegar o id
     const user = await User.findOne({ where: { email: req.body.email } });
-    const { password: _, ...userWithoutPassword } = user;
+    const { password: _, ...userData } = user;
     // const token = createToken({ email, password });
-    const token = createToken({ userWithoutPassword });
+    const token = createToken({ userData });
     return res.status(200).json({ token });
   },
 );
