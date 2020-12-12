@@ -63,6 +63,16 @@ router.put(
     const { id } = req.params;
     const { title, content } = req.body;
 
+    const post = await Post.findOne({ where: { id: req.params.id } });
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post não existe' });
+    }
+
+    if (userData.dataValues.id !== post.userId) {
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+
     await Post.update({ title, content }, { where: { id } });
     return res.status(200).json({ title, content, userId: userData.dataValues.id });
   },

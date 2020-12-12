@@ -18,9 +18,9 @@ const verifyContent = async (req, res, next) => {
 
 const verifyPostAuthor = async (req, res, next) => {
   const { id } = req.params;
-  const { email } = req.user;
+  const { userData } = req.user;
 
-  const user = await User.findOne({ where: { email } });
+  const user = await User.findOne({ where: { email: userData.dataValues.email } });
   const post = await Post.findOne({ where: { id } });
 
   if (user.dataValues.id !== post.dataValues.userId) {
