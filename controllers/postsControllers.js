@@ -37,7 +37,7 @@ router.get(
 
 router.get(
   '/:id',
-  validateToken,
+  // validateToken,
   async (req, res) => {
     const { id } = req.params;
     const post = await Post.findByPk(id, {
@@ -72,23 +72,38 @@ router.delete(
   '/:id',
   validateToken,
   async (req, res) => {
-    try {
-      const { data } = req.user;
-      const userLogId = data.dataValues.id;
-      const paramsId = req.params.id;
-      const post = await Post.findByPk(paramsId, {
-        include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
-      });
-      if (post.user.id === userLogId) {
-        await User.destroy({ where: { id: paramsId } });
-        return res.status(204).json();
-      }
-      return res.status(401).json({ message: 'Usuário não autorizado' });
-    } catch (error) {
-      console.log(error.message);
+    const { userWithoutPassword } = req.user;
+    // console.log(req.user);
+    const post = await Post.findOne({ where: { id: req.params.id } });
+    if (!post) {
       return res.status(404).json({ message: 'Post não existe' });
     }
+    if (userWithoutPassword.dataValues.id !== post.userId) {
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+    await Post.destroy({ where: { id: req.params.id } });
+    return res.status(204).json();
   },
 );
+//   try {
+//     const { data } = req.user;
+//     console.log(req.user);
+//     const userLogId = data.dataValues.id;
+//     const paramsId = req.params.id;
+//     const post = await Post.findByPk(paramsId, {
+//       attributes: { exclude: ['userId'] },
+//       include: { model: User, as: 'user' },
+//     });
+//     if (post.user.id === userLogId) {
+//       await User.destroy({ where: { id: paramsId } });
+//       res.status(204).json();
+//     }
+//     res.status(401).json({ message: 'Usuário não autorizado' });
+//   } catch (error) {
+//     console.log(error.message);
+//     return res.status(404).json({ message: 'Post não existe' });
+//   }
+// },
+// );
 
 module.exports = router;

@@ -9,6 +9,7 @@ const verifyToken = async (req, res, next) => {
   }
   try {
     const verify = jwt.verify(token, secret);
+    // console.log(verify);
     req.user = verify;
     next();
   } catch (err) {
