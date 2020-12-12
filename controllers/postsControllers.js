@@ -68,4 +68,27 @@ router.put(
   },
 );
 
+router.delete(
+  '/:id',
+  validateToken,
+  async (req, res) => {
+    try {
+      const { data } = req.user;
+      const userLogId = data.dataValues.id;
+      const paramsId = req.params.id;
+      const post = await Post.findByPk(paramsId, {
+        include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
+      });
+      if (post.user.id === userLogId) {
+        await User.destroy({ where: { id: paramsId } });
+        return res.status(204).json();
+      }
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    } catch (error) {
+      console.log(error.message);
+      return res.status(404).json({ message: 'Post não existe' });
+    }
+  },
+);
+
 module.exports = router;
