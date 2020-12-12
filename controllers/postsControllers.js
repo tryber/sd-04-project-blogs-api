@@ -64,7 +64,7 @@ router.put(
     const { title, content } = req.body;
 
     await Post.update({ title, content }, { where: { id } });
-    return res.status(200).json({ title, content, userId: userData.dataValues.userId });
+    return res.status(200).json({ title, content, userId: userData.dataValues.id });
   },
 );
 

@@ -49,8 +49,9 @@ router.delete(
   '/me',
   validateToken,
   async (req, res) => {
-    const { email } = req.user;
-    await User.destroy({ where: { email } });
+    const { userData } = req.user;
+    console.log(req.user);
+    await User.destroy({ where: { email: userData.dataValues.email } });
     return res.status(204).json({ message: 'Usuário deletado' });
   },
 );
