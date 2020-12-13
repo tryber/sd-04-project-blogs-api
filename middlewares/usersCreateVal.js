@@ -26,7 +26,6 @@ const userExist = async (email) => {
 
 module.exports = async (req, res, next) => {
   const { displayName, email, password: pwd } = req.body;
-  console.log(req.body)
 
   if (!displayNameIsValid(displayName)) {
     return res.status(400).json(
