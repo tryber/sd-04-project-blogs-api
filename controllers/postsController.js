@@ -30,8 +30,27 @@ const findById = async (req, res) => {
   return res.status(200).json(post);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const { email } = req.data;
+  const user = await User.findOne({ where: { email } });
+  const post = await Posts.findOne({ where: { id } });
+
+  if (user.dataValues.id !== post.dataValues.userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  const { userId } = post.dataValues;
+
+  await Posts.update({ title, content }, { where: { id } });
+
+  return res.status(200).json({ title, content, userId });
+};
+
 module.exports = {
   create,
   findById,
   read,
+  update,
 };
