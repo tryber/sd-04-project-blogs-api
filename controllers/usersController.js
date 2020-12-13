@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { auth } = require('../middlewares');
+const auth = require('../middlewares/auth');
 
 const create = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -19,7 +19,14 @@ const login = async (req, res) => {
   return res.status(200).json({ token });
 };
 
+const read = async (_req, res) => {
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
+
+  return res.status(200).json(users);
+};
+
 module.exports = {
   create,
   login,
+  read,
 };
