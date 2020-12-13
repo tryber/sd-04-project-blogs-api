@@ -1,8 +1,6 @@
-'use strict';
-
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Posts', {
+  up: async (queryInterface, Sequelize) =>
+    queryInterface.createTable('Posts', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -30,8 +28,7 @@ module.exports = {
         onDelete: 'CASCADE',
         references: { model: 'Users', key: 'id' },
       },
-    });
-  },
+    }),
 
   down: async (queryInterface, _Sequelize) => queryInterface.dropTable('Posts'),
 };
