@@ -52,7 +52,6 @@ const del = async (req, res) => {
   const { id } = req.params;
   const post = await Posts.findOne({ where: { id } });
   const name = req.data.displayName;
-  console.log(name)
 
   if (!post) return res.status(404).json({ message: 'Post não existe' });
 
