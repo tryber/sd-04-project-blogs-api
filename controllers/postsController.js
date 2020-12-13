@@ -1,5 +1,4 @@
 const { Posts, User } = require('../models');
-const auth = require('../middlewares/auth');
 
 const create = async (req, res) => {
   const { title, content } = req.body;
@@ -7,7 +6,7 @@ const create = async (req, res) => {
   const user = await User.findOne({ where: { email } });
   const userId = user.dataValues.id;
 
-  await Posts.create({ title, content , userId});
+  await Posts.create({ title, content, userId });
 
   return res.status(201).json({ title, content, userId });
 };
