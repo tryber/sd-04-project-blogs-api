@@ -19,7 +19,19 @@ const read = async (_req, res) => {
   return res.status(200).json(posts);
 };
 
+const findById = async (req, res) => {
+  const { id } = req.params;
+  const post = await Posts.findByPk(id, {
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
+  });
+
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+  return res.status(200).json(post);
+};
+
 module.exports = {
   create,
+  findById,
   read,
 };
