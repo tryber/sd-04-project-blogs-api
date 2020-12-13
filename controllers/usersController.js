@@ -34,9 +34,18 @@ const findById = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const del = async (req, res) => {
+  const { email } = req.user;
+
+  await User.destroy({ where: { email } });
+
+  return res.status(204).json({ message: 'Usuário deletado' });
+};
+
 module.exports = {
   create,
   login,
   read,
   findById,
+  del,
 };
