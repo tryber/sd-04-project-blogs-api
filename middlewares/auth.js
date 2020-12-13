@@ -14,7 +14,7 @@ const tokenVal = async (req, res, next) => {
 
     if (!token) return res.status(401).json({ message: 'Token não encontrado' });
 
-    req.user = jwt.verify(token, secret);
+    req.data = jwt.verify(token, secret);
 
     return next();
   } catch (_e) {

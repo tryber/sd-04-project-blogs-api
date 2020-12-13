@@ -12,7 +12,7 @@ const create = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { id, ...dataValues } = req.user.dataValues;
+  const { id, ...dataValues } = req.data.dataValues;
 
   const token = await auth.createToken(dataValues);
 
@@ -35,7 +35,7 @@ const findById = async (req, res) => {
 };
 
 const del = async (req, res) => {
-  const { email } = req.user;
+  const { email } = req.data;
 
   await User.destroy({ where: { email } });
 
