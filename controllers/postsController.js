@@ -48,9 +48,29 @@ const update = async (req, res) => {
   return res.status(200).json({ title, content, userId });
 };
 
+const del = async (req, res) => {
+  const { id } = req.params;
+  const post = await Posts.findOne({ where: { id } });
+  const name = req.data.displayName;
+  console.log(name)
+
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+  const user = await User.findOne({ where: { displayName: name } });
+
+  if (post.userId !== user.id) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  await User.destroy({ where: { id } });
+
+  return res.status(204).json({ message: 'Post deletado' });
+};
+
 module.exports = {
   create,
   findById,
   read,
   update,
+  del,
 };

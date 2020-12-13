@@ -15,5 +15,6 @@ router.post('/post', auth.tokenVal, postsCreateVal, posts.create);
 router.get('/post', auth.tokenVal, posts.read);
 router.get('/post/:id', auth.tokenVal, posts.findById);
 router.put('/post/:id', auth.tokenVal, postsCreateVal, posts.update);
+router.delete('/post/:id', auth.tokenVal, posts.del);
 
 module.exports = router;
