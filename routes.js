@@ -12,6 +12,6 @@ router.get('/user/:id', auth.tokenVal, users.findById);
 router.delete('/user/me', auth.tokenVal, users.del);
 
 router.post('/post', auth.tokenVal, postsCreateVal, posts.create);
-
+router.get('/post', auth.tokenVal, posts.read);
 
 module.exports = router;

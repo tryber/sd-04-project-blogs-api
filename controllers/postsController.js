@@ -12,6 +12,15 @@ const create = async (req, res) => {
   return res.status(201).json({ title, content, userId });
 };
 
+const read = async (_req, res) => {
+  const posts = await Posts.findAll({
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
+  });
+
+  return res.status(200).json(posts);
+};
+
 module.exports = {
   create,
+  read,
 };
