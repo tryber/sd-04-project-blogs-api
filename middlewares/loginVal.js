@@ -21,7 +21,7 @@ module.exports = async (req, res, next) => {
 
   if (!user) return res.status(400).json({ message: 'Campos inválidos' });
 
-  req.user = user;
+  req.data = user;
 
   next();
 };
