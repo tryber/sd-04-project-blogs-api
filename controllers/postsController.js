@@ -1,16 +1,17 @@
-// const { Post } = require('../models');
-// const auth = require('../middlewares/auth');
+const { Posts, User } = require('../models');
+const auth = require('../middlewares/auth');
 
-// const create = async (req, res) => {
-//   const { displayName, email, password, image } = req.body;
+const create = async (req, res) => {
+  const { title, content } = req.body;
+  const { email } = req.data;
+  const user = await User.findOne({ where: { email } });
+  const userId = user.dataValues.id;
 
-//   const user = await User.create({ displayName, email, password, image });
+  await Posts.create({ title, content , userId});
 
-//   const token = await auth.createToken(user.dataValues);
+  return res.status(201).json({ title, content, userId });
+};
 
-//   res.status(201).json({ token });
-// };
-
-// module.exports = {
-//   create,
-// };
+module.exports = {
+  create,
+};
