@@ -5,6 +5,7 @@ const controllers = require('./controllers');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 /*
 Iniciando o projeto
@@ -12,6 +13,7 @@ OK - 1. migration - Uses, Posts
 npx sequelize db:migrate
 npx sequelize db:migrate:undo
 OK - 2. seed (Aparentemente veio pronto)
+npx sequelize-cli db:seed:all
 OK - 3. models - User, Post
 - 4. controllers - User
 */
