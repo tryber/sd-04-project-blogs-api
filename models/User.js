@@ -1,5 +1,5 @@
 const User = (sequelize, DataTypes) => {
-  const User = sequelize.define('Users', {
+  const createUser = sequelize.define('Users', {
     displayName: {
       type: DataTypes.STRING,
       validate: {
@@ -11,6 +11,7 @@ const User = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         isEmail: {
           msg: '"email" must be a valid email',
@@ -18,15 +19,29 @@ const User = (sequelize, DataTypes) => {
         notEmpty: {
           msg: '"email" is required',
         },
+        notNull: {
+          msg: '"email" is required',
+        },
       },
     },
-    password: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [6],
+          msg: '"password" length must be 6 characters long',
+        },
+        notEmpty: {
+          msg: '"password" is required',
+        },
+      }
+    },
     image: DataTypes.STRING
   }, { timestamps: false });
-  User.associate = (models) => {
-    User.hasMany(models.Posts, { as: 'posts', foreignKey: 'userId' });
+  createUser.associate = (models) => {
+    createUser.hasMany(models.Posts, { as: 'posts', foreignKey: 'userId' });
   };
-  return User;
+  return createUser;
 };
 
 module.exports = User;

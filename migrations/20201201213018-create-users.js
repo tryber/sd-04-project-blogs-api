@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const UsersTable = await queryInterface.createTable('Users', {
@@ -24,12 +22,12 @@ module.exports = {
       },
       image: {
         type: Sequelize.STRING,
-      }
+      },
     });
     return UsersTable;
   },
 
   down: async (queryInterface) => {
-     await queryInterface.dropTable('Users');
-  }
+    await queryInterface.dropTable('Users');
+  },
 };
