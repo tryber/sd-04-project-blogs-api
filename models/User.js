@@ -34,9 +34,9 @@ const User = (sequelize, DataTypes) => {
         notEmpty: {
           msg: '"password" is required',
         },
-      }
+      },
     },
-    image: DataTypes.STRING
+    image: DataTypes.STRING,
   }, { timestamps: false });
   createUser.associate = (models) => {
     createUser.hasMany(models.Posts, { as: 'posts', foreignKey: 'userId' });

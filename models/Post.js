@@ -5,7 +5,7 @@ const Post = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     // published: DataTypes.DATE,
     // updated: DataTypes.DATE,
-  },);
+  });
   createPost.associate = (models) => {
     // userId talvez tenha que mudar para id
     createPost.belongsTo(models.Users, { as: 'user', foreignKey: 'userId' });
