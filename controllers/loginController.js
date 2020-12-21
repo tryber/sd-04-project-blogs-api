@@ -1,9 +1,8 @@
 const { Router } = require('express');
 const { Users } = require('../models');
-const { createToken } = require('../auth/createToken');
+const { createToken } = require('../middlewares/createToken');
 
 const router = Router();
-// Req. 2 - Sua aplicação deve ter o endpoint POST /login
 
 // Req. 2 - Login do usuário
 router.post('/', async (req, res) => {
@@ -33,11 +32,9 @@ router.post('/', async (req, res) => {
       return res.status(200).json({ token });
     }
   } catch (error) {
-    // console.log('ERROR: ', error);
     const msg = error.message.slice(18);
     return res.status(400).json({ message: msg });
   }
 });
-
 
 module.exports = router;
