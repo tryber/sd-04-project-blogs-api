@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 4 - Lista usuário por Id
+// Req. 4 - Lista usuário por Id
 router.get('/:id', validateToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -66,7 +66,7 @@ router.get('/:id', validateToken, async (req, res) => {
   }
 });
 
-// 5 - Sua aplicação deve ter o endpoint DELETE /user/me
+// Req. 5 - Sua aplicação deve ter o endpoint DELETE /user/me
 router.delete('/me', validateToken, async (req, res) => {
   try {
     const { id } = req.user.dataValues;
