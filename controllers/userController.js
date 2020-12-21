@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 4 - Sua aplicação deve ter o endpoint GET /user/:id
+// 4 - Lista usuário por Id
 router.get('/:id', validateToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -61,6 +61,19 @@ router.get('/:id', validateToken, async (req, res) => {
     if (!user) return res.status(404).json({ message: 'Usuário não existe' });
 
     return res.status(200).json(user);
+  } catch (_e) {
+    return res.status(500).json({ message: 'internal error' });
+  }
+});
+
+// 5 - Sua aplicação deve ter o endpoint DELETE /user/me
+router.delete('/me', validateToken, async (req, res) => {
+  try {
+    console.log('REQ.USER: ', req.user);
+    const { id } = req.user.dataValues;
+    console.log('ID: ', id);
+    await Users.destroy({ where: { id: id } });
+    return res.status(204).json({});
   } catch (_e) {
     return res.status(500).json({ message: 'internal error' });
   }
