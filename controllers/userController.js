@@ -11,7 +11,7 @@ router.get('/', validateToken, async (req, res) => {
   try {
     const users = await sequelize.query(
       'SELECT id, displayName, email, image FROM Users AS Users',
-      { type: QueryTypes.SELECT }
+      { type: QueryTypes.SELECT },
     );
 
     return res.status(200).json(users);
