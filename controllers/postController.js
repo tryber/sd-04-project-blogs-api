@@ -1,13 +1,10 @@
 const { Router } = require('express');
-// const { QueryTypes } = require('sequelize');
 const { Posts, sequelize } = require('../models');
 const { validateToken } = require('../middlewares/validateToken');
 
 const router = Router();
 
-// Req. 6 - Sua aplicação deve ter o endpoint POST /post
 // Req. 6 - Cria um post
-
 router.post('/', validateToken, async (req, res) => {
   try {
     const { title, content } = req.body;
