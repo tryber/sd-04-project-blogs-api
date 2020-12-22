@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Posts, sequelize } = require('../models');
+const { Posts } = require('../models');
 const { validateToken } = require('../middlewares/validateToken');
 
 const router = Router();
