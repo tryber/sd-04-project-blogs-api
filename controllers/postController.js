@@ -1,6 +1,6 @@
 const { Router } = require('express');
 // const { QueryTypes } = require('sequelize');
-const { Post, sequelize } = require('../models');
+const { Posts, sequelize } = require('../models');
 const { validateToken } = require('../middlewares/validateToken');
 
 const router = Router();
@@ -10,8 +10,25 @@ const router = Router();
 
 router.post('/', validateToken, async (req, res) => {
   try {
-    return res.status(201).json({});
-  } catch (_e) {
+    const { title, content } = req.body;
+    const { id } = req.user.dataValues;
+    console.log('TITLE: ', title);
+    console.log('CONTENT: ', content);
+    console.log('USERID: ', id);
+    const published = new Date();
+    const updated = new Date();
+    // validações
+    if (!title) {
+      return res.status(400).json({ message: '"title" is required' });
+    }
+    if (!content) {
+      return res.status(400).json({ message: '"content" is required' });
+    }
+    const newPost = await Posts.create({ title, content, userId: id, published, updated });
+    console.log('NEWPOST: ', newPost);
+    return res.status(201).json(newPost);
+  } catch (e) {
+    console.log('ERRO: ', e);
     return res.status(500).json({ message: 'internal error' });
   }
 });
