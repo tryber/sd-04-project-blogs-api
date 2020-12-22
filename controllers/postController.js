@@ -98,4 +98,29 @@ router.put('/:id', validateToken, async (req, res) => {
   }
 });
 
+// Req. 10
+
+// Req. 11 - Deleta um post
+router.delete('/:id', validateToken, async (req, res) => {
+  try {
+    // verifica se o post existe
+    const post = await Posts.findOne({
+      where: { id: req.params.id },
+    });
+
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+    // deleta o post
+    const deletedPost = await Posts.destroy({
+      where: { id: req.params.id, userId: req.user.dataValues.id },
+    });
+
+    if (deletedPost === 0) return res.status(401).json({ message: 'Usuário não autorizado' });
+
+    return res.status(204).json({});
+  } catch (_e) {
+    return res.status(500).json({ message: 'internal error' });
+  }
+});
+
 module.exports = router;
