@@ -9,9 +9,6 @@ router.post('/', validateToken, async (req, res) => {
   try {
     const { title, content } = req.body;
     const { id } = req.user.dataValues;
-    console.log('TITLE: ', title);
-    console.log('CONTENT: ', content);
-    console.log('USERID: ', id);
     const published = new Date();
     const updated = new Date();
     // validações
@@ -22,10 +19,8 @@ router.post('/', validateToken, async (req, res) => {
       return res.status(400).json({ message: '"content" is required' });
     }
     const newPost = await Posts.create({ title, content, userId: id, published, updated });
-    console.log('NEWPOST: ', newPost);
     return res.status(201).json(newPost);
-  } catch (e) {
-    console.log('ERRO: ', e);
+  } catch (_e) {
     return res.status(500).json({ message: 'internal error' });
   }
 });
