@@ -64,4 +64,38 @@ router.get('/:id', validateToken, async (req, res) => {
   }
 });
 
+// Req. 9 - Edita um post
+router.put('/:id', validateToken, async (req, res) => {
+  try {
+    // const { postId: id } = req.params;
+    // const { id } = req.user.dataValues;
+    const { title, content } = req.body;
+    const updated = new Date();
+    // validações
+    if (!title) {
+      return res.status(400).json({ message: '"title" is required' });
+    }
+    if (!content) {
+      return res.status(400).json({ message: '"content" is required' });
+    }
+    const updatePost = await Posts.update(
+      { title, content, updated },
+      { where: { id: req.params.id, userId: req.user.dataValues.id } },
+    );
+
+    if (updatePost[0] === 0) {
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+
+    const post = await Posts.findOne({
+      where: { id: req.params.id },
+      attributes: { exclude: ['published', 'updated'] },
+    });
+
+    return res.status(200).json(post);
+  } catch (_e) {
+    return res.status(500).json({ message: 'internal error' });
+  }
+});
+
 module.exports = router;
