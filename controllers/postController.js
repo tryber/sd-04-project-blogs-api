@@ -46,25 +46,23 @@ router.get('/', validateToken, async (req, res) => {
 // Req. 10 - Pesquisa um post pelo titulo ou conteúdo
 router.get('/search', validateToken, async (req, res) => {
   try {
-    const { q } = req.query
-    console.log('REQ.QUERY.Q: ', q);
+    const { q } = req.query;
+
     const searchPost = await Posts.findAll(
       {
         where: { [or]: [
-          { title: { [like]: `%${q}%`} },
-          { content: { [like]: `%${q}%`} },
-        ]},
+          { title: { [like]: `%${q}%` } },
+          { content: { [like]: `%${q}%` } },
+        ] },
         include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
         attributes: { exclude: ['userId'] },
-      }
+      },
     );
 
-    console.log('SEARCHPOST: ', searchPost);
-    if(!searchPost) return res.status(200).json([]);
+    if (!searchPost) return res.status(200).json([]);
 
     return res.status(200).json(searchPost);
-  } catch (e) {
-    console.log('ERRO: ', e);
+  } catch (_e) {
     return res.status(500).json({ message: 'internal error' });
   }
 });
