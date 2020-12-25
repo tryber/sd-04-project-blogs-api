@@ -9,6 +9,8 @@ const {
   tokenValidation,
 } = require('../middlewares/userValidations');
 
+const validateToken = require('../auth/validateToken');
+
 const users = Router();
 
 users.post('/', existingElements, typeOfElements, isThereMail, (req, res) => {
@@ -43,6 +45,15 @@ users.get('/:id', tokenValidation, (req, res) => {
       }
       res.status(200).json(selectedUser);
     })
+    .catch((error) => console.log(error));
+});
+
+users.delete('/me', tokenValidation, (req, res) => {
+  const { email } = validateToken(req.headers.authorization);
+  User.destroy({
+    where: { email },
+  })
+    .then(() => res.status(204).json())
     .catch((error) => console.log(error));
 });
 
