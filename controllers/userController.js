@@ -2,7 +2,12 @@ const { Router } = require('express');
 
 const { User } = require('../models');
 
-const { existingElements, typeOfElements, isThereMail } = require('../middlewares/userValidations');
+const {
+  existingElements,
+  typeOfElements,
+  isThereMail,
+  tokenValidation,
+} = require('../middlewares/userValidations');
 
 const users = Router();
 
@@ -11,6 +16,16 @@ users.post('/', existingElements, typeOfElements, isThereMail, (req, res) => {
 
   User.create({ displayName, email, password, image })
     .then((newUser) => res.status(201).json(newUser))
+    .catch((error) => console.log(error));
+});
+
+users.get('/', tokenValidation, (_, res) => {
+  User.findAll({
+    attributes: {
+      exclude: ['password'],
+    },
+  })
+    .then((allUsers) => res.status(200).json(allUsers))
     .catch((error) => console.log(error));
 });
 

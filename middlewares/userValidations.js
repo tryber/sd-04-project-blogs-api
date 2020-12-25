@@ -1,6 +1,8 @@
 const { User } = require('../models');
 
-const ExpRegular = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+const ExpRegularMail = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+
+const ExpRegularToken = /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/;
 
 const existingElements = (req, res, next) => {
   const { email, password } = req.body;
@@ -20,7 +22,7 @@ const typeOfElements = (req, res, next) => {
       message: '"displayName" length must be at least 8 characters long',
     });
   }
-  if (!ExpRegular.test(email)) {
+  if (!ExpRegularMail.test(email)) {
     return res.status(400).json({ message: '"email" must be a valid email' });
   }
   if (password.length < 6) {
@@ -40,8 +42,20 @@ const isThereMail = async (req, res, next) => {
   next();
 };
 
+const tokenValidation = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: 'Token não encontrado' });
+  }
+  if (!ExpRegularToken.test(token)) {
+    return res.status(401).json({ message: 'Token expirado ou inválido' });
+  }
+  next();
+};
+
 module.exports = {
   existingElements,
   typeOfElements,
   isThereMail,
+  tokenValidation,
 };
