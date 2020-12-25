@@ -2,6 +2,8 @@ const { Router } = require('express');
 
 const { User } = require('../models');
 
+const createToken = require('../auth/createToken');
+
 const {
   existingValues,
   emptyValue,
@@ -11,7 +13,7 @@ const login = Router();
 
 login.post('/', existingValues, emptyValue, (req, res) => {
   const { email, password } = req.body;
-  const token = req.headers.authorization;
+  const token = createToken({ email });
   User.findOne({
     where: { email, password },
   })
