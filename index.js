@@ -8,6 +8,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use('/login', controllers.login);
 app.use('/user', controllers.users);
 app.use('/post', controllers.posts);
 
