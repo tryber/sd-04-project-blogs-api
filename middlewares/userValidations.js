@@ -1,8 +1,8 @@
 const { User } = require('../models');
 
-const ExpRegularMail = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+const validateToken = require('../auth/validateToken');
 
-const ExpRegularToken = /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/;
+const ExpRegularMail = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 
 const existingElements = (req, res, next) => {
   const { email, password } = req.body;
@@ -47,7 +47,9 @@ const tokenValidation = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: 'Token não encontrado' });
   }
-  if (!ExpRegularToken.test(token)) {
+  try {
+    validateToken(token);
+  } catch {
     return res.status(401).json({ message: 'Token expirado ou inválido' });
   }
   next();
