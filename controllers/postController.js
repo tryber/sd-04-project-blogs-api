@@ -4,7 +4,10 @@ const validateToken = require('../auth/validateToken');
 
 const { tokenValidation } = require('../middlewares/userValidations');
 
-const { existingValues } = require('../middlewares/postValidations');
+const {
+  existingValues,
+  existingId,
+} = require('../middlewares/postValidations');
 
 const { Post, User } = require('../models');
 
@@ -30,8 +33,22 @@ posts.get('/', tokenValidation, (_, res) => {
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
     ],
+    attributes: { exclude: ['userId'] },
   })
     .then((userPosts) => res.status(200).json(userPosts))
+    .catch((error) => console.log(error));
+});
+
+posts.get('/:id', tokenValidation, existingId, (req, res) => {
+  const { id } = req.params;
+  Post.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    ],
+    attributes: { exclude: ['userId'] },
+  })
+    .then((post) => res.status(200).json(post))
     .catch((error) => console.log(error));
 });
 
