@@ -1,5 +1,7 @@
 const { Router } = require('express');
 
+const { Op } = require('sequelize');
+
 const validateToken = require('../auth/validateToken');
 
 const { tokenValidation } = require('../middlewares/userValidations');
@@ -40,6 +42,38 @@ posts.get('/', tokenValidation, (_, res) => {
     .catch((error) => console.log(error));
 });
 
+posts.get('/search', tokenValidation, async (req, res) => {
+  const { q } = req.query;
+  if (q.length === 0) {
+    Post.findAll({
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      ],
+      attributes: { exclude: ['userId'] },
+    })
+      .then((allPosts) => res.status(200).json(allPosts))
+      .catch((error) => console.log(error));
+  }
+  await Post.findAll({
+    where: {
+      [Op.or]: [
+        {
+          title: { [Op.like]: `%${q}%` },
+        },
+        {
+          content: { [Op.like]: `%${q}%` },
+        },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    ],
+    attributes: { exclude: ['userId'] },
+  })
+    .then((result) => res.status(200).json(result))
+    .catch((error) => console.log(error));
+});
+
 posts.get('/:id', tokenValidation, existingId, (req, res) => {
   const { id } = req.params;
   Post.findOne({
@@ -53,22 +87,28 @@ posts.get('/:id', tokenValidation, existingId, (req, res) => {
     .catch((error) => console.log(error));
 });
 
-posts.put('/:id', tokenValidation, userCheck, existingValues, async (req, res) => {
-  const { id } = req.params;
-  const { title, content } = req.body;
-  await Post.update(
-    {
-      title,
-      content,
-    },
-    { where: { id } },
-  );
-  Post.findOne({
-    where: { id },
-    attributes: { exclude: ['id', 'password', 'published', 'updated'] },
-  })
-    .then((newPost) => res.status(200).json(newPost))
-    .catch((error) => console.log(error));
-});
+posts.put(
+  '/:id',
+  tokenValidation,
+  userCheck,
+  existingValues,
+  async (req, res) => {
+    const { id } = req.params;
+    const { title, content } = req.body;
+    await Post.update(
+      {
+        title,
+        content,
+      },
+      { where: { id } },
+    );
+    Post.findOne({
+      where: { id },
+      attributes: { exclude: ['id', 'password', 'published', 'updated'] },
+    })
+      .then((newPost) => res.status(200).json(newPost))
+      .catch((error) => console.log(error));
+  },
+);
 
 module.exports = posts;
