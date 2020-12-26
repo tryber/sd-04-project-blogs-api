@@ -7,6 +7,7 @@ const { tokenValidation } = require('../middlewares/userValidations');
 const {
   existingValues,
   existingId,
+  userCheck,
 } = require('../middlewares/postValidations');
 
 const { Post, User } = require('../models');
@@ -49,6 +50,24 @@ posts.get('/:id', tokenValidation, existingId, (req, res) => {
     attributes: { exclude: ['userId'] },
   })
     .then((post) => res.status(200).json(post))
+    .catch((error) => console.log(error));
+});
+
+posts.put('/:id', tokenValidation, userCheck, existingValues, async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const result = await Post.update(
+    {
+      title,
+      content,
+    },
+    { where: { id } },
+  );
+  Post.findOne({
+    where: { id },
+    attributes: { exclude: ['id', 'password', 'published', 'updated'] },
+  })
+    .then((newPost) => res.status(200).json(newPost))
     .catch((error) => console.log(error));
 });
 

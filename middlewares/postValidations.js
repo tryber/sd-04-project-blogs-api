@@ -1,4 +1,6 @@
-const { Post } = require('../models');
+const { Post, User } = require('../models');
+
+const validateToken = require('../auth/validateToken');
 
 const existingValues = (req, res, next) => {
   const { title, content } = req.body;
@@ -25,7 +27,24 @@ const existingId = (req, res, next) => {
   next();
 };
 
+const userCheck = async (req, res, next) => {
+  const postId = req.params.id;
+  const token = req.headers.authorization;
+  const { email } = validateToken(token);
+  const chosenPost = await Post.findOne({
+    where: { id: postId },
+  });
+  const loggedUser = await User.findOne({
+    where: { email },
+  });
+  if (chosenPost.userId !== loggedUser.id) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+  next();
+};
+
 module.exports = {
   existingValues,
   existingId,
+  userCheck,
 };
