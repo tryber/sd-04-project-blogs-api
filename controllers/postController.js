@@ -25,4 +25,14 @@ posts.post('/', tokenValidation, existingValues, (req, res) => {
       .catch((error) => console.log(error)));
 });
 
+posts.get('/', tokenValidation, (_, res) => {
+  Post.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+    ],
+  })
+    .then((userPosts) => res.status(200).json(userPosts))
+    .catch((error) => console.log(error));
+});
+
 module.exports = posts;
