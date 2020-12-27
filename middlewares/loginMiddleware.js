@@ -1,10 +1,10 @@
 const { User } = require('../models');
 
 const userExist = async (email, password) => {
-    const user = await User.findOne({ where: { email, password } });
-  
-    return user;
-  };
+  const user = await User.findOne({ where: { email, password } });
+
+  return user;
+};
 
 module.exports = async (req, res, next) => {
   const { email, password } = req.body;

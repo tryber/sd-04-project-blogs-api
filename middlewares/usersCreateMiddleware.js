@@ -47,8 +47,11 @@ module.exports = async (req, res, next) => {
     );
   }
 
-  if (await userExist(email))
-  return res.status(409).json({ message: 'Usuário já existe' })
+  if (await userExist(email)) {
+    return res.status(409).json(
+      { message: 'Usuário já existe' },
+    );
+  }
 
-  next()
+  next();
 };
