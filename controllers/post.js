@@ -17,11 +17,11 @@ const create = async (req, res) => {
   }
 };
 
-// const getAll = async (req, res) => {
-//   const users = await Users.findAll();
+const getAllPosts = async (req, res) => {
+  const posts = await Posts.findAll({ include: 'user' });
 
-//   return res.status(200).json(users);
-// };
+  return res.status(200).json(posts);
+};
 
 // const getUser = async (req, res) => {
 //   const { id } = req.params;
@@ -46,4 +46,4 @@ const create = async (req, res) => {
 //   return res.status(204).send();
 // };
 
-module.exports = { create }; // , getAll, getUser, deleteActualUser };
+module.exports = { create, getAllPosts }//, getUser, deleteActualUser };
