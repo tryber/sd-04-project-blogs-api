@@ -12,7 +12,7 @@ router.post('/', validate, postCreateMiddleware, async (req, res) => {
   const user = await User.findOne({ where: { email } });
   const userId = user.dataValues.id;
 
-  await Posts.create({ title, content , userId});
+  await Posts.create({ title, content, userId });
 
   return res.status(201).json({ title, content, userId });
 });
@@ -67,7 +67,7 @@ router.delete('/:id', validate, async (req, res) => {
   if (post.userId !== user.id) {
     return res.status(401).json({ message: 'Usuário não autorizado' });
   }
-  
+
   await User.destroy({ where: { id } });
 
   return res.status(204).json({ message: 'Post deletado' });

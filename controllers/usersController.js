@@ -26,7 +26,6 @@ router.get('/:id', validate, async (req, res) => {
   const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
   if (!user) return res.status(404).json({ message: 'Usuário não existe' });
 
-
   return res.status(200).json(user);
 });
 
