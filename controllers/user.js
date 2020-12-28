@@ -31,4 +31,16 @@ const getUser = async (req, res) => {
   return res.status(200).json(user);
 };
 
-module.exports = { create, getAll, getUser };
+const deleteActualUser = async (req, res) => {
+  const userEmail = req.user;
+  const user = await Users.findOne({ where: { email: userEmail } });
+
+  if (!user) {
+    return res.status(404).json({ message: 'usuário nãop encontrado' });
+  }
+
+  user.destroy();
+  return res.status(204).send();
+};
+
+module.exports = { create, getAll, getUser, deleteActualUser };

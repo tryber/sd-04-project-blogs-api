@@ -10,7 +10,7 @@ const create = (payload) => {
   return jwt.sign(payload, secret, headers);
 };
 
-const validate = (req, res, next) => {
+/* const validate = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) res.status(401).json({ message: 'Token não existe' });
@@ -25,6 +25,6 @@ const validate = (req, res, next) => {
     console.error('validateToken', err.message);
     return res.status(401).json({ message: 'Token inválido' });
   }
-};
+}; */
 
-module.exports = { create, validate };
+module.exports = { create };
