@@ -23,27 +23,25 @@ const getAllPosts = async (req, res) => {
   return res.status(200).json(posts);
 };
 
-// const getUser = async (req, res) => {
-//   const { id } = req.params;
-//   const user = await Users.findOne({ where: { id } });
+const getPost = async (req, res) => {
+  const { id } = req.params;
+  const post = await Posts.findOne({ where: { id }, include: 'user' });
 
-//   if (!user) {
-//     return res.status(404).json({ message: 'Usuário não existe' });
-//   }
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
 
-//   return res.status(200).json(user);
-// };
+  return res.status(200).json(post);
+};
 
 // const deleteActualUser = async (req, res) => {
 //   const userEmail = req.user;
 //   const user = await Users.findOne({ where: { email: userEmail } });
-
 //   if (!user) {
 //     return res.status(404).json({ message: 'usuário nãop encontrado' });
 //   }
-
 //   user.destroy();
 //   return res.status(204).send();
 // };
 
-module.exports = { create, getAllPosts }//, getUser, deleteActualUser };
+module.exports = { create, getAllPosts, getPost }//, deleteActualUser };

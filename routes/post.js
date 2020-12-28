@@ -6,7 +6,7 @@ const router = Router();
 const { validatePost, validateJWT } = require('../Middlewares');
 
 router.get('/', validateJWT, Controllers.PostController.getAllPosts);
-// router.get('/:id', validateJWT, Controllers.UserController.getUser);
+router.get('/:id', validateJWT, Controllers.PostController.getPost);
 router.post('/', validateJWT, validatePost, Controllers.PostController.create);
 // router.delete('/me', validateJWT, Controllers.UserController.deleteActualUser);
 
