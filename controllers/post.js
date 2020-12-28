@@ -2,16 +2,13 @@ const { Users, Posts } = require('../models');
 
 const create = async (req, res) => {
   const { title, content } = req.body;
-  const user = await Users.findOne({ where: { email: req.user } });
-
-  if (!user) {
-    return res.status(404).json({ message: 'usuário nãop encontrado' });
-  }
+  const { userId } = req.user;
 
   try {
-    await Posts.create({ title, content, userId: user.id });
+    console.log(userId);
+    await Posts.create({ title, content, userId });
 
-    return res.status(201).json({ title, content, userId: user.id });
+    return res.status(201).json({ title, content, userId });
   } catch (error) {
     return res.status(204).json({ message: 'Erro ao criar usuário' });
   }
@@ -34,14 +31,28 @@ const getPost = async (req, res) => {
   return res.status(200).json(post);
 };
 
-// const deleteActualUser = async (req, res) => {
-//   const userEmail = req.user;
-//   const user = await Users.findOne({ where: { email: userEmail } });
-//   if (!user) {
-//     return res.status(404).json({ message: 'usuário nãop encontrado' });
-//   }
-//   user.destroy();
-//   return res.status(204).send();
-// };
+const updatePost = async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.user;
+  const { title, content } = req.body;
 
-module.exports = { create, getAllPosts, getPost }//, deleteActualUser };
+  const post = await Posts.findOne({ where: { id }, include: 'user' });
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post não encontrado' });
+  }
+
+  if (!userId || userId !== post.user.id) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  try {
+    await Posts.update({ title, content }, { where: { id } });
+
+    return res.status(200).json({title, content, userId });
+  } catch (error) {
+    return res.status(404).json({ message: 'Erro ao atualizar' });
+  }
+};
+
+module.exports = { create, getAllPosts, getPost, updatePost };

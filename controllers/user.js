@@ -8,8 +8,8 @@ const create = async (req, res) => {
 
   if (emailCheck) return res.status(409).json({ message: 'Usuário já existe' });
 
-  await Users.create({ displayName, email, password, image });
-  const token = TokenService.create(email, password);
+  const user = await Users.create({ displayName, email, password, image });
+  const token = TokenService.create({ userId: user.id, email, password });
 
   return res.status(201).json({ token });
 };
@@ -32,8 +32,9 @@ const getUser = async (req, res) => {
 };
 
 const deleteActualUser = async (req, res) => {
-  const userEmail = req.user;
-  const user = await Users.findOne({ where: { email: userEmail } });
+  const { email } = req.user;
+  console.log(req.user);
+  const user = await Users.findOne({ where: { email } });
 
   if (!user) {
     return res.status(404).json({ message: 'usuário nãop encontrado' });

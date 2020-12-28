@@ -7,7 +7,7 @@ const login = async (req, res) => {
 
   if (!user) return res.status(400).json({ message: 'Campos inválidos' });
 
-  const token = TokenService.create(email, password);
+  const token = TokenService.create({ email, password, userId: user.id });
 
   return res.status(200).json({ token });
 };
