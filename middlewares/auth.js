@@ -8,7 +8,7 @@ const createToken = (data) => {
   return token;
 };
 
-const valudate = async (req, res, next) => {
+const validate = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
 
@@ -24,5 +24,5 @@ const valudate = async (req, res, next) => {
 
 module.exports = {
   createToken,
-  valudate,
+  validate,
 };
