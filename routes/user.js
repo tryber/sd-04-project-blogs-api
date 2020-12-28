@@ -3,9 +3,10 @@ const Controllers = require('../controllers');
 
 const router = Router();
 
-const { validateUser } = require('../Middlewares');
+const { validateUser, validateJWT } = require('../Middlewares');
 
-router.get('/', (_req, res) => res.send('ok'));
+router.get('/', validateJWT, Controllers.UserController.getAll);
+router.get('/:id', validateJWT, Controllers.UserController.getUser);
 router.post('/', validateUser, Controllers.UserController.create);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-const { isSchema } = require('joi');
 const Joi = require('joi');
 
 const userSchema = Joi.object().keys({
