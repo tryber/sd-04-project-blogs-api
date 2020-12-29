@@ -10,7 +10,11 @@ const insertNewUser = async (req, res) => {
   if (emailAlreadyExists) return res.status(409).json({ message: 'Usuário já existe' });
 
   const user = await Users.create({ displayName, email, password, image });
-  res.status(201).json({ user });
+
+  // PROVISÓRIO, ZUERA...
+  const token = user.image;
+
+  res.status(201).json({ token });
 };
 
 const login = async (req, res) => {
@@ -29,7 +33,7 @@ const login = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const users = Users.findAll();
+  const users = Users.findAll({ attributes: { exclude: ['password'] } });
 
   return res.status(200).json(users);
 };

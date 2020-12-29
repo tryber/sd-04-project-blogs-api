@@ -30,10 +30,6 @@ const validateName = (req, res, next) => {
   next();
 };
 
-const emailExists = async (email) => User.findOne({ where: { email } });
-
-const userExists = async (email, password) => User.findOne({ where: { email, password } });
-
 const validateEmail = async (req, res, next) => {
   const { email } = req.body;
 
@@ -51,20 +47,24 @@ const validateEmail = async (req, res, next) => {
 };
 
 const validateLogin = (email, password) => {
-  if (!email) {
+  if (email === undefined) {
     return { message: '"email" is required' };
   }
-  if (email === '') {
+  if (!email) {
     return { message: '"email" is not allowed to be empty' };
   }
 
-  if (!password) {
+  if (password === undefined) {
     return { message: '"password" is required' };
   }
-  if (password === '') {
+  if (!password) {
     return { message: '"password" is not allowed to be empty' };
   }
 };
+
+const emailExists = async (email) => User.findOne({ where: { email } });
+
+const userExists = async (email, password) => User.findOne({ where: { email, password } });
 
 module.exports = {
   validateEmail,
