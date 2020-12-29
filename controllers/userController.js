@@ -28,7 +28,8 @@ const login = async (req, res) => {
 
   if (!userExists) return res.status(400).json({ message: 'Campos inválidos' });
 
-  const token = '127sjnjnxjn9hx37';
+  const token = '127sjnjnxjn9hx3ssas7';
+
   return res.status(200).json(token);
 };
 

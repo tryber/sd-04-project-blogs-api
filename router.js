@@ -3,7 +3,7 @@ const router = require('express').Router();
 const userController = require('./controllers/userController');
 const userMiddlewares = require('./middlewares/userMiddleware');
 
-const { Users } = require('./models/Users');
+// const { Users } = require('./models/Users');
 
 router.post(
   '/user',
