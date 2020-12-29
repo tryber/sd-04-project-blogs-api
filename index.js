@@ -8,9 +8,9 @@ app.use(express.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
-  response.send('oie!');
+  response.send();
 });
 
-app.use('/user', router);
+app.use(router);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

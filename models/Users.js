@@ -1,6 +1,6 @@
 const createNewUSer = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'User',
+  const Users = sequelize.define(
+    'Users',
     {
       displayName: DataTypes.STRING,
       email: DataTypes.STRING,
@@ -11,7 +11,7 @@ const createNewUSer = (sequelize, DataTypes) => {
       timestamps: false,
     },
   );
-  return User;
+  return Users;
 };
 
 module.exports = createNewUSer;
