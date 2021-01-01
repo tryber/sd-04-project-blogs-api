@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const validations = require('../middlewares/usersValidations');
 const { Users } = require('../models');
-const { createToken } = require('../services/auth');
+const { createToken, validateToken } = require('../services/auth');
 
 router.post('/',
   validations.verifyName,
@@ -20,6 +20,13 @@ router.post('/',
     } catch (error) {
       res.status(500).json({ message: 'algo deu errado' });
     }
+  });
+
+router.get('/',
+  validateToken,
+  async (_req, res) => {
+    const users = await Users.findAll({ attributes: { exclude: ['password'] } });
+    return res.status(200).json(users);
   });
 
 module.exports = router;
