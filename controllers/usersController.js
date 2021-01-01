@@ -42,4 +42,12 @@ router.get('/:id',
     return res.status(200).json(user);
   });
 
+router.delete('/me',
+  validateToken,
+  async (req, res) => {
+    const { email } = req.user;
+    await Users.destroy({ where: { email } });
+    return res.status(204).json({ message: 'Usuário deletado com sucesso' });
+  });
+
 module.exports = router;
