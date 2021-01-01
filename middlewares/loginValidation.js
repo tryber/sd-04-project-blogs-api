@@ -1,5 +1,5 @@
 const { Users } = require('../models');
-const { buildResponse } = require("./buildResponse");
+const { buildResponse } = require('./buildResponse');
 
 const validateEmail = async (req, res, next) => {
   const { email } = req.body;

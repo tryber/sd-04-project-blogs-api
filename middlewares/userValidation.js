@@ -1,5 +1,5 @@
 const { Users } = require('../models');
-const { buildResponse } = require("./buildResponse");
+const { buildResponse } = require('./buildResponse');
 
 const validateDisplayName = async (req, res, next) => {
   const { displayName } = req.body;
