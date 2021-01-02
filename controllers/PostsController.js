@@ -92,7 +92,7 @@ router.delete('/:id', validateToken, async (req, res) => {
   }
 
   await Posts.destroy({ where: { id: req.params.id } });
-  console.log(teste);
+
   return res.status(204).json({ message: 'Post deletado com sucesso' });
 });
 
