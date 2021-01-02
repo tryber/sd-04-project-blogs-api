@@ -80,7 +80,7 @@ router.get('/search', validateToken, async (req, res) => {
   return res.status(200).json(searchPost);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateToken, async (req, res) => {
   const { id } = req.user;
   const post = await Posts.findOne({ where: { id: req.params.id } });
   if (!post) {
@@ -92,7 +92,8 @@ router.delete('/:id', async (req, res) => {
   }
 
   await Posts.destroy({ where: { id: req.params.id } });
-  return res.status(204).json();
+  console.log(teste);
+  return res.status(204).json({ message: 'Post deletado com sucesso' });
 });
 
 module.exports = router;
