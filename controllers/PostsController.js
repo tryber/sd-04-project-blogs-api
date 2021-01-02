@@ -80,7 +80,7 @@ router.get('/search', validateToken, async (req, res) => {
   return res.status(200).json(searchPost);
 });
 
-router.delete(async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.user;
   const post = await Posts.findOne({ where: { id: req.params.id } });
   if (!post) {
