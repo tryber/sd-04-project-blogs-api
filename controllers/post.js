@@ -1,4 +1,5 @@
-const { Users, Posts } = require('../models');
+const { Op } = require('sequelize');
+const { Posts } = require('../models');
 
 const create = async (req, res) => {
   const { title, content } = req.body;
@@ -14,7 +15,7 @@ const create = async (req, res) => {
   }
 };
 
-const getAllPosts = async (req, res) => {
+const getAllPosts = async (_req, res) => {
   const posts = await Posts.findAll({ include: 'user' });
 
   return res.status(200).json(posts);
@@ -29,6 +30,25 @@ const getPost = async (req, res) => {
   }
 
   return res.status(200).json(post);
+};
+
+const searchPost = async (req, res) => {
+  const { q: query } = req.query;
+
+  if (!query) {
+    return getAllPosts(req, res);
+  }
+
+  const posts = await Posts.findAll({
+    where: { [Op.or]: [{ title: query }, { content: query }] },
+    include: 'user',
+  });
+
+  if (!posts) {
+    return res.status(201).json([]);
+  }
+
+  return res.status(200).json(posts);
 };
 
 const updatePost = async (req, res) => {
@@ -49,10 +69,28 @@ const updatePost = async (req, res) => {
   try {
     await Posts.update({ title, content }, { where: { id } });
 
-    return res.status(200).json({title, content, userId });
+    return res.status(200).json({ title, content, userId });
   } catch (error) {
     return res.status(404).json({ message: 'Erro ao atualizar' });
   }
 };
 
-module.exports = { create, getAllPosts, getPost, updatePost };
+const deletePost = async (req, res) => {
+  const { userId } = req.user;
+  const { id } = req.params;
+
+  const post = await Posts.findOne({ where: { id } });
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+
+  if (post.userId !== userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  post.destroy();
+  return res.status(204).send();
+};
+
+module.exports = { create, getAllPosts, getPost, searchPost, updatePost, deletePost };

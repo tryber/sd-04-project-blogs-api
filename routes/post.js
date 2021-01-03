@@ -6,9 +6,10 @@ const router = Router();
 const { validatePost, validateJWT } = require('../Middlewares');
 
 router.get('/', validateJWT, Controllers.PostController.getAllPosts);
-router.get('/:id', validateJWT, Controllers.PostController.getPost);
 router.post('/', validateJWT, validatePost, Controllers.PostController.create);
+router.get('/search', validateJWT, Controllers.PostController.searchPost);
+router.get('/:id', validateJWT, Controllers.PostController.getPost);
 router.put('/:id', validateJWT, validatePost, Controllers.PostController.updatePost);
-// router.delete('/me', validateJWT, Controllers.UserController.deleteActualUser);
+router.delete('/:id', validateJWT, Controllers.PostController.deletePost);
 
 module.exports = router;
