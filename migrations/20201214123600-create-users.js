@@ -4,16 +4,16 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       displayName: Sequelize.STRING,
       email: Sequelize.STRING,
       password: Sequelize.STRING,
-      image: Sequelize.STRING
+      image: Sequelize.STRING,
     });
     return usersTable;
   },
 
-  down: async (queryInterface, Sequelize) => queryInterface.dropTable('Users')
+  down: async (queryInterface) => queryInterface.dropTable('Users'),
 
 };

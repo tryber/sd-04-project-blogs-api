@@ -4,7 +4,7 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
       },
       title: Sequelize.STRING,
       content: Sequelize.STRING,
@@ -15,6 +15,6 @@ module.exports = {
     return postsTable;
   },
 
-  down: async (queryInterface, Sequelize) => queryInterface.dropTable('Posts')
+  down: async (queryInterface) => queryInterface.dropTable('Posts'),
 
 };

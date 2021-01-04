@@ -1,16 +1,16 @@
-const { Users } = require('../models')
+const { Users } = require('../models');
 const emailValidator = require("email-validator");
 
 const userValidation = async (req, res, next) => {
   const { email } = req.body;
   const user = Users.findOne({
-    where: email
-  })
+    where: email,
+  });
   if (user) {
-    return res.status(409).json({ message: "Usuário já existe" })
+    return res.status(409).json({ message: "Usuário já existe" });
   }
-  return next()
-}
+  return next();
+};
 
 const nameValidation = (req, res, next) => {
   const { displayName } = req.body;
@@ -21,13 +21,13 @@ const nameValidation = (req, res, next) => {
     return messageError("\"displayName\" length must be at least 8 characters long");
   };
 
-  return next()
+  return next();
 };
 
 const passValidation = (req, res, next) => {
   const { password } = req.body;
 
-  const messageError = (message) = res.status(400).json({ message })
+  const messageError = (message) = res.status(400).json({ message });
 
   if (!password) {
     return messageError("\"password\" is required");
@@ -36,14 +36,14 @@ const passValidation = (req, res, next) => {
   if (password.length < 6) {
     return messageError("\"password\" length must be at least 8 characters long");
   };
-  return next()
-}
+  return next();
+};
 
 
 const emailValidation = (req, res, next) => {
   const { email } = req.body;
 
-  const messageError = (message) = res.status(400).json({ message })
+  const messageError = (message) = res.status(400).json({ message });
 
   if (!email) {
     return messageError("\"email\" is required");
@@ -52,12 +52,12 @@ const emailValidation = (req, res, next) => {
   if (!emailValidator.validate(email)) {
     return messageError("\"email\" must be a valid email");
   };
-  return next()
+  return next();
 };
 
 module.exports = {
   userValidation,
   nameValidation,
   passValidation,
-  emailValidation
+  emailValidation,
 };
