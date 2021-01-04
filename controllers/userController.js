@@ -2,6 +2,8 @@ const { Users } = require('../models');
 
 const userMiddleware = require('../middlewares/userMiddleware');
 
+const authMiddleware = require('../middlewares/authMiddleWare');
+
 const insertNewUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
   console.log(email);
@@ -14,7 +16,7 @@ const insertNewUser = async (req, res) => {
     const user = await Users.create({ displayName, email, password, image });
 
     // PROVISÓRIO, ZUERA...
-    const token = user.image;
+    const token = authMiddleware.createToken(user);
 
     res.status(201).json({ token });
   } catch (err) {

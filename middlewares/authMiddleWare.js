@@ -4,7 +4,13 @@ const User = require('../models/Users');
 
 const JWT_SECRET = 'senhasecreta';
 
-module.exports = async (req, res, next) => {
+const createToken = (payload) => {
+  console.log(payload);
+  const token = 'oi';
+  return token;
+};
+
+const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: 'no token' });
@@ -24,3 +30,5 @@ module.exports = async (req, res, next) => {
     return res.status(401).json({ message: 'Token invalid' });
   }
 };
+
+module.exports = { validateToken, createToken };
