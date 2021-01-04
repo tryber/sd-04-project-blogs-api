@@ -3,7 +3,6 @@ const { Users } = require('../models');
 const userMiddleware = require('../middlewares/userMiddleware');
 
 const authMiddleware = require('../middlewares/authMiddleWare');
-const authMiddleWare = require('../middlewares/authMiddleWare');
 
 const insertNewUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
