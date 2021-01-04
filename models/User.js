@@ -1,5 +1,5 @@
-const User = (sequelize, DataTypes) => {
-  const User = sequelize.define("Users", {
+const UserModel = (sequelize, DataTypes) => {
+  const User = sequelize.define('Users', {
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
@@ -7,9 +7,8 @@ const User = (sequelize, DataTypes) => {
   },
     {
       timestamps: false,
-    }
-  )
+    });
   return User;
 };
 
-module.exports = User;
+module.exports = UserModel;
