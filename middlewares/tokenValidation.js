@@ -2,6 +2,17 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = 'opaopaopa!';
 
+const createJWT = (payload) => {
+  const headers = {
+    expiresIn: '30m',
+    algorithm: 'HS256',
+  };
+
+  const token = jwt.sign(payload, JWT_SECRET, headers);
+
+  return token;
+};
+
 const authentication = async (req, res, next) => {
   const token = req.headers.authorization;
 
@@ -20,4 +31,5 @@ const authentication = async (req, res, next) => {
 
 module.exports = {
   authentication,
+  createJWT,
 };
