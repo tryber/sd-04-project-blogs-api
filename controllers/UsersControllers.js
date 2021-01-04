@@ -22,3 +22,5 @@ router.post('/user', isValidUser, async (req, res) => {
     res.status(500).json({ message: 'Erro ao salvar o usuário no banco' });
   }
 });
+
+module.exports = router;
