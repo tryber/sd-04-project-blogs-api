@@ -1,5 +1,7 @@
 const { Users } = require('../models');
-const emailValidator = require("email-validator");
+const emailValidator = require('email-validator');
+
+const messageError = (message) = res.status(400).json({ message })
 
 const userValidation = async (req, res, next) => {
   const { email } = req.body;
@@ -7,7 +9,7 @@ const userValidation = async (req, res, next) => {
     where: email,
   });
   if (user) {
-    return res.status(409).json({ message: "Usuário já existe" });
+    return res.status(409).json({ message: 'Usuário já existe' });
   }
   return next();
 };
@@ -15,11 +17,9 @@ const userValidation = async (req, res, next) => {
 const nameValidation = (req, res, next) => {
   const { displayName } = req.body;
 
-  const messageError = (message) = res.status(400).json({ message })
-
   if (displayName.length < 8) {
-    return messageError("\"displayName\" length must be at least 8 characters long");
-  };
+    return messageError('\'displayName\' length must be at least 8 characters long');
+  }
 
   return next();
 };
@@ -27,15 +27,14 @@ const nameValidation = (req, res, next) => {
 const passValidation = (req, res, next) => {
   const { password } = req.body;
 
-  const messageError = (message) = res.status(400).json({ message });
 
   if (!password) {
-    return messageError("\"password\" is required");
-  };
+    return messageError('\'password\' is required');
+  }
 
   if (password.length < 6) {
-    return messageError("\"password\" length must be at least 8 characters long");
-  };
+    return messageError('\'password\' length must be at least 8 characters long');
+  }
   return next();
 };
 
@@ -43,15 +42,13 @@ const passValidation = (req, res, next) => {
 const emailValidation = (req, res, next) => {
   const { email } = req.body;
 
-  const messageError = (message) = res.status(400).json({ message });
-
   if (!email) {
-    return messageError("\"email\" is required");
-  };
+    return messageError('\'email\' is required');
+  }
 
   if (!emailValidator.validate(email)) {
-    return messageError("\"email\" must be a valid email");
-  };
+    return messageError('\'email\' must be a valid email');
+  }
   return next();
 };
 
