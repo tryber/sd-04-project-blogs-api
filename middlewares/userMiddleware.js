@@ -1,4 +1,4 @@
-const User = require('../models');
+const { Users } = require('../models');
 
 const validatePassword = (req, res, next) => {
   const { password } = req.body;
@@ -62,9 +62,9 @@ const validateLogin = (email, password) => {
   }
 };
 
-const emailExists = async (email) => User.findOne({ where: { email } });
+const emailExists = async (email) => Users.findOne({ where: { email } });
 
-const userExists = async (email, password) => User.findOne({ where: { email, password } });
+const userExists = async (email, password) => Users.findOne({ where: { email, password } });
 
 module.exports = {
   validateEmail,

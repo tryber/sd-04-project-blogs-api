@@ -3,10 +3,10 @@ const { Users } = require('../models');
 const userMiddleware = require('../middlewares/userMiddleware');
 
 const authMiddleware = require('../middlewares/authMiddleWare');
+const authMiddleWare = require('../middlewares/authMiddleWare');
 
 const insertNewUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
-  console.log(email);
 
   try {
     const emailAlreadyExists = await userMiddleware.emailExists(email);
@@ -15,10 +15,9 @@ const insertNewUser = async (req, res) => {
 
     const user = await Users.create({ displayName, email, password, image });
 
-    // PROVISÓRIO, ZUERA...
-    const token = authMiddleware.createToken(user);
+    const token = authMiddleware.createNewJWT(user.dataValues);
 
-    res.status(201).json({ token });
+    res.status(201).json(token);
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Something wrong... Create user' });
@@ -37,9 +36,7 @@ const login = async (req, res) => {
 
     if (!userExists) return res.status(400).json({ message: 'Campos inválidos' });
 
-    const token = '127sjnjnxjn9hx3ssas7';
-
-    return res.status(200).json(token);
+    return res.status(200).json({ msg: 'ok' });
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Something wrong...' });

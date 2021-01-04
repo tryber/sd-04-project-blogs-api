@@ -4,9 +4,13 @@ const User = require('../models/Users');
 
 const JWT_SECRET = 'senhasecreta';
 
-const createToken = (payload) => {
-  console.log(payload);
-  const token = 'oi';
+const createNewJWT = (payload) => {
+  const jwtconfig = {
+    expiresIn: '30m',
+    algorithm: 'HS256',
+  };
+  const token = jwt.sign(payload, JWT_SECRET, jwtconfig);
+
   return token;
 };
 
@@ -31,4 +35,4 @@ const validateToken = async (req, res, next) => {
   }
 };
 
-module.exports = { validateToken, createToken };
+module.exports = { validateToken, createNewJWT };
