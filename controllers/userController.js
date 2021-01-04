@@ -1,6 +1,7 @@
 const express = require('express');
 const { Users } = require('../models');
 const { userValidation, nameValidation, passValidation, emailValidation } = require('../services/userServices');
+
 const router = express.Router();
 
 router.post('/', userValidation, nameValidation, passValidation, emailValidation, (req, res) => {
