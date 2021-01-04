@@ -3,6 +3,7 @@ const { Users } = require('../models');
 const userMiddleware = require('../middlewares/userMiddleware');
 
 const authMiddleware = require('../middlewares/authMiddleWare');
+const authMiddleWare = require('../middlewares/authMiddleWare');
 
 const insertNewUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -33,12 +34,16 @@ const login = async (req, res) => {
 
     const userExists = await userMiddleware.userExists(email, password);
 
+    console.log('Login contoller', userExists);
+
     if (!userExists) return res.status(400).json({ message: 'Campos inválidos' });
 
-    return res.status(200).json({ msg: 'ok' });
+    const token = authMiddleWare.createNewJWT(userExists);
+
+    return res.status(200).json(token);
   } catch (err) {
     console.error(err);
-    res.status(400).json({ message: 'Something wrong...' });
+    res.status(400).json({ message: 'Something wrong... Login' });
   }
 };
 

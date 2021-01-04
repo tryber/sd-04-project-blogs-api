@@ -1,8 +1,11 @@
 const router = require('express').Router();
 
 const userController = require('./controllers/userController');
+const postController = require('./controllers/postController');
 const userMiddlewares = require('./middlewares/userMiddleware');
-// const authMiddleWare = require('./middlewares/authMiddleWare');
+const authMiddleWare = require('./middlewares/authMiddleWare');
+
+router.post('/login', userController.login);
 
 router.post(
   '/user',
@@ -12,8 +15,10 @@ router.post(
   userController.insertNewUser,
 );
 
-router.get('/user', userController.getAllUsers);
+router.get('/user', authMiddleWare.validateToken, userController.getAllUsers);
 
-router.post('/login', userController.login);
+router.post('/post', postController.createNewPost);
+
+router.get('/post', postController.getAllPosts);
 
 module.exports = router;
