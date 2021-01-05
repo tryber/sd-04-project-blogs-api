@@ -1,8 +1,6 @@
 const emailValidator = require('email-validator');
-
 const { Users } = require('../models');
-
-const messageError = (res, status, message) => res.status(status).json({ message });
+const messageError = require('../utils/messageError');
 
 const userValidation = async (req, res, next) => {
   const user = await Users.findOne({
