@@ -29,23 +29,23 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const notValidLogin = await userMiddleware.validateLogin(email, password);
+    const notValidLogin = userMiddleware.validateLogin(email, password);
 
     if (notValidLogin) return res.status(400).json({ message: notValidLogin.message });
 
     const userExists = await userMiddleware.userExists(email, password);
 
-    console.log('Login contoller', userExists);
+    console.log('Login controller', userExists.dataValues);
 
     if (!userExists) return res.status(400).json({ message: 'Campos inválidos' });
 
-    const token = authMiddleWare.createNewJWT(userExists);
+    const token = authMiddleWare.createNewJWT(userExists.dataValues);
 
     return res.status(200).json(token);
   } catch (err) {
     console.error(err);
 
-    res.status(400).json({ message: 'Something wrong... Login' });
+    res.status(400).json({ message: 'Campos inválidos' });
   }
 };
 
@@ -79,13 +79,15 @@ const getUserById = async (req, res) => {
 
 const removeUser = async (req, res) => {
   try {
-    await Users.destroy({ where: { id: req.params.id } });
+    const { email } = req.user;
+
+    await Users.destroy({ where: { email } });
 
     return res.status(204).json();
   } catch (err) {
     console.error(err);
 
-    res.status(400).json({ msg: 'Something wrong...' });
+    res.status(400).json({ msg: 'Something wrong... remove user' });
   }
 };
 

@@ -23,9 +23,7 @@ const validateToken = async (req, res, next) => {
 
     console.log(token);
 
-    // const payload = jwt.verify(token, JWT_SECRET);
-
-    // req.user = payload;
+    // req.user = jwt.verify(token, JWT_SECRET, (err) => console.log('aqui tem o erro', err));
 
     next();
   } catch (err) {

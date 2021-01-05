@@ -60,6 +60,7 @@ const validateLogin = (email, password) => {
   if (!password) {
     return { message: '"password" is not allowed to be empty' };
   }
+  return false;
 };
 
 const emailExists = async (email) => Users.findOne({ where: { email } });

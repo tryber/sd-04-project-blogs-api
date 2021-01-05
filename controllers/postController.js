@@ -3,6 +3,7 @@ const { Posts, Users } = require('../models');
 const createNewPost = async (req, res) => {
   try {
     const { title, content } = req.body;
+    console.log('user aqui req.user', req.user);
 
     const { email } = req.user;
 
@@ -15,7 +16,7 @@ const createNewPost = async (req, res) => {
     return res.status(201).json({ title, content, userId });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ msg: 'Something wrong...' });
+    res.status(400).json({ msg: 'Something wrong... create new post' });
   }
 };
 

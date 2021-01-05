@@ -4,6 +4,7 @@ const app = express();
 
 const router = require('./router.js');
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
