@@ -59,4 +59,16 @@ router.put('/:id', authentication, async (req, res) => {
   return res.status(200).json({ title, content, userId: userReqId });
 });
 
+router.delete('/:id', authentication, async (req, res) => {
+  const { id } = req.params;
+  const userReqId = req.user.dataValues.id;
+
+  const post = await Posts.findOne({ where: { id } });
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+  if (post.userId !== userReqId) return res.status(401).json({ message: 'Usuário não autorizado' });
+
+  await Posts.destroy({ where: { id } });
+  return res.status(204).json();
+});
+
 module.exports = router;

@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     }
     const { password: _, ...userWithoutPassword } = user;
     const token = await createJWT(userWithoutPassword);
-    return res.status(201).json({ token });
+    return res.status(200).json({ token });
   } catch (e) {
     console.log(e.message);
     res.status(500).json({ message: 'Erro ao salvar o usuário no banco' });
