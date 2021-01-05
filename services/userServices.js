@@ -1,4 +1,5 @@
 const emailValidator = require('email-validator');
+
 const { Users } = require('../models');
 
 const messageError = (res, status, message) => res.status(status).json({ message });
@@ -15,7 +16,7 @@ const userValidation = async (req, res, next) => {
 
 const nameValidation = (req, res, next) => {
   const { displayName } = req.body;
-  
+
   if (!displayName || displayName.length < 8) {
     return messageError(res, 400, '\'displayName\' length must be at least 8 characters long');
   }

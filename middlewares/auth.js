@@ -23,7 +23,7 @@ const authMiddleware = (req, res, next) => {
   } catch (err) {
     console.error(err);
     res.status(401).json({ message: 'jwt malformed' });
-  };
+  }
 };
 
 module.exports = authMiddleware;

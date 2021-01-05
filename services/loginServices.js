@@ -1,5 +1,5 @@
-const { Users } = require('../models');
 const jwt = require('jsonwebtoken');
+const { Users } = require('../models');
 
 const jwtConfig = {
   expiresIn: '1h',
@@ -9,7 +9,7 @@ const secret = 'NinguemNuncaVaiDescobrirEsteTokenSecreto';
 
 const userLoginValidation = (req, res) => {
   const { email, password } = req.body;
-  
+
   Users.findOne({ where: { email } })
     .then(({ dataValues }) => {
       if (email !== dataValues.email || password !== dataValues.password) {
