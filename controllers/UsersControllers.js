@@ -5,7 +5,7 @@ const { createJWT } = require('../middlewares/tokenValidation');
 
 const router = express.Router();
 
-router.post('/user', isValidUser, async (req, res) => {
+router.post('/', isValidUser, async (req, res) => {
   try {
     const { displayName, email, password, image } = req.body;
     const creation = await UsersModel.create({
