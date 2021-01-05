@@ -9,7 +9,7 @@ router.post('/', nameValidation, passValidation, emailValidation, userValidation
   const { displayName, email, password, image } = req.body;
 
   return Users.upsert({ displayName, email, password, image })
-    .then((user) => res.status(200).json(user[0]));
+    .then((user) => res.status(201).json(user[0]));
 });
 
 router.get('/', authMiddleware, (_req, res) =>
