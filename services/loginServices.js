@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const emailValidator = require('email-validator');
 const { Users } = require('../models');
 const messageError = require('../utils/messageError');
 
