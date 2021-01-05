@@ -1,11 +1,38 @@
 const jwt = require('jsonwebtoken');
+const emailValidator = require('email-validator');
 const { Users } = require('../models');
+const messageError = require('../utils/messageError');
 
 const jwtConfig = {
   expiresIn: '1h',
   algorithm: 'HS256',
 };
+
 const secret = 'NinguemNuncaVaiDescobrirEsteTokenSecreto';
+
+const loginEmailValidation = (req, res, next) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return messageError(res, 400, '"email" is required');
+  }
+  if (!emailValidator.length) {
+    return messageError(res, 400, '"email" is not allowed to be empty');
+  }
+  return next();
+};
+
+const loginPassValidation = (req, res, next) => {
+  const { password } = req.body;
+
+  if (!password) {
+    return messageError(res, 400, '"password" is required');
+  }
+  if (!password.length) {
+    return messageError(res, 400, '"password" is not allowed to be empty');
+  }
+  return next();
+};
 
 const userLoginValidation = (req, res) => {
   const { email, password } = req.body;
@@ -21,4 +48,4 @@ const userLoginValidation = (req, res) => {
     });
 };
 
-module.exports = { userLoginValidation };
+module.exports = { userLoginValidation, loginEmailValidation, loginPassValidation };

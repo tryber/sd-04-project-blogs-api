@@ -1,9 +1,8 @@
 const express = require('express');
-const { userLoginValidation } = require('../services/loginServices');
-const { passValidation, emailValidation } = require('../services/userServices');
+const { userLoginValidation, loginEmailValidation, loginPassValidation } = require('../services/loginServices');
 
 const router = express.Router();
 
-router.post('/', passValidation, emailValidation, userLoginValidation);
+router.post('/', loginEmailValidation, loginPassValidation, userLoginValidation);
 
 module.exports = router;
