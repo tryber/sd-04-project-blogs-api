@@ -39,7 +39,7 @@ const userLoginValidation = (req, res) => {
 
   Users.findOne({ where: { email } })
     .then(({ dataValues }) => {
-      if (email !== dataValues.email || password !== dataValues.password) {
+      if (!dataValues || email !== dataValues.email || password !== dataValues.password) {
         return res.status(400).json({ message: 'Campos invalidos' });
       }
       const token = jwt.sign({ data: dataValues }, secret, jwtConfig);
