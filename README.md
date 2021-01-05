@@ -216,7 +216,7 @@ Variáveis:
   }
   ```
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível cadastrar um usuário com sucesso]**
 
@@ -295,7 +295,7 @@ Se o usuário cadastrar o campo "email" com um email que já existe, o resultado
   }
   ```
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível fazer login com sucesso]**
 
@@ -356,7 +356,7 @@ Se o login for com usuário inexistente o resultado retornado deverá ser confor
 
 - A requisição deve ter token de autenticação nos headers e, caso contrário, retorne um código de `status 401`.
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível listar todos os usuários]**
 
@@ -393,7 +393,7 @@ Se o token for inválido o resultado retornado deverá ser conforme exibido abai
 
 - A requisição deve ter token de autenticação nos headers e, caso contrário, retorne um código de `status 401`.
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível listar um usuario específico com sucesso]**
 
@@ -425,7 +425,7 @@ Se o token for inválido o resultado retornado deverá ser conforme exibido abai
 
 - Utilizando o token de autenticação nos headers, o usuário correspondente deve ser apagado.
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível excluir meu usuário com sucesso]**
 
@@ -462,7 +462,7 @@ Se não conter o token o resultado retornado deverá ser conforme exibido abaixo
 
 - A requisição deve ter o token de autenticação nos headers e, caso contrário, retorne um código de `status 401`.
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível cadastrar um blogpost com sucesso]**
 
@@ -518,7 +518,7 @@ Se o token for inválido o resultado retornado deverá ser conforme exibido abai
   ]
   ```
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível listar blogpost com sucesso]**
 
@@ -560,7 +560,7 @@ Se o token for inválido o resultado retornado deverá ser conforme exibido abai
   }
   ```
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível listar um blogpost com sucesso]**
 
@@ -607,7 +607,7 @@ Se o id do post for inválido o resultado retornado deverá ser conforme exibido
 
 - Caso o post não contenha o `title` e/ou o `content` a API deve retornar um erro de `status 400`.
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível editar um blogpost com sucesso]**
 
@@ -669,7 +669,7 @@ Se não conter o campo `content` o resultado retornado deverá ser conforme exib
 
 - Caso nenhum **BlogPost** satisfaça a busca, retorne um array vazio.
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível buscar um blogpost pelo `title`]**
 
@@ -719,7 +719,7 @@ Se o token for inválido o resultado retornado deverá ser conforme exibido abai
 
 - Caso o post referido não exista, deve-se retornar um código de `status 404`.
 
-### Além disso, as seguintes verificações serão feitas:
+#### Além disso, as seguintes verificações serão feitas:
 
 **[Será validado que é possível deletar um blogpost com sucesso]**
 
