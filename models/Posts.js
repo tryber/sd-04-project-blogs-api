@@ -9,6 +9,10 @@ const createNewPost = (sequelize, DataTypes) => {
       timestamps: false,
     },
   );
+
+  Posts.associate = (models) => {
+    Posts.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' });
+  };
   return Posts;
 };
 

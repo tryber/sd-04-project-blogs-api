@@ -21,12 +21,14 @@ const validateToken = async (req, res, next) => {
       return res.status(401).json({ message: 'Token não encontrado' });
     }
 
-    console.log(token);
+    const layout = jwt.verify(token, JWT_SECRET);
 
-    // req.user = jwt.verify(token, JWT_SECRET, (err) => console.log('aqui tem o erro', err));
+    req.token = layout;
 
     next();
   } catch (err) {
+    console.error('Erro do Catch', err);
+
     return res.status(401).json({ message: 'Token expirado ou inválido' });
   }
 };

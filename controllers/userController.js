@@ -3,7 +3,6 @@ const { Users } = require('../models');
 const userMiddleware = require('../middlewares/userMiddleware');
 
 const authMiddleware = require('../middlewares/authMiddleWare');
-const authMiddleWare = require('../middlewares/authMiddleWare');
 
 const insertNewUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -15,7 +14,11 @@ const insertNewUser = async (req, res) => {
 
     const user = await Users.create({ displayName, email, password, image });
 
+    console.log('user aqui...>>>>>', user);
+
     const token = authMiddleware.createNewJWT(user.dataValues);
+
+    req.user = user.dataValues;
 
     res.status(201).json(token);
   } catch (err) {
@@ -41,6 +44,8 @@ const login = async (req, res) => {
 
     const token = authMiddleWare.createNewJWT(userExists.dataValues);
 
+    req.user = userExists.dataValues;
+
     return res.status(200).json(token);
   } catch (err) {
     console.error(err);
@@ -63,7 +68,7 @@ const getAllUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const user = await Users.findByPk(req.params.id);
+    const user = await Users.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
 
     if (!user) {
       return res.status(404).json({ message: 'Usuário não existe' });
@@ -73,17 +78,18 @@ const getUserById = async (req, res) => {
   } catch (err) {
     console.error(err);
 
-    res.status(401).json({ msg: 'Something wrong...' });
+    res.status(404).json({ msg: 'Something wrong...' });
   }
 };
 
 const removeUser = async (req, res) => {
   try {
     const { email } = req.user;
+    console.log(email);
 
     await Users.destroy({ where: { email } });
 
-    return res.status(204).json();
+    return res.status(204).json({});
   } catch (err) {
     console.error(err);
 
