@@ -1,4 +1,4 @@
-import { validate } from 'email-validator';
+const emailValidator = require('email-validator');
 
 const { Users } = require('../models');
 
@@ -41,13 +41,13 @@ const emailValidation = (req, res, next) => {
   if (!email) {
     return messageError(res, 400, '\'email\' is required');
   }
-  if (!validate(email)) {
+  if (!emailValidator.validate(email)) {
     return messageError(res, 400, '\'email\' must be a valid email');
   }
   return next();
 };
 
-export default {
+module.exports = {
   userValidation,
   nameValidation,
   passValidation,

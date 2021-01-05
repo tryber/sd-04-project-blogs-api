@@ -16,6 +16,7 @@ const userLoginValidation = (req, res) => {
         return res.status(400).json({ message: 'Campos invalidos' });
       }
       const token = jwt.sign({ data: dataValues }, secret, jwtConfig);
+      req.headers.authorization = token;
       res.status(200).json({ token });
     });
 };
