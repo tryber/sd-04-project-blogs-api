@@ -7,11 +7,17 @@ const router = express.Router();
 router.post('/', nameValidation, passValidation, emailValidation, userValidation, (req, res) => {
   const { displayName, email, password, image } = req.body;
 
-  return Users.upsert({ displayName, email, password, image }).then(user => res.status(200).json(user));
+  return Users.upsert({ displayName, email, password, image }).then(user => res.status(200).json(user[0]));
 });
 
-router.get('/', (req, res) => {
-  return Users.findAll().then(users => res.status(200).json(users));
+router.get('/', (_req, res) => {
+  return Users.findAll().then(users => {
+    const newUsers = users.map(({ dataValues }) => {
+      const { id, displayName, email, image } = dataValues;
+      return { id, displayName, email, image };
+    });
+    return res.status(200).json(newUsers);
+  });
 });
 
 module.exports = router;
