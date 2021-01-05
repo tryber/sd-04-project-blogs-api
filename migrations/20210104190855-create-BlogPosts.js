@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
@@ -25,15 +25,13 @@ module.exports = {
         onDelete: 'CASCADE',
         field: 'userId',
       },
-      publishedAt: {
+      published: {
         type: Sequelize.DATE,
         allowNull: false,
-        field: 'published',
       },
-      updatedAt: {
+      updated: {
         type: Sequelize.DATE,
         allowNull: false,
-        field: 'updated',
       },
     });
     return BlogPostsTable;

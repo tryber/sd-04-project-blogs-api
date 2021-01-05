@@ -36,4 +36,14 @@ router.get('/:id', authentication, async (req, res) => {
   return res.status(200).json(user);
 });
 
+router.delete('/me', authentication, async (req, res) => {
+  try {
+    const { email } = req.user.dataValues;
+    await Users.destroy({ where: { email } });
+    res.status(204).json();
+  } catch (e) {
+    res.status(500).json({ message: 'Erro ao deletar usuário' });
+  }
+});
+
 module.exports = router;
