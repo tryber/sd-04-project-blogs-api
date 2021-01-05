@@ -8,14 +8,14 @@ router.post('/', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email) res.status(400).json({ message: '"email" is required' });
-    if (!password) res.status(400).json({ message: '"password" is required' });
+    if (email === undefined) res.status(400).json({ message: '"email" is required' });
+    if (password === undefined) res.status(400).json({ message: '"password" is required' });
     if (email.length === 0) res.status(400).json({ message: '"email" is not allowed to be empty' });
     if (password.length === 0) res.status(400).json({ message: '"password" is not allowed to be empty' });
 
     const user = await Users.findOne({ where: { email } });
     if (!user) {
-      res.status(401).json({ message: 'Campos Inválidos' });
+      res.status(400).json({ message: 'Campos Inválidos' });
     }
     const { password: _, ...userWithoutPassword } = user;
     const token = await createJWT(userWithoutPassword);
