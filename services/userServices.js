@@ -1,6 +1,6 @@
 import { validate } from 'email-validator';
 
-import { Users } from '../models';
+const { Users } = require('../models');
 
 const messageError = (res, status, message) => res.status(status).json({ message });
 
