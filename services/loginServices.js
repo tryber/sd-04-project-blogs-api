@@ -3,7 +3,7 @@ const { Users } = require('../models');
 const messageError = require('../utils/messageError');
 
 const jwtConfig = {
-  expiresIn: '1h',
+  expiresIn: '7d',
   algorithm: 'HS256',
 };
 
