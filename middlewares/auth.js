@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
 
   if (!token) {
     console.log('Token não encontrado');
-    return res.status(401).json({ message: 'Token não encontrado' });
+    return res.status(401).json({ message: 'Token expirado ou invalido' });
   }
 
   try {
