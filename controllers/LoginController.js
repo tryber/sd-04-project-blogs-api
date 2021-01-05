@@ -1,5 +1,5 @@
 const express = require('express');
-const { UsersModel } = require('../models');
+const { Users } = require('../models');
 const { createJWT } = require('../middlewares/tokenValidation');
 
 const router = express.Router();
@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     if (email.length === 0) res.status(400).json({ message: '"email" is not allowed to be empty' });
     if (password.length === 0) res.status(400).json({ message: '"password" is not allowed to be empty' });
 
-    const user = await UsersModel.findOne({ where: { email } });
+    const user = await Users.findOne({ where: { email } });
     if (!user) {
       res.status(401).json({ message: 'Campos Inválidos' });
     }
