@@ -6,8 +6,8 @@ const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    console.log('missing auth token');
-    return res.status(401).json({ message: 'missing auth token' });
+    console.log('Token não encontrado');
+    return res.status(401).json({ message: 'Token não encontrado' });
   }
 
   try {
