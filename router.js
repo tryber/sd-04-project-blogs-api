@@ -17,7 +17,11 @@ router.post(
 
 router.get('/user', authMiddleWare.validateToken, userController.getAllUsers);
 
-router.post('/post', postController.createNewPost);
+router.get('/user/:id', authMiddleWare.validateToken, userController.getUserById);
+
+router.delete('user/me', userController.removeUser);
+
+router.post('/post', authMiddleWare.validateToken, postController.createNewPost);
 
 router.get('/post', postController.getAllPosts);
 

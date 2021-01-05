@@ -20,6 +20,7 @@ const insertNewUser = async (req, res) => {
     res.status(201).json(token);
   } catch (err) {
     console.error(err);
+
     res.status(400).json({ message: 'Something wrong... Create user' });
   }
 };
@@ -43,6 +44,7 @@ const login = async (req, res) => {
     return res.status(200).json(token);
   } catch (err) {
     console.error(err);
+
     res.status(400).json({ message: 'Something wrong... Login' });
   }
 };
@@ -54,8 +56,37 @@ const getAllUsers = async (req, res) => {
     return res.status(200).json(users);
   } catch (err) {
     console.error(err);
+
     res.status(400).json({ message: 'Something wrong...' });
   }
 };
 
-module.exports = { insertNewUser, getAllUsers, login };
+const getUserById = async (req, res) => {
+  try {
+    const user = await Users.findByPk(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não existe' });
+    }
+
+    return res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+
+    res.status(401).json({ msg: 'Something wrong...' });
+  }
+};
+
+const removeUser = async (req, res) => {
+  try {
+    await Users.destroy({ where: { id: req.params.id } });
+
+    return res.status(204).json();
+  } catch (err) {
+    console.error(err);
+
+    res.status(400).json({ msg: 'Something wrong...' });
+  }
+};
+
+module.exports = { insertNewUser, getAllUsers, login, getUserById, removeUser };
