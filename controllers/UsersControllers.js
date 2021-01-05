@@ -6,8 +6,7 @@ const { createJWT, authentication } = require('../middlewares/tokenValidation');
 const router = express.Router();
 
 router.post('/', isValidUser, async (req, res) => {
-  return res.status(200).json({ oi: 'oi' });
-  /* try {
+  try {
     const { displayName, email, password, image } = req.body;
     const creation = await UsersModel.create({
       displayName,
@@ -21,7 +20,7 @@ router.post('/', isValidUser, async (req, res) => {
   } catch (e) {
     console.log(e.message);
     res.status(500).json({ message: 'Erro ao salvar o usuário no banco' });
-  }*/
+  }
 });
 
 router.get('/', authentication, async (_req, res) => {
