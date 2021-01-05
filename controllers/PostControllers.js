@@ -5,7 +5,20 @@ const { authentication } = require('../middlewares/tokenValidation');
 const router = express.Router();
 
 router.get('/', authentication, async (req, res) => {
-  const blogPosts = await Posts.findAll();
+  const { email } = req.user.dataValues;
+
+  const user = await Users.findOne({ where: { email } });
+
+  const blogPosts = await Posts.findAll({
+    attributes: { exclude: ['userId'] },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+    ],
+  });
   return res.status(200).json(blogPosts);
 });
 

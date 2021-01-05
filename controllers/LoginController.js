@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email) res.status(400).json({ message: '"email" is required' });
-    if (!password) res.status(400).json({ message: '"passowrd" is required' });
+    if (!password) res.status(400).json({ message: '"password" is required' });
     if (email.length === 0) res.status(400).json({ message: '"email" is not allowed to be empty' });
     if (password.length === 0) res.status(400).json({ message: '"password" is not allowed to be empty' });
 
