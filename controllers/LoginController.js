@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
     const user = await Users.findOne({ where: { email } });
     if (!user) {
-      res.status(400).json({ message: 'Campos Inválidos' });
+      res.status(400).json({ message: 'Campos inválidos' });
     }
     const { password: _, ...userWithoutPassword } = user;
     const token = await createJWT(userWithoutPassword);
