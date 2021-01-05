@@ -13,11 +13,11 @@ const secret = 'NinguemNuncaVaiDescobrirEsteTokenSecreto';
 const loginEmailValidation = (req, res, next) => {
   const { email } = req.body;
 
+  if (!email.length) {
+    return messageError(res, 400, '"email" is not allowed to be empty');
+  }
   if (!email) {
     return messageError(res, 400, '"email" is required');
-  }
-  if (!emailValidator.length) {
-    return messageError(res, 400, '"email" is not allowed to be empty');
   }
   return next();
 };
@@ -25,12 +25,13 @@ const loginEmailValidation = (req, res, next) => {
 const loginPassValidation = (req, res, next) => {
   const { password } = req.body;
 
-  if (!password) {
-    return messageError(res, 400, '"password" is required');
-  }
   if (!password.length) {
     return messageError(res, 400, '"password" is not allowed to be empty');
   }
+  if (!password) {
+    return messageError(res, 400, '"password" is required');
+  }
+
   return next();
 };
 
