@@ -1,7 +1,7 @@
 const express = require('express');
 const authMiddleware = require('../middlewares/auth');
 const { Users } = require('../models');
-const { userValidation, nameValidation, passValidation, emailValidation } = require('../services/userServices');
+const { userValidation, nameValidation, passValidation, emailValidation } = require('../services/userServices').default;
 
 const router = express.Router();
 
@@ -12,14 +12,13 @@ router.post('/', nameValidation, passValidation, emailValidation, userValidation
     .then((user) => res.status(200).json(user[0]));
 });
 
-router.get('/', authMiddleware, (_req, res) => {
-  return Users.findAll().then(users => {
+router.get('/', authMiddleware, (_req, res) =>
+  Users.findAll().then((users) => {
     const newUsers = users.map(({ dataValues }) => {
       const { id, displayName, email, image } = dataValues;
       return { id, displayName, email, image };
     });
     return res.status(200).json(newUsers);
-  });
-});
+  }));
 
 module.exports = router;

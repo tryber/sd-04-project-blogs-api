@@ -6,5 +6,4 @@ const UserModel = (sequelize, DataTypes) =>
     image: DataTypes.STRING,
   }, { timestamps: false });
 
-
 module.exports = UserModel;

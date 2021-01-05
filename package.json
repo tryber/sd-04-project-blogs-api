@@ -30,6 +30,8 @@
     "eslint-plugin-import": "^2.21.2",
     "frisby": "^2.1.2",
     "jest": "^26.0.1",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "email-validator": "^2.0.4"
+
   }
 }
