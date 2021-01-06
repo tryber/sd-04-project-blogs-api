@@ -1,9 +1,10 @@
 const { Router } = require('express');
+const { createJWT } = require('../auth/createJWT');
 const { User } = require('../models');
 
-const router = Router();
+const userRouter = Router();
 
-router.get('/', (req, res) => {
+userRouter.get('/', (req, res) => {
   User.findAll()
     .then((users) => {
       res.status(200).json(users);
@@ -13,14 +14,22 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
-  const { displayName, email, password, image } = req.body;
-  User.create({ displayName, email, password, image })
-    .then((user) => {
-      res.status(200).json(user);
-    })
-    .catch((e) =>
-      res.status(400).send({ message: e.message.slice(18) }));
+userRouter.post('/', async (req, res) => {
+  try {
+    const { displayName, email, password, image } = req.body;
+    if (!email) return res.status(400).json({ message: '"email" is required' });
+    const emailValidation = await User.findOne({ where: { email } });
+    if (!emailValidation) {
+      return User.create({ displayName, email, password, image })
+        .then((user) => createJWT(user.dataValues))
+        .then((token) => {
+          res.status(201).json({ token });
+        });
+    }
+    return res.status(409).json({ message: 'Usuário já existe' });
+  } catch (error) {
+    res.status(400).send({ message: error.message.slice(18) });
+  }
 });
 
-module.exports = router;
+module.exports = userRouter;
