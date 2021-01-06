@@ -23,7 +23,7 @@ router.post(
     } catch (err) {
       return res.status(500).json({ message: 'Algo errado!', err });
     }
-  }
+  },
 );
 
 router.get('/', auth, async (_req, res) => {

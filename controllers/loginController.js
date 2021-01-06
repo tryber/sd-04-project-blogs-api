@@ -26,7 +26,7 @@ router.post(
     } catch (err) {
       return res.status(500).json({ message: 'Algo errado!', err });
     }
-  }
+  },
 );
 
 module.exports = router;
