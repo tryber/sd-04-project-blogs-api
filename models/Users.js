@@ -4,7 +4,7 @@ const User = (sequelize, DataTypes) => sequelize.define('User', {
     validate: {
       len: {
         args: [8],
-        msg: '"displayName" length must be 8 characters long',
+        msg: '"displayName" length must be at least 8 characters long',
       },
     },
   },

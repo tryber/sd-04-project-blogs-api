@@ -15,20 +15,19 @@ userRouter.get('/', (req, res) => {
 });
 
 userRouter.post('/', async (req, res) => {
+  const { displayName, email, password, image } = req.body;
+  if (!email) return res.status(400).json({ message: '"email" is required' });
+  if (!password) return res.status(400).json({ message: '"password" is required' });
   try {
-    const { displayName, email, password, image } = req.body;
-    if (!email) return res.status(400).json({ message: '"email" is required' });
     const emailValidation = await User.findOne({ where: { email } });
     if (!emailValidation) {
-      return User.create({ displayName, email, password, image })
-        .then((user) => createJWT(user.dataValues))
-        .then((token) => {
-          res.status(201).json({ token });
-        });
+      const newUser = await User.create({ displayName, email, password, image });
+      const usrToken = createJWT(newUser.dataValues);
+      return res.status(201).json({ usrToken });
     }
     return res.status(409).json({ message: 'Usuário já existe' });
   } catch (error) {
-    res.status(400).send({ message: error.message.slice(18) });
+    return res.status(400).json({ message: error.message.slice(18) });
   }
 });
 
