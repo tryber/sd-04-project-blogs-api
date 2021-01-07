@@ -2,6 +2,7 @@ const express = require('express');
 const { authMiddleware, createToken } = require('../middlewares/auth');
 const { Users } = require('../models');
 const { userValidation, nameValidation, passValidation, emailValidation } = require('../services/userServices');
+const usersWithouPass = require('../utils/userWithoutPass');
 
 const router = express.Router();
 
@@ -14,12 +15,19 @@ router.post('/', nameValidation, passValidation, emailValidation, userValidation
 });
 
 router.get('/', authMiddleware, (_req, res) =>
-  Users.findAll().then((users) => {
-    const newUsers = users.map(({ dataValues }) => {
-      const { id, displayName, email, image } = dataValues;
-      return { id, displayName, email, image };
-    });
-    return res.status(200).json(newUsers);
-  }));
+  Users.findAll().then((users) => res.status(200).json(usersWithouPass(users))));
 
+router.get('/:id', authMiddleware, async (req, res) => {
+  try {
+    const user = await Users.findOne({ where: { id: req.params.id } });
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não existe' });
+    }
+    return res.status(200).json(usersWithouPass([user])[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Um erro enesperado aconteceu:${err}`);
+  }
+});
 module.exports = router;
