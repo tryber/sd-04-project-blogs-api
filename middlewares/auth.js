@@ -15,12 +15,11 @@ const createToken = (payload) => {
 const authMiddleware = (req, res, next) => {
   try {
     const token = req.headers.authorization;
-    console.log(token);
+
     if (!token) {
-      return res.status(401).json({ message: 'Token expirado ou invalido' });
+      return res.status(401).json({ message: 'Token não encontrado' });
     }
-    const decode = jwt.verify(token, secret);
-    const user = decode.data;
+    const user = jwt.verify(token, secret);
     if (!user) {
       return res.status(401).json({ message: 'Erro ao procurar usuario do token' });
     }
@@ -28,7 +27,7 @@ const authMiddleware = (req, res, next) => {
     return next();
   } catch (err) {
     // console.error(err);
-    res.status(401).json({ message: 'Erro: Seu token é inválido' });
+    res.status(401).json({ message: 'Token expirado ou inválido' });
   }
 };
 
