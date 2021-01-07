@@ -1,51 +1,33 @@
-const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const messageError = require('../utils/messageError');
 
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
-
-const secret = 'NinguemNuncaVaiDescobrirEsteTokenSecreto';
-
-const loginEmailValidation = (req, res, next) => {
-  const { email } = req.body;
-
-  if (!email.length) {
-    return messageError(res, 400, '"email" is not allowed to be empty');
-  }
-  if (!email) {
-    return messageError(res, 400, '"email" is required');
-  }
-  return next();
-};
-
-const loginPassValidation = (req, res, next) => {
-  const { password } = req.body;
-
-  if (!password.length) {
-    return messageError(res, 400, '"password" is not allowed to be empty');
-  }
-  if (!password) {
-    return messageError(res, 400, '"password" is required');
-  }
-
-  return next();
-};
-
-const userLoginValidation = (req, res) => {
+const dataLoginValidation = (req, res, next) => {
   const { email, password } = req.body;
+  let data = next();
+  if (email === '') {
+    data = messageError(res, 400, '"email" is not allowed to be empty');
+  }
+  if (email === undefined) {
+    data = messageError(res, 400, '"email" is required');
+  }
+  if (password === '') {
+    data = messageError(res, 400, '"password" is not allowed to be empty');
+  }
+  if (password === undefined) {
+    data = messageError(res, 400, '"password" is required');
+  }
 
-  Users.findOne({ where: { email } })
-    .then(({ dataValues }) => {
-      if (!dataValues || email !== dataValues.email || password !== dataValues.password) {
-        return res.status(400).json({ message: 'Campos invalidos' });
-      }
-      const token = jwt.sign({ data: dataValues }, secret, jwtConfig);
-      req.headers.authorization = token;
-      res.status(200).json({ token });
-    });
+  return data;
 };
 
-module.exports = { userLoginValidation, loginEmailValidation, loginPassValidation };
+const userLoginValidation = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await Users.findOne({ where: { email: email || '' } });
+
+  if (!user) {
+    return res.status(400).json({ message: 'Campos inválidos' });
+  }
+  return next();
+};
+
+module.exports = { userLoginValidation, dataLoginValidation };
