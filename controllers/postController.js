@@ -33,4 +33,26 @@ router.get('/', authMiddleware, async (_req, res) => {
   }
 });
 
+router.get('/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Posts.findOne({ where: { id } });
+    if (!post) {
+      return res.status(404).json({ message: 'Post não existe' });
+    }
+    const { title, published, updated, content, userId } = post;
+    const user = await Users.findOne({ where: { id: userId } });
+    return res.status(200).json({
+      id: post.id,
+      title,
+      published,
+      updated,
+      content,
+      user: usersWithouPass([user])[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Um erro enesperado aconteceu:${err}`);
+  }
+});
+
 module.exports = router;
