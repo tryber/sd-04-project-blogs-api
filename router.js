@@ -2,16 +2,17 @@ const router = require('express').Router();
 
 const userController = require('./controllers/userController');
 const postController = require('./controllers/postController');
-const userMiddlewares = require('./middlewares/userMiddleware');
+const userMiddleware = require('./middlewares/userMiddleware');
+const postMiddleware = require('./middlewares/postMiddleware');
 const authMiddleWare = require('./middlewares/authMiddleWare');
 
 router.post('/login', userController.login);
 
 router.post(
   '/user',
-  userMiddlewares.validateName,
-  userMiddlewares.validatePassword,
-  userMiddlewares.validateEmail,
+  userMiddleware.validateName,
+  userMiddleware.validatePassword,
+  userMiddleware.validateEmail,
   userController.insertNewUser,
 );
 
@@ -21,7 +22,13 @@ router.delete('/user/me', authMiddleWare.validateToken, userController.removeUse
 
 router.get('/user/:id', authMiddleWare.validateToken, userController.getUserById);
 
-router.post('/post', authMiddleWare.validateToken, postController.createNewPost);
+router.post(
+  '/post',
+  authMiddleWare.validateToken,
+  postMiddleware.validateTitlePost,
+  postMiddleware.validateContentPost,
+  postController.createNewPost,
+);
 
 router.get('/post', postController.getAllPosts);
 

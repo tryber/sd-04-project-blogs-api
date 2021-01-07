@@ -14,8 +14,6 @@ const insertNewUser = async (req, res) => {
 
     const user = await Users.create({ displayName, email, password, image });
 
-    console.log('user aqui...>>>>>', user);
-
     const token = authMiddleware.createNewJWT(user.dataValues);
 
     req.user = user.dataValues;
@@ -38,11 +36,9 @@ const login = async (req, res) => {
 
     const userExists = await userMiddleware.userExists(email, password);
 
-    console.log('Login controller', userExists.dataValues);
-
     if (!userExists) return res.status(400).json({ message: 'Campos inválidos' });
 
-    const token = authMiddleWare.createNewJWT(userExists.dataValues);
+    const token = authMiddleware.createNewJWT(userExists.dataValues);
 
     req.user = userExists.dataValues;
 
@@ -54,7 +50,7 @@ const login = async (req, res) => {
   }
 };
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (_req, res) => {
   try {
     const users = await Users.findAll({ attributes: { exclude: ['password'] } });
 
@@ -62,7 +58,7 @@ const getAllUsers = async (req, res) => {
   } catch (err) {
     console.error(err);
 
-    res.status(400).json({ message: 'Something wrong...' });
+    res.status(400).json({ message: 'Something wrong... all users' });
   }
 };
 
@@ -78,14 +74,14 @@ const getUserById = async (req, res) => {
   } catch (err) {
     console.error(err);
 
-    res.status(404).json({ msg: 'Something wrong...' });
+    res.status(404).json({ msg: 'Something wrong... user by Id' });
   }
 };
 
 const removeUser = async (req, res) => {
+  console.log('tem req.user??', req.user);
   try {
     const { email } = req.user;
-    console.log(email);
 
     await Users.destroy({ where: { email } });
 
