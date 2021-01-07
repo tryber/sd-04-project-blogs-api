@@ -55,4 +55,16 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
+router.delete('/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const post = await Posts.findOne({ where: { id } });
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+  if (post.userId !== req.user.id) {
+    return res.status(401).json({ message: 'Ususário não autorizado' });
+  }
+  Posts.destroy({ where: { id } });
+  return res.status(204).sendStatus(204);
+});
 module.exports = router;
