@@ -50,7 +50,8 @@ const login = async (req, res) => {
   }
 };
 
-const getAllUsers = async (_req, res) => {
+const getAllUsers = async (req, res) => {
+  console.log('tem req.user??', req.user);
   try {
     const users = await Users.findAll({ attributes: { exclude: ['password'] } });
 
@@ -63,6 +64,7 @@ const getAllUsers = async (_req, res) => {
 };
 
 const getUserById = async (req, res) => {
+  console.log('tem req.user?', req.user);
   try {
     const user = await Users.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
 
@@ -85,7 +87,7 @@ const removeUser = async (req, res) => {
 
     await Users.destroy({ where: { email } });
 
-    return res.status(204).json({});
+    return res.status(204).json({ msg: 'User deleted...' });
   } catch (err) {
     console.error(err);
 
