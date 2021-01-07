@@ -1,15 +1,16 @@
 const express = require('express');
-const authMiddleware = require('../middlewares/auth');
+const { authMiddleware, createToken } = require('../middlewares/auth');
 const { Users } = require('../models');
 const { userValidation, nameValidation, passValidation, emailValidation } = require('../services/userServices');
 
 const router = express.Router();
 
-router.post('/', nameValidation, passValidation, emailValidation, userValidation, (req, res) => {
+router.post('/', nameValidation, passValidation, emailValidation, userValidation, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
-  return Users.upsert({ displayName, email, password, image })
-    .then((user) => res.status(201).json(user[0]));
+  await Users.create({ displayName, email, password, image });
+  const token = createToken({ email, password });
+  res.status(201).json({ token });
 });
 
 router.get('/', authMiddleware, (_req, res) =>
