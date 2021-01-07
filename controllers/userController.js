@@ -30,4 +30,10 @@ router.get('/:id', authMiddleware, async (req, res) => {
     res.status(500).send(`Um erro enesperado aconteceu:${err}`);
   }
 });
+
+router.delete('/me', authMiddleware, (req, res) => {
+  const { user } = req;
+  Users.delete({ where: { email: user.email } });
+  return res.status(204).sendStatus(204);
+});
 module.exports = router;
