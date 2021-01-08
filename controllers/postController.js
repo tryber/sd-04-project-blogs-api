@@ -1,6 +1,7 @@
 const express = require('express');
 const { authMiddleware } = require('../middlewares/auth');
 const { Posts, Users } = require('../models');
+const { dataPostValidation } = require('../services/postServices');
 const usersWithouPass = require('../utils/userWithoutPass');
 
 const router = express.Router();
@@ -62,6 +63,31 @@ router.post('/', authMiddleware, dataPostValidation, async (req, res) => {
   const date = new Date();
   await Posts.create({ title, content, userId: user.id, published: date, updated: date });
   return res.status(201).json({ title, content, userId: user.id });
+});
+
+router.put('/:id', authMiddleware, dataPostValidation, async (req, res) => {
+  const { title, content } = req.body;
+  const { email } = req.user;
+  const { id } = req.params;
+  const post = await Posts.findOne({ where: { id } });
+  const user = await Users.findOne({ where: { email } });
+  const date = new Date();
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+  if (post.userId !== user.id) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+  await Posts.update({ where: { id } }, {
+    title: title || post.title,
+    content: content || post.content,
+    updated: date,
+  });
+  return res.status(201).json({
+    title: title || post.title,
+    content: content || post.content,
+    userId: user.id });
 });
 
 router.delete('/:id', authMiddleware, async (req, res) => {
