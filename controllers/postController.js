@@ -55,14 +55,24 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
+// router.post('/', async (req, res) => {
+//   const { displayName, email, password, image } = req.body;
+
+//   await Posts.create({ displayName, email, password, image });
+//   res.status(201).json({ token });
+// });
+
 router.delete('/:id', authMiddleware, async (req, res) => {
   const { id } = req.params;
+  const { email } = req.user;
+  const user = await Users.findOne({ where: { email } });
   const post = await Posts.findOne({ where: { id } });
+
   if (!post) {
     return res.status(404).json({ message: 'Post não existe' });
   }
-  if (post.userId !== req.user.id) {
-    return res.status(401).json({ message: 'Ususário não autorizado' });
+  if (post.userId !== user.id) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
   }
   Posts.destroy({ where: { id } });
   return res.status(204).sendStatus(204);
