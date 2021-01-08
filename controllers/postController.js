@@ -55,12 +55,14 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// router.post('/', async (req, res) => {
-//   const { displayName, email, password, image } = req.body;
-
-//   await Posts.create({ displayName, email, password, image });
-//   res.status(201).json({ token });
-// });
+router.post('/', authMiddleware, dataPostValidation, async (req, res) => {
+  const { title, content } = req.body;
+  const { email } = req.user;
+  const user = await Users.findOne({ where: { email } });
+  const date = new Date();
+  await Posts.create({ title, content, userId: user.id, published: date, updated: date });
+  return res.status(201).json({ title, content, userId: user.id });
+});
 
 router.delete('/:id', authMiddleware, async (req, res) => {
   const { id } = req.params;
