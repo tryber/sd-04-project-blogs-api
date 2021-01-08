@@ -17,6 +17,9 @@
     "quotes": [2, "single"],
     "implicit-arrow-linebreak": "off",
     "consistent-return": "off",
+    "no-throw-literal":"off",
+    "prefer-template":"off",
+    "no-shadow":"off",
     "no-unused-vars": [
       "error",
       {
