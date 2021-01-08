@@ -30,6 +30,10 @@ router.post(
   postController.createNewPost,
 );
 
-router.get('/post', postController.getAllPosts);
+router.get('/post', authMiddleWare.validateToken, postController.getAllPosts);
+
+router.get('/post/:id', authMiddleWare.validateToken, postController.getPostById);
+
+router.delete('/post/:id', authMiddleWare.validateToken, postController.removePost);
 
 module.exports = router;

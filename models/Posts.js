@@ -1,12 +1,16 @@
 const createNewPost = (sequelize, DataTypes) => {
   const Posts = sequelize.define(
-    'Users',
+    'Posts',
     {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
+      userId: { type: DataTypes.INTEGER, foreignKey: true },
+      published: DataTypes.DATE,
+      updated: DataTypes.DATE,
     },
     {
-      timestamps: false,
+      createdAt: 'published',
+      updatedAt: 'updated',
     },
   );
 
