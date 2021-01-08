@@ -64,7 +64,7 @@ const removePost = async (req, res) => {
   try {
     const post = await Posts.findOne({ where: { id: req.params.id } });
 
-    if (!post) return res.status(400).json({ message: 'Post não existe' });
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
 
     if (post.dataValues.userId !== req.user.id) {
       res.status(401).json({ message: 'Usuário não autorizado' });

@@ -36,4 +36,6 @@ router.get('/post/:id', authMiddleWare.validateToken, postController.getPostById
 
 router.delete('/post/:id', authMiddleWare.validateToken, postController.removePost);
 
+router.put('/post/:id', authMiddleWare.validateToken, postController.updatePost);
+
 module.exports = router;
