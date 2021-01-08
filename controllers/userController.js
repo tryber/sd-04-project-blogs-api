@@ -18,7 +18,7 @@ const insertNewUser = async (req, res) => {
 
     req.user = user.dataValues;
 
-    res.status(201).json(token);
+    res.status(201).json({ token });
   } catch (err) {
     console.error(err);
 
@@ -42,7 +42,7 @@ const login = async (req, res) => {
 
     req.user = userExists.dataValues;
 
-    return res.status(200).json(token);
+    return res.status(200).json({ token });
   } catch (err) {
     console.error(err);
 

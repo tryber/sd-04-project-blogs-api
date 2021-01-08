@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-// const User = require('../models/Users');
-
 const JWT_SECRET = 'senhasecreta';
 
 const createNewJWT = (payload) => {
@@ -14,7 +12,7 @@ const createNewJWT = (payload) => {
   return token;
 };
 
-const validateToken = async (req, res, next) => {
+const validateToken = (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (!token) {
@@ -25,7 +23,7 @@ const validateToken = async (req, res, next) => {
 
     req.user = validateJWT;
 
-    next();
+    return next();
   } catch (err) {
     console.error('Erro do Catch', err);
 
