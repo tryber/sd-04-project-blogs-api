@@ -16,7 +16,7 @@ const createNewPost = async (req, res) => {
     return res.status(201).json({ title, content, userId });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ msg: 'Something wrong... create new post' });
+    res.status(400).json({ message: 'Something wrong... create new post' });
   }
 };
 
@@ -29,7 +29,7 @@ const getAllPosts = async (_req, res) => {
     return res.status(200).json(posts);
   } catch (err) {
     console.error(err);
-    res.status(400).json({ msg: 'Something wrong... get all posts' });
+    res.status(400).json({ message: 'Something wrong... get all posts' });
   }
 };
 
@@ -41,12 +41,12 @@ const getPostById = async (req, res) => {
       include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
     });
 
-    if (!post) return res.status(404).json({ msg: 'Post não existe' });
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
 
     res.status(200).json(post);
   } catch (err) {
     console.error(err);
-    res.status(400).json({ msg: 'Something wrong on get Post ById' });
+    res.status(404).json({ message: 'Something wrong on get Post ById' });
   }
 };
 
@@ -57,6 +57,7 @@ const updatePost = async (req, res) => {
     res.status(200).json(updatedPost);
   } catch (err) {
     console.error(err);
+    res.status(400).json({ message: 'Something wrong on update...' });
   }
 };
 
@@ -70,10 +71,10 @@ const removePost = async (req, res) => {
       res.status(401).json({ message: 'Usuário não autorizado' });
     }
     await Posts.destroy({ where: { id: req.params.id } });
-    res.status(204).json({ msg: 'post deleted' });
+    res.status(204).json({ message: 'post deleted' });
   } catch (err) {
     console.error(err);
-    res.status(400).json({ msg: 'Something wrong on delete' });
+    res.status(400).json({ message: 'Something wrong on delete' });
   }
 };
 
