@@ -13,6 +13,7 @@
     "shelljs": "^0.8.4"
   },
   "scripts": {
+    "ronald": "npm run drop && npm run prestart && npm run seed && npm run debug",
     "prestart": "npx sequelize-cli db:create && npx sequelize-cli db:migrate $",
     "start": "node index.js",
     "drop": "npx sequelize-cli db:drop $",
