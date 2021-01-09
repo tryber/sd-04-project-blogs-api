@@ -1,5 +1,4 @@
-const { Posts } = require('../models');
-const { User } = require('../models');
+const { User, Posts } = require('../models');
 const { validatePost } = require('../services/postServices');
 
 const newPost = async (req, res) => {
@@ -18,6 +17,14 @@ const newPost = async (req, res) => {
   return res.status(201).json({ title, content, userId });
 };
 
+const getPosts = async (_req, res) => {
+  const posts = await Posts.findAll({
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }],
+  });
+  return res.status(200).json(posts);
+};
+
 module.exports = {
   newPost,
+  getPosts,
 };
