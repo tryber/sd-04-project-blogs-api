@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
-    "sequelize": "^6.3.4",
+    "nodemon": "^2.0.6",
+    "sequelize": "^6.3.5",
     "shelljs": "^0.8.4"
   },
   "scripts": {
+    "ronald": "npm run drop && npm run prestart && npm run seed && npm run debug",
     "prestart": "npx sequelize-cli db:create && npx sequelize-cli db:migrate $",
     "start": "node index.js",
     "drop": "npx sequelize-cli db:drop $",
@@ -23,8 +27,8 @@
     "eslint": "^7.6.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.21.2",
-    "jest": "^26.0.1",
     "frisby": "^2.1.2",
+    "jest": "^26.0.1",
     "sequelize-cli": "^6.2.0",
     "supertest": "^4.0.2"
   }
