@@ -38,4 +38,23 @@ postRoute.get('/', validatejwt, async (req, res) => {
   }
 });
 
+postRoute.get('/:id', validatejwt, async (req, res) => {
+  try {
+    console.log('teste1');
+    const post = await Posts.findByPk(req.params.id,
+      { include: [{
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      }],
+      attributes: { exclude: ['userId'] },
+      });
+
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(400).json({ message: 'algo deu errado' });
+  }
+});
 module.exports = postRoute;
