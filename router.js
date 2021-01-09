@@ -5,7 +5,6 @@ const postController = require('./controllers/postController');
 const userMiddleware = require('./middlewares/userMiddleware');
 const postMiddleware = require('./middlewares/postMiddleware');
 const authMiddleWare = require('./middlewares/authMiddleWare');
-const { post } = require('frisby');
 
 router.post('/login', userController.login);
 
