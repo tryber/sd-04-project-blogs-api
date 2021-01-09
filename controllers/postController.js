@@ -35,8 +35,32 @@ const findPostById = async (req, res) => {
   return res.status(200).json(post);
 };
 
+const editPost = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const { email } = req.user;
+
+  const isNotValid = validatePost(title, content);
+  if (isNotValid) return res.status(400).json({ message: isNotValid.message });
+
+  const user = await User.findOne({ where: { email } });
+
+  const post = await Posts.findOne({ where: { id } });
+
+  if (user.dataValues.id !== post.dataValues.userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  const { userId } = post.dataValues;
+
+  await Posts.update({ title, content }, { where: { id } });
+
+  return res.status(200).json({ title, content, userId });
+};
+
 module.exports = {
   newPost,
   getPosts,
   findPostById,
+  editPost,
 };
