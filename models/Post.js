@@ -12,7 +12,7 @@ const Post = (sequelize, DataTypes) => {
   });
 
   post.associate = (models) => {
-    post.belongsTo(models.Users, { as: 'User', foreingKey: 'userId' });
+    post.belongsTo(models.Users, { as: 'user', foreingKey: 'userId' });
   };
 
   return post;
