@@ -10,9 +10,10 @@ const validateJWT = (req, res, next) => {
     const validation = JWT.verify(token, secret);
     const { password: _, ...user } = validation;
     req.user = user;
+
     next();
   } catch (_err) {
-    res.status(401).json({ message: 'Token expirado ou inválido' });
+    return res.status(401).json({ message: 'Token expirado ou inválido' });
   }
 };
 module.exports = validateJWT;

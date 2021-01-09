@@ -1,5 +1,5 @@
 const express = require('express');
-const { User } = require('../models');
+const { Users } = require('../models');
 const createToken = require('../auth/jwtCreate');
 const validator = require('../auth/validator');
 const validatejwt = require('../auth/validatejwt');
@@ -9,33 +9,33 @@ const userRoute = express.Router();
 userRoute.post('/', async (req, res) => {
   try {
     validator(req.body, res);
-    const validaEmail = await User.findOne({ where: { email: req.body.email } });
+    const validaEmail = await Users.findOne({ where: { email: req.body.email } });
     if (!validaEmail) {
-      const newUser = await User.create({ ...req.body });
+      const newUser = await Users.create({ ...req.body });
       const token = createToken(newUser.dataValues);
-      res.status(201).json({ token });
+      return res.status(201).json({ token });
     }
-    res.status(409).json({ message: 'Usuário já existe' });
+    return res.status(409).json({ message: 'Usuário já existe' });
   } catch (error) {
     const msg = error.message.slice(18);
-    res.status(400).json({ message: msg });
+    return res.status(400).json({ message: msg });
   }
 });
 
 userRoute.get('/', validatejwt, async (_req, res) => {
-  const users = await User.findAll();
+  const users = await Users.findAll();
   return res.status(200).json(users);
 });
 
 userRoute.get('/:id', validatejwt, async (req, res) => {
-  const user = await User.findByPk(req.params.id);
+  const user = await Users.findByPk(req.params.id);
   if (!user) return res.status(404).json({ message: 'Usuário não existe' });
   return res.status(200).json(user);
 });
 
 userRoute.delete('/me', validatejwt, async (req, res) => {
   const userId = req.user.id;
-  await User.destroy({ where: { id: userId } });
+  await Users.destroy({ where: { id: userId } });
   return res.status(204).json({});
 });
 

@@ -1,32 +1,27 @@
 const express = require('express');
 const validatejwt = require('../auth/validatejwt');
-const { Post } = require('../models');
+const { Posts } = require('../models');
 
 const postRoute = express.Router();
 
 postRoute.post('/', validatejwt, async (req, res) => {
   try {
-    console.log('primeiro');
     const { title, content } = req.body;
-    console.log('segundo');
-
+    const { id } = req.user;
+    const published = new Date();
+    const updated = new Date();
     if (!title || !content) {
-      console.log('terceiro');
-
       const msg = title ? '"content" is required' : '"title" is required';
-      console.log('quarto');
-
-      return res.status(405).json({ message: msg });
+      return res.status(400).json({ message: msg });
     }
     console.log('quinto');
-
-    const newPost = await Post.create({ title, content });
-    console.log('newPost', newPost);
-    return res.status(200).json({ m: 'oi' });
+    const newPost = await Posts.create({ title, content, userId: id, published, updated });
+    console.log('newPost', newPost.dataValues);
+    return res.status(201).json(newPost.dataValues);
   } catch (error) {
     console.log('errorr');
 
-    res.status(409).json({ message: 'algo deu errado' });
+    return res.status(409).json({ message: 'algo deu errado' });
   }
 });
 

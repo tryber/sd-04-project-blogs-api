@@ -11,7 +11,6 @@ const validator = (data, res) => {
       ? res.status(400).json({ message: '"email" is not allowed to be empty' })
       : res.status(400).json({ message: '"password" is not allowed to be empty' });
   }
-
   return true;
 };
 
