@@ -51,10 +51,21 @@ const getPostById = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
+  const { title, content } = req.body;
   try {
-    const updatedPost = await Posts.findByPk(req.params.id);
+    const post = await Posts.findByPk(req.params.id);
 
-    res.status(200).json(updatedPost);
+    if (!post) return res.status(400).json({ message: 'Post não existe' });
+
+    const userIsAuthor = await Users.findOne({ where: { id: req.user.id } });
+
+    if (userIsAuthor.dataValues.id !== req.user.id) {
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+
+    await Posts.update({ title, content }, { where: { id: req.params.id } });
+
+    res.status(200).json({ title, content, id: req.params.id });
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Something wrong on update...' });
