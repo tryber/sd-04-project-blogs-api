@@ -5,6 +5,7 @@ const postController = require('./controllers/postController');
 const userMiddleware = require('./middlewares/userMiddleware');
 const postMiddleware = require('./middlewares/postMiddleware');
 const authMiddleWare = require('./middlewares/authMiddleWare');
+const { post } = require('frisby');
 
 router.post('/login', userController.login);
 
@@ -42,6 +43,14 @@ router.put(
   postMiddleware.validateTitlePost,
   postMiddleware.validateContentPost,
   postController.updatePost,
+);
+
+router.get(
+  '/post/search',
+  authMiddleWare.validateToken,
+  postMiddleware.validateTitlePost,
+  postMiddleware.validateContentPost,
+  postController.findPost,
 );
 
 module.exports = router;

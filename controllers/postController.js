@@ -1,9 +1,9 @@
+const { Op } = require('sequelize');
 const { Posts, Users } = require('../models');
 
 const createNewPost = async (req, res) => {
   try {
     const { title, content } = req.body;
-    console.log('user aqui req.user', req.user);
 
     const { email } = req.user;
 
@@ -34,8 +34,6 @@ const getAllPosts = async (_req, res) => {
 };
 
 const getPostById = async (req, res) => {
-  console.log('id', req.params.id);
-
   try {
     const post = await Posts.findByPk(req.params.id, {
       include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
@@ -52,20 +50,21 @@ const getPostById = async (req, res) => {
 
 const updatePost = async (req, res) => {
   const { title, content } = req.body;
+  const { id } = req.params;
   try {
-    const post = await Posts.findByPk(req.params.id);
+    const post = await Posts.findOne({ where: { id } });
 
     if (!post) return res.status(400).json({ message: 'Post não existe' });
 
-    const userIsAuthor = await Users.findOne({ where: { id: req.user.id } });
+    const userIsAuthor = await Users.findOne({ where: { email: req.user.email } });
 
-    if (userIsAuthor.dataValues.id !== req.user.id) {
+    if (userIsAuthor.dataValues.id !== post.dataValues.userId) {
       return res.status(401).json({ message: 'Usuário não autorizado' });
     }
 
-    await Posts.update({ title, content }, { where: { id: req.params.id } });
+    await Posts.update({ title, content }, { where: { id } });
 
-    res.status(200).json({ title, content, id: req.params.id });
+    res.status(200).json({ title, content, userId: userIsAuthor.dataValues.id });
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Something wrong on update...' });
@@ -89,4 +88,32 @@ const removePost = async (req, res) => {
   }
 };
 
-module.exports = { getAllPosts, createNewPost, getPostById, removePost, updatePost };
+const findPost = async (req, res) => {
+  const { q } = req.query;
+  try {
+    const posts = await Posts.findAll({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${q}%`,
+            },
+          },
+          {
+            content: {
+              [Op.like]: `%${q}%`,
+            },
+          },
+        ],
+      },
+      include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
+    });
+
+    return res.status(200).json(posts);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Something wrong on find post' });
+  }
+};
+
+module.exports = { getAllPosts, createNewPost, getPostById, removePost, updatePost, findPost };
