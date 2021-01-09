@@ -27,8 +27,7 @@ const validateUser = (displayName, email, password) => {
 
   if (!validateEmail(email)) return { message: '"email" must be a valid email' };
 
-  if (!validatePassword(password))
-    return { message: '"password" length must be 6 characters long' };
+  if (!validatePassword(password)) return { message: '"password" length must be 6 characters long' };
 };
 
 const validateLogin = (email, password) => {
