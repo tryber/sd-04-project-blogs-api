@@ -11,7 +11,7 @@ const validateToken = async (req, res, next) => {
     const token = req.headers.authorization;
     if (!token) return res.status(401).json({ message: 'Token não encontrado' });
 
-    jwt.verify(token, secret);
+    req.user = jwt.verify(token, secret);
 
     return next();
   } catch (err) {
