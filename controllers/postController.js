@@ -81,4 +81,17 @@ postRoute.put('/:id', validatejwt, async (req, res) => {
   }
 });
 
+postRoute.delete('/:id', validatejwt, async (req, res) => {
+  const postId = req.params.id;
+  const post = await Posts.findByPk(postId);
+  const { id } = req.user;
+
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+  if (id !== post.userId) return res.status(401).json({ message: 'Usuário não autorizado' });
+
+  await Posts.destroy({ where: { id: postId } });
+
+  return res.status(204).json({});
+});
+
 module.exports = postRoute;
