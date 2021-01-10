@@ -17,9 +17,6 @@ const User = (sequelize, DataTypes) =>
           isEmail: {
             msg: '"email" must be a valid email',
           },
-          notEmpty: {
-            msg: '"email" is not allowed to be empty',
-          },
         },
       },
       password: {
@@ -28,9 +25,6 @@ const User = (sequelize, DataTypes) =>
           len: {
             args: [6],
             msg: '"password" length must be 6 characters long',
-          },
-          notEmpty: {
-            msg: '"password" is not allowed to be empty',
           },
         },
       },

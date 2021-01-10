@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     }
     res.status(400).json({ message: 'Campos inválidos' });
   } catch (error) {
-    const message = error.message.slice(18);
+    const { message } = error.message;
     res.status(400).json({ message });
   }
 });
