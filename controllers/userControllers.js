@@ -1,6 +1,15 @@
 const { userServices } = require('../services');
 const { messages } = require('../utils/messages');
 
+const deleteUser = async (req, res) => {
+  try {
+    await userServices.eraseUserData(req.user);
+    res.status(204).json();
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+};
+
 const getOneUser = async (req, res) => {
   try {
     const response = await userServices.findAUser(Number(req.params.id));
@@ -52,6 +61,7 @@ const newUser = async (req, res) => {
 };
 
 module.exports = {
+  deleteUser,
   getOneUser,
   listAllUsers,
   makeUserLoggedIn,

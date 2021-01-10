@@ -14,6 +14,10 @@ const removePassword = (payload) => {
   return withoutPass;
 };
 
+const eraseUserData = async ({ dataValues }) => {
+  await Users.destroy({ where: { displayName: dataValues.displayName } });
+};
+
 const findAUser = async (id) => {
   const result = await Users.findByPk(id);
   if (result) {
@@ -56,6 +60,7 @@ const newUserValidation = async (payload) => {
 };
 
 module.exports = {
+  eraseUserData,
   findAUser,
   listUsers,
   loginValidation,
