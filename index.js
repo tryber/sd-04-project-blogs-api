@@ -4,7 +4,7 @@ const routes = require('./routes');
 const app = express();
 
 app.use(express.json());
-app.use('/', routes.user);
+app.use('/', routes.user, routes.posts);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

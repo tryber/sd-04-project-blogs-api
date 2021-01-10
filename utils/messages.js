@@ -14,6 +14,12 @@ const messages = {
   userErrorUserDoesNotExist: 'Usuário não existe',
 };
 
+const postMessages = {
+  postErrorTitleDoesNotExist: '"title" is required',
+  postErrorContentDoesNotExist: '"content" is required',
+};
+
 module.exports = {
   messages,
+  postMessages,
 };
