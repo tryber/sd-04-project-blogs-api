@@ -19,7 +19,7 @@ module.exports = {
         allowNull: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        references: { model: 'users', key: 'id' },
+        references: { model: 'Users', key: 'id' },
       },
       published: {
         type: Sequelize.DATE,
