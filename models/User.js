@@ -7,7 +7,7 @@ const User = (sequelize, DataTypes) =>
         validate: {
           len: {
             args: [8],
-            message: '"displayName" length must be at least 8 characters long',
+            msg: '"displayName" length must be at least 8 characters long',
           },
         },
       },
@@ -15,10 +15,10 @@ const User = (sequelize, DataTypes) =>
         type: DataTypes.STRING,
         validate: {
           isEmail: {
-            message: '"email" must be a valid email',
+            msg: '"email" must be a valid email',
           },
           notEmpty: {
-            message: '"email" is not allowed to be empty',
+            msg: '"email" is not allowed to be empty',
           },
         },
       },
@@ -27,10 +27,10 @@ const User = (sequelize, DataTypes) =>
         validate: {
           len: {
             args: [6],
-            message: '"password" length must be 6 characters long',
+            msg: '"password" length must be 6 characters long',
           },
           notEmpty: {
-            message: '"password" is not allowed to be empty',
+            msg: '"password" is not allowed to be empty',
           },
         },
       },
