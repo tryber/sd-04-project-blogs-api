@@ -8,6 +8,9 @@ const messages = {
   userErrorTokenDoesNotExist: 'Token não encontrado',
   userErrorTokenExpired: 'Token expirado ou inválido',
   userErrorUserNotFound: 'User not found!',
+  userErrorEmailEmpty: '"email" is not allowed to be empty',
+  userErrorPasswordEmpty: '"password" is not allowed to be empty',
+  userErrorInvalidLogin: 'Campos inválidos',
 };
 
 module.exports = {

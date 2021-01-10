@@ -2,7 +2,25 @@ const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const { JWT_CONFIG, SECRET } = require('../utils/jwtConfig');
 const { messages } = require('../utils/messages');
-const validateUser = require('../utils/newUserValidation');
+const { validateUser, validateLogin } = require('../utils/newUserValidation');
+
+const generateToken = async (userInfo) => {
+  const token = jwt.sign({ data: userInfo }, SECRET, JWT_CONFIG);
+  return { token };
+};
+
+const loginValidation = async (payload) => {
+  const isLogininvalid = validateLogin(payload);
+  if (typeof isLogininvalid === 'string') {
+    return isLogininvalid;
+  }
+  const userInfo = await Users.findOne({ where: { email: payload.email } });
+  if (!userInfo) {
+    return messages.userErrorInvalidLogin;
+  }
+  const { password: _, ...withoutPass } = userInfo;
+  return generateToken(withoutPass);
+};
 
 const newUserValidation = async (payload) => {
   const { password: _, ...withoutPass } = payload;
@@ -15,10 +33,10 @@ const newUserValidation = async (payload) => {
     return messages.userErrorUserAlreadyExists;
   }
   await Users.create(payload);
-  const token = jwt.sign({ data: withoutPass }, SECRET, JWT_CONFIG);
-  return { token };
+  return generateToken(withoutPass);
 };
 
 module.exports = {
+  loginValidation,
   newUserValidation,
 };

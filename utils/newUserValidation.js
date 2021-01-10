@@ -26,4 +26,22 @@ const validateUser = ({ displayName, email, password /* image */ }) => {
   }
 };
 
-module.exports = validateUser;
+const validateLogin = ({ email, password }) => {
+  if (email === undefined) {
+    return messages.userErrorEmailDoesntExist;
+  }
+  if (email === '') {
+    return messages.userErrorEmailEmpty;
+  }
+  if (password === undefined) {
+    return messages.userErrorPasswordDoesntExist;
+  }
+  if (password === '') {
+    return messages.userErrorPasswordEmpty;
+  }
+};
+
+module.exports = {
+  validateUser,
+  validateLogin,
+};
