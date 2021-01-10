@@ -1,6 +1,18 @@
 const { userServices } = require('../services');
 const { messages } = require('../utils/messages');
 
+const getOneUser = async (req, res) => {
+  try {
+    const response = await userServices.findAUser(Number(req.params.id));
+    if (typeof response === 'string') {
+      throw new Error(response);
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+};
+
 const listAllUsers = async (_req, res) => {
   try {
     const response = await userServices.listUsers();
@@ -40,6 +52,7 @@ const newUser = async (req, res) => {
 };
 
 module.exports = {
+  getOneUser,
   listAllUsers,
   makeUserLoggedIn,
   newUser,

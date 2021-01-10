@@ -9,9 +9,22 @@ const generateToken = async (userInfo) => {
   return { token };
 };
 
+const removePassword = (payload) => {
+  const { password: _, ...withoutPass } = payload;
+  return withoutPass;
+};
+
+const findAUser = async (id) => {
+  const result = await Users.findByPk(id);
+  if (result) {
+    return removePassword(result.dataValues);
+  }
+  return messages.userErrorUserDoesNotExist;
+};
+
 const listUsers = async () => {
   const usersList = await Users.findAll();
-  const listFormated = usersList.map(({ dataValues }) => dataValues);
+  const listFormated = usersList.map(({ dataValues }) => removePassword(dataValues));
   return listFormated;
 };
 
@@ -24,12 +37,12 @@ const loginValidation = async (payload) => {
   if (!userInfo) {
     return messages.userErrorInvalidLogin;
   }
-  const { password: _, ...withoutPass } = userInfo;
+  const withoutPass = removePassword(userInfo);
   return generateToken(withoutPass);
 };
 
 const newUserValidation = async (payload) => {
-  const { password: _, ...withoutPass } = payload;
+  const withoutPass = removePassword(payload);
   const isValidated = validateUser(payload);
   if (typeof isValidated === 'string') {
     return isValidated;
@@ -43,6 +56,7 @@ const newUserValidation = async (payload) => {
 };
 
 module.exports = {
+  findAUser,
   listUsers,
   loginValidation,
   newUserValidation,

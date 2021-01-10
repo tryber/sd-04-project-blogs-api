@@ -11,6 +11,7 @@ const messages = {
   userErrorEmailEmpty: '"email" is not allowed to be empty',
   userErrorPasswordEmpty: '"password" is not allowed to be empty',
   userErrorInvalidLogin: 'Campos inválidos',
+  userErrorUserDoesNotExist: 'Usuário não existe',
 };
 
 module.exports = {

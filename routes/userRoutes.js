@@ -6,6 +6,8 @@ router.post('/login', user.makeUserLoggedIn);
 
 router.get('/user', auth, user.listAllUsers);
 
+router.get('/user/:id', auth, user.getOneUser);
+
 router.post('/user', user.newUser);
 
 module.exports = router;
