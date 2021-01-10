@@ -11,7 +11,7 @@ const generateToken = async (userInfo) => {
 
 const listUsers = async () => {
   const usersList = await Users.findAll();
-  const listFormated = usersList.map(({ dataValues }) => dataValues)
+  const listFormated = usersList.map(({ dataValues }) => dataValues);
   return listFormated;
 };
 
