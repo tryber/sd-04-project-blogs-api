@@ -6,7 +6,6 @@ const makeUserLoggedIn = async (req, res) => {
     const response = await userServices.loginValidation(req.body);
     if (typeof response === 'string') {
       throw new Error(response);
-      // return res.status(400).json({ message: response });
     }
     res.status(200).json(response);
   } catch (error) {
