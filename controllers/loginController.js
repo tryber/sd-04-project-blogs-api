@@ -6,9 +6,8 @@ const validator = require('../auth/validator');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', validator, async (req, res) => {
   try {
-    validator(req.body, res);
     const userExists = await User.findOne({
       where: {
         [Op.and]: [{ email: req.body.email, password: req.body.password }],
@@ -17,11 +16,11 @@ router.post('/', async (req, res) => {
     if (userExists) {
       const token = createToken(userExists.dataValues);
       res.status(200).json({ token });
+    } else if (!userExists) {
+      res.status(400).json({ message: 'Campos inválidos' });
     }
-    res.status(400).json({ message: 'Campos inválidos' });
   } catch (error) {
-    const { message } = error.message;
-    res.status(400).json({ message });
+    console.log(error, 'cai no erro');
   }
 });
 

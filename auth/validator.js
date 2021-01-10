@@ -1,5 +1,5 @@
-const validator = (req, res) => {
-  const reqKeys = Object.keys(req);
+const validator = (req, res, next) => {
+  const reqKeys = Object.keys(req.body);
   if (!reqKeys.includes('password')) {
     return res.status(400).json({ message: '"password" is required' });
   }
@@ -7,21 +7,19 @@ const validator = (req, res) => {
     return res.status(400).json({ message: '"email" is required' });
   }
 
-  const { email, password } = req;
+  const { email, password } = req.body;
   if (email === '') {
-    req.emptyEmail = true;
     return res
       .status(400)
       .json({ message: '"email" is not allowed to be empty' });
   }
   if (password === '') {
-    req.emptyPass = true;
     return res
       .status(400)
       .json({ message: '"password" is not allowed to be empty' });
   }
-
-  return false;
+  req.isValidField = true;
+  next();
 };
 
 module.exports = validator;
