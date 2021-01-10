@@ -1,6 +1,15 @@
 const { userServices } = require('../services');
 const { messages } = require('../utils/messages');
 
+const listAllUsers = async (_req, res) => {
+  try {
+    const response = await userServices.listUsers();
+    res.status(200).json(response);
+  } catch (error) {
+    console.log('Caiu no catch: ', error.message);
+  }
+};
+
 const makeUserLoggedIn = async (req, res) => {
   try {
     const response = await userServices.loginValidation(req.body);
@@ -31,6 +40,7 @@ const newUser = async (req, res) => {
 };
 
 module.exports = {
+  listAllUsers,
   makeUserLoggedIn,
   newUser,
 };

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Users = require('../models');
+const { Users } = require('../models');
 const jwtConfig = require('../utils/jwtConfig');
 const { messages } = require('../utils/messages');
 
@@ -9,14 +9,16 @@ const auth = async (req, res, next) => {
     return res.status(401).json({ message: messages.userErrorTokenDoesNotExist });
   }
   try {
-    const decoded = jwt.verify(token, jwtConfig.SECRET);
-    const user = await Users.findOne({ where: { email: decoded.data.email } });
+    const { data: { dataValues } } = jwt.verify(token, jwtConfig.SECRET);
+    // console.log('DECODED: ', dataValues);
+    const user = await Users.findOne({ where: { email: dataValues.email } });
     if (!user) {
       return res.status(401).json({ message: messages.userErrorUserNotFound });
     }
     req.user = user;
     next();
   } catch (error) {
+    console.log('ERROR: =>>', error.message);
     return res.status(401).json({ message: messages.userErrorTokenExpired });
   }
 };

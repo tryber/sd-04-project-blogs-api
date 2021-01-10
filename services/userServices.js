@@ -9,6 +9,12 @@ const generateToken = async (userInfo) => {
   return { token };
 };
 
+const listUsers = async () => {
+  const usersList = await Users.findAll();
+  const listFormated = usersList.map(({ dataValues }) => dataValues)
+  return listFormated;
+};
+
 const loginValidation = async (payload) => {
   const isLogininvalid = validateLogin(payload);
   if (typeof isLogininvalid === 'string') {
@@ -37,6 +43,7 @@ const newUserValidation = async (payload) => {
 };
 
 module.exports = {
+  listUsers,
   loginValidation,
   newUserValidation,
 };
