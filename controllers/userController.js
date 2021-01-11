@@ -16,8 +16,6 @@ userRouter.get('/', (req, res) => {
 
 userRouter.post('/', async (req, res) => {
   const { displayName, email, password, image } = req.body;
-  if (!email) return res.status(400).json({ message: '"email" is required' });
-  if (!password) return res.status(400).json({ message: '"password" is required' });
   try {
     const emailValidation = await User.findOne({ where: { email } });
     if (!emailValidation) {
