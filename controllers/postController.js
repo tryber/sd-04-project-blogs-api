@@ -110,7 +110,7 @@ const findPost = async (req, res) => {
       include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
     });
 
-    return res.status(200).json({ posts });
+    return res.status(200).json(posts);
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Something wrong on find post' });
