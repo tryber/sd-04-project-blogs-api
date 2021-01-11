@@ -90,6 +90,7 @@ const removePost = async (req, res) => {
 
 const findPost = async (req, res) => {
   const { q } = req.query;
+
   try {
     const posts = await Posts.findAll({
       where: {

@@ -32,6 +32,8 @@ router.post(
 
 router.get('/post', authMiddleWare.validateToken, postController.getAllPosts);
 
+router.get('/post/search', authMiddleWare.validateToken, postController.findPost);
+
 router.get('/post/:id', authMiddleWare.validateToken, postController.getPostById);
 
 router.delete('/post/:id', authMiddleWare.validateToken, postController.removePost);
@@ -42,14 +44,6 @@ router.put(
   postMiddleware.validateTitlePost,
   postMiddleware.validateContentPost,
   postController.updatePost,
-);
-
-router.get(
-  '/post/search',
-  authMiddleWare.validateToken,
-  postMiddleware.validateTitlePost,
-  postMiddleware.validateContentPost,
-  postController.findPost,
 );
 
 module.exports = router;
