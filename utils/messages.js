@@ -17,6 +17,7 @@ const messages = {
 const postMessages = {
   postErrorTitleDoesNotExist: '"title" is required',
   postErrorContentDoesNotExist: '"content" is required',
+  postErrorPostDoesNotExist: 'Post não existe',
 };
 
 const removePassword = (payload) => {

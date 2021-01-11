@@ -9,11 +9,6 @@ const generateToken = async (userInfo) => {
   return { token };
 };
 
-// const removePassword = (payload) => {
-//   const { password: _, ...withoutPass } = payload;
-//   return withoutPass;
-// };
-
 const eraseUserData = async ({ dataValues }) => {
   await Users.destroy({ where: { displayName: dataValues.displayName } });
 };

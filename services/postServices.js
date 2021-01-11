@@ -1,6 +1,17 @@
 const { Posts, Users } = require('../models');
-// const { removePassword } = require('../utils/messages');
+const { postMessages } = require('../utils/messages');
 const { validatePost } = require('../utils/newPostValidation');
+
+const findAPost = async (id) => {
+  const result = await Posts.findAll({
+    where: { id },
+    include: [{ model: Users, as: 'user' }],
+  });
+  if (result.length) {
+    return result[0];
+  }
+  return postMessages.postErrorPostDoesNotExist;
+};
 
 const listPosts = async () => {
   const postList = await Posts.findAll({
@@ -19,6 +30,7 @@ const newPostValidation = async (payload, { dataValues }) => {
 };
 
 module.exports = {
+  findAPost,
   listPosts,
   newPostValidation,
 };
