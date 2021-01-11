@@ -28,6 +28,18 @@ userRouter.get('/:id', validateToken, async (req, res) => {
   }
 });
 
+userRouter.delete('/me', validateToken, async (req, res) => {
+  try {
+    const { email } = req.user;
+
+    await User.destroy({ where: { email } });
+
+    return res.status(204).end();
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+});
+
 userRouter.post('/', middlewares.userVal, async (req, res) => {
   const { displayName, email, password, image } = req.body;
   try {
