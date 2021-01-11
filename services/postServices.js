@@ -2,6 +2,17 @@ const { Posts, Users } = require('../models');
 const { postMessages } = require('../utils/messages');
 const { validatePost } = require('../utils/newPostValidation');
 
+const deletePostAction = async (id, { dataValues }) => {
+  const post = await Posts.findByPk(id);
+  if (!post) {
+    return postMessages.postErrorPostDoesNotExist;
+  }
+  if (post.userId !== dataValues.id) {
+    return postMessages.postErrorUserNotAllowed;
+  }
+  await Posts.destroy({ where: { id } });
+};
+
 const editAPostById = async (postId, postData, { dataValues }) => {
   const isPostInvalid = validatePost(postData);
   if (typeof isPostInvalid === 'string') {
@@ -43,6 +54,7 @@ const newPostValidation = async (payload, { dataValues }) => {
 };
 
 module.exports = {
+  deletePostAction,
   editAPostById,
   findAPost,
   listPosts,

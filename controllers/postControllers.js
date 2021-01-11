@@ -1,6 +1,22 @@
 const { postServices } = require('../services');
 const { postMessages } = require('../utils/messages');
 
+const deletePost = async (req, res) => {
+  try {
+    const response = await postServices.deletePostAction(Number(req.params.id), req.user);
+    if (typeof response === 'string' && response === postMessages.postErrorUserNotAllowed) {
+      return res.status(401).json({ message: response });
+    }
+    if (typeof response === 'string') {
+      return res.status(404).json({ message: response });
+    }
+    res.status(204).json();
+  } catch (error) {
+    console.log('Caiu no catch: ', error.message);
+    return res.status(400).json({ message: error.message });
+  }
+};
+
 const editPost = async (req, res) => {
   try {
     const response = await postServices.editAPostById(Number(req.params.id), req.body, req.user);
@@ -54,6 +70,7 @@ const newPost = async (req, res) => {
 };
 
 module.exports = {
+  deletePost,
   editPost,
   getPostById,
   getAllPosts,
