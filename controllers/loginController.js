@@ -10,8 +10,8 @@ const login = ('/', async (req, res) => {
       return res.status(200).json({ token: usrToken });
     }
     return res.status(400).json({ message: 'Campos inválidos' });
-  } catch (error) {
-    return res.status(400).json({ message: error.message.slice(18) });
+  } catch (err) {
+    return res.status(400).json({ message: err.message.slice(18) });
   }
 });
 

@@ -5,14 +5,27 @@ const middlewares = require('../middlewares');
 
 const userRouter = Router();
 
-userRouter.get('/', validateToken, (_req, res) => {
-  User.findAll({ attributes: { exclude: ['password'] } })
-    .then((users) => {
-      res.status(200).json(users);
-    })
-    .catch((e) => {
-      res.status(500).json({ message: e });
-    });
+userRouter.get('/', validateToken, async (_req, res) => {
+  try {
+    const users = await User.findAll({ attributes: { exclude: ['password'] } });
+    return res.status(200).json(users);
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+});
+
+userRouter.get('/:id', validateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+
+    if (!user) return res.status(404).json({ message: 'Usuário não existe' });
+
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
 });
 
 userRouter.post('/', middlewares.userVal, async (req, res) => {
@@ -25,8 +38,8 @@ userRouter.post('/', middlewares.userVal, async (req, res) => {
       return res.status(201).json({ usrToken });
     }
     return res.status(409).json({ message: 'Usuário já existe' });
-  } catch (error) {
-    return res.status(400).json({ message: error.message.slice(18) });
+  } catch (err) {
+    return res.status(400).json({ message: err.message.slice(18) });
   }
 });
 
