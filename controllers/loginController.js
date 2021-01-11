@@ -1,4 +1,4 @@
-const { createJWT } = require('../auth/createJWT');
+const { createJWT } = require('../auth');
 const { User } = require('../models');
 
 const login = ('/', async (req, res) => {

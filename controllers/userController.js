@@ -1,11 +1,12 @@
 const { Router } = require('express');
-const { createJWT } = require('../auth/createJWT');
+const { createJWT, validateToken } = require('../auth');
 const { User } = require('../models');
+const middlewares = require('../middlewares');
 
 const userRouter = Router();
 
-userRouter.get('/', (req, res) => {
-  User.findAll()
+userRouter.get('/', validateToken, (_req, res) => {
+  User.findAll({ attributes: { exclude: ['password'] } })
     .then((users) => {
       res.status(200).json(users);
     })
@@ -14,7 +15,7 @@ userRouter.get('/', (req, res) => {
     });
 });
 
-userRouter.post('/', async (req, res) => {
+userRouter.post('/', middlewares.userVal, async (req, res) => {
   const { displayName, email, password, image } = req.body;
   try {
     const emailValidation = await User.findOne({ where: { email } });
