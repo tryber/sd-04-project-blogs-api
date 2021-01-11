@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Posts, Users } = require('../models');
 const { postMessages } = require('../utils/messages');
 const { validatePost } = require('../utils/newPostValidation');
@@ -53,10 +54,26 @@ const newPostValidation = async (payload, { dataValues }) => {
   return { ...payload, userId: dataValues.id };
 };
 
+const seachPostsByQuery = async (queryParam) => {
+  if (queryParam === '') {
+    return Posts.findAll({ include: [{ model: Users, as: 'user' }] });
+  }
+  return Posts.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${queryParam}%` } },
+        { content: { [Op.like]: `%${queryParam}%` } },
+      ],
+    },
+    include: [{ model: Users, as: 'user' }],
+  });
+};
+
 module.exports = {
   deletePostAction,
   editAPostById,
   findAPost,
   listPosts,
   newPostValidation,
+  seachPostsByQuery,
 };

@@ -69,10 +69,21 @@ const newPost = async (req, res) => {
   }
 };
 
+const searchPosts = async (req, res) => {
+  try {
+    const response = await postServices.seachPostsByQuery(req.query.q);
+    res.status(200).json(response);
+  } catch (error) {
+    console.log('Caiu no catch: ', error.message);
+    return res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   deletePost,
   editPost,
   getPostById,
   getAllPosts,
   newPost,
+  searchPosts,
 };
