@@ -23,7 +23,8 @@
     "test": "jest --runInBand",
     "test-coverage": "jest --runInBand --coverage",
     "debug": "nodemon index.js",
-    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
+    "lint:fix": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json --fix ."
   },
   "devDependencies": {
     "eslint": "^7.6.0",
