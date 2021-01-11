@@ -18,6 +18,7 @@ const postMessages = {
   postErrorTitleDoesNotExist: '"title" is required',
   postErrorContentDoesNotExist: '"content" is required',
   postErrorPostDoesNotExist: 'Post não existe',
+  postErrorUserNotAllowed: 'Usuário não autorizado',
 };
 
 const removePassword = (payload) => {

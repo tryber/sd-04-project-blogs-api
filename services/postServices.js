@@ -2,6 +2,19 @@ const { Posts, Users } = require('../models');
 const { postMessages } = require('../utils/messages');
 const { validatePost } = require('../utils/newPostValidation');
 
+const editAPostById = async (postId, postData, { dataValues }) => {
+  const isPostInvalid = validatePost(postData);
+  if (typeof isPostInvalid === 'string') {
+    return isPostInvalid;
+  }
+  const { dataValues: { userId } } = await Posts.findByPk(postId);
+  if (userId !== dataValues.id) {
+    return postMessages.postErrorUserNotAllowed;
+  }
+  await Posts.update(postData, { where: { id: postId } });
+  return { ...postData, userId: dataValues.id };
+};
+
 const findAPost = async (id) => {
   const result = await Posts.findAll({
     where: { id },
@@ -30,6 +43,7 @@ const newPostValidation = async (payload, { dataValues }) => {
 };
 
 module.exports = {
+  editAPostById,
   findAPost,
   listPosts,
   newPostValidation,

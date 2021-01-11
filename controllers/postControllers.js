@@ -1,4 +1,21 @@
 const { postServices } = require('../services');
+const { postMessages } = require('../utils/messages');
+
+const editPost = async (req, res) => {
+  try {
+    const response = await postServices.editAPostById(Number(req.params.id), req.body, req.user);
+    if (typeof response === 'string' && response === postMessages.postErrorUserNotAllowed) {
+      return res.status(401).json({ message: response });
+    }
+    if (typeof response === 'string') {
+      return res.status(400).json({ message: response });
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    console.log('Caiu no catch: ', error.message);
+    return res.status(400).json({ message: error.message });
+  }
+};
 
 const getPostById = async (req, res) => {
   try {
@@ -37,6 +54,7 @@ const newPost = async (req, res) => {
 };
 
 module.exports = {
+  editPost,
   getPostById,
   getAllPosts,
   newPost,
