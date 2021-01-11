@@ -7,7 +7,7 @@ const login = ('/', async (req, res) => {
     const emailValidation = await User.findOne({ where: { email } });
     if (emailValidation) {
       const usrToken = createJWT(emailValidation.dataValues);
-      return res.status(200).json({ usrToken });
+      return res.status(200).json({ token: usrToken });
     }
     return res.status(400).json({ message: 'Campos inválidos' });
   } catch (error) {

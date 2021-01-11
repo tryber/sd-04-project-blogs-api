@@ -23,9 +23,8 @@ const validateToken = (req, res, next) => {
   try {
     jwt.verify(token, secret);
 
-    next();
+    return next();
   } catch (err) {
-    console.error('validateToken', err.message);
     return res.status(401).json({ message: 'Token expirado ou inválido' });
   }
 };
