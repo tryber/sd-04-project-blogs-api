@@ -12,7 +12,7 @@ router.post('/', validator, async (req, res) => {
     });
     if (!userExists) {
       console.log(req.body, 'if');
-      const newUser = await User.create({ ...req.body });
+      const newUser = User.create({ ...req.body });
       const token = createToken(newUser.dataValues);
       res.status(201).json({ token });
     } else if (userExists) {
