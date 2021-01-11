@@ -11,6 +11,7 @@ router.post('/', validator, async (req, res) => {
       where: { email: req.body.email },
     });
     if (!userExists) {
+      console.log(req.body, 'if');
       const newUser = await User.create({ ...req.body });
       const token = createToken(newUser.dataValues);
       res.status(201).json({ token });
@@ -18,6 +19,7 @@ router.post('/', validator, async (req, res) => {
       res.status(409).json({ message: 'Usuário já existe' });
     }
   } catch (error) {
+    console.log(req.body, 'catch');
     const { message } = error;
     res.status(500).json({ message: message.slice(18) });
   }
