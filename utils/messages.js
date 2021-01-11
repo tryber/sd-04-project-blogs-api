@@ -19,7 +19,13 @@ const postMessages = {
   postErrorContentDoesNotExist: '"content" is required',
 };
 
+const removePassword = (payload) => {
+  const { password: _, ...withoutPass } = payload;
+  return withoutPass;
+};
+
 module.exports = {
   messages,
   postMessages,
+  removePassword,
 };

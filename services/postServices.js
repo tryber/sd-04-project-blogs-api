@@ -1,5 +1,13 @@
-const { Posts } = require('../models');
+const { Posts, Users } = require('../models');
+// const { removePassword } = require('../utils/messages');
 const { validatePost } = require('../utils/newPostValidation');
+
+const listPosts = async () => {
+  const postList = await Posts.findAll({
+    include: [{ model: Users, as: 'user' }],
+  });
+  return postList;
+};
 
 const newPostValidation = async (payload, { dataValues }) => {
   const isPostInvalid = validatePost(payload);
@@ -11,5 +19,6 @@ const newPostValidation = async (payload, { dataValues }) => {
 };
 
 module.exports = {
+  listPosts,
   newPostValidation,
 };

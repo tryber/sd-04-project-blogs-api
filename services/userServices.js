@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const { JWT_CONFIG, SECRET } = require('../utils/jwtConfig');
-const { messages } = require('../utils/messages');
+const { messages, removePassword } = require('../utils/messages');
 const { validateUser, validateLogin } = require('../utils/newUserValidation');
 
 const generateToken = async (userInfo) => {
@@ -9,10 +9,10 @@ const generateToken = async (userInfo) => {
   return { token };
 };
 
-const removePassword = (payload) => {
-  const { password: _, ...withoutPass } = payload;
-  return withoutPass;
-};
+// const removePassword = (payload) => {
+//   const { password: _, ...withoutPass } = payload;
+//   return withoutPass;
+// };
 
 const eraseUserData = async ({ dataValues }) => {
   await Users.destroy({ where: { displayName: dataValues.displayName } });
