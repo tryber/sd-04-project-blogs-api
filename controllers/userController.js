@@ -22,7 +22,7 @@ router.post('/', validator, async (req, res) => {
   } catch (error) {
     console.log(req.body, 'catch');
     const { message } = error;
-    res.status(500).json({ message: message.slice(18) });
+    res.status(400).json({ message: message.slice(18) });
   }
 });
 
