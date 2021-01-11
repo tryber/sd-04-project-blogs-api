@@ -6,7 +6,7 @@ const headers = {
   algorithm: 'HS256',
 };
 
-const secret = process.env.SECRET;
+const secret = 'vinis2josias';
 
 const createToken = (payload) => {
   const token = JWT.sign(payload, secret, headers);
