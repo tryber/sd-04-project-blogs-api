@@ -29,50 +29,44 @@ router.get('/', authMiddleware, async (_req, res) => {
     });
     console.log(postUser);
     res.status(200).json(postUser);
-  } catch (err) {
-    res.status(500).send(`Um erro enesperado aconteceu:${err}`);
+  } catch (error) {
+    res.status(500).send(`Um erro enesperado aconteceu:${error}`);
   }
 });
 
 router.get('/:id', authMiddleware, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const post = await Posts.findOne({ where: { id } });
-    if (!post) {
-      return res.status(404).json({ message: 'Post não existe' });
-    }
-    const { title, published, updated, content, userId } = post;
-    const user = await Users.findOne({ where: { id: userId } });
-    return res.status(200).json({
-      id: post.id,
-      title,
-      published,
-      updated,
-      content,
-      user: usersWithouPass([user])[0] });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(`Um erro enesperado aconteceu:${err}`);
+  const { id } = req.params;
+  const post = await Posts.findOne({ where: { id } });
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
   }
+  const { title, published, updated, content, userId } = post;
+  const user = await Users.findOne({ where: { id: userId } });
+  return res.status(200).json({
+    id: post.id,
+    title,
+    published,
+    updated,
+    content,
+    user: usersWithouPass([user])[0] });
 });
 
 router.post('/', authMiddleware, dataPostValidation, async (req, res) => {
   const { title, content } = req.body;
   const { email } = req.user;
   const user = await Users.findOne({ where: { email } });
-  const date = new Date();
-  await Posts.create({ title, content, userId: user.id, published: date, updated: date });
+  await Posts.create({ title, content, userId: user.id });
   return res.status(201).json({ title, content, userId: user.id });
 });
 
 router.put('/:id', authMiddleware, dataPostValidation, async (req, res) => {
-  const { title, content } = req.body;
-  const { email } = req.user;
-  const { id } = req.params;
+  const {
+    body: { title, content },
+    user: { email },
+    params: { id },
+  } = req;
   const post = await Posts.findOne({ where: { id } });
   const user = await Users.findOne({ where: { email } });
-  const date = new Date();
-
   if (!post) {
     return res.status(404).json({ message: 'Post não existe' });
   }
@@ -82,7 +76,6 @@ router.put('/:id', authMiddleware, dataPostValidation, async (req, res) => {
   await Posts.update({ where: { id } }, {
     title: title || post.title,
     content: content || post.content,
-    updated: date,
   });
   return res.status(201).json({
     title: title || post.title,
