@@ -5,7 +5,7 @@ const Users = (sequelize, DataTypes) => sequelize
     password: DataTypes.STRING,
     image: DataTypes.STRING,
   }, {
-    updateAt: false,
+    timestamps: false,
   });
 
 module.exports = Users;

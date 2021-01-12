@@ -68,7 +68,7 @@ const validaToken = async (req, _res, next) => {
 const validateKeys = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const user = await Users.findOne({ where: { email: `${email}` } });
+    const user = await Users.findOne({ where: { email } });
 
     if (!user) throw new Error();
 
@@ -77,7 +77,7 @@ const validateKeys = async (req, res, next) => {
     req.token = createToken(userSafe);
 
     next();
-  } catch (_e) {
+  } catch (e) {
     res.status(400).json({ message: 'Campos inválidos' });
   }
 };
