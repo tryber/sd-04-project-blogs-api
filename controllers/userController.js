@@ -25,9 +25,9 @@ router.get('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Usuário não existe' });
     }
     return res.status(200).json(usersWithouPass([user])[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(`Um erro enesperado aconteceu:${err}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(`Um erro enesperado aconteceu:${error}`);
   }
 });
 
