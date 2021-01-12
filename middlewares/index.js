@@ -1,4 +1,4 @@
-const validadeUsers = require('./validadeUser');
+const validadeUsers = require('./validadeUsers');
 // const validadeLogin = require("./validadeLogin");
 // const validadePosts = require("./validadePosts");
 
