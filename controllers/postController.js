@@ -73,13 +73,10 @@ router.put('/:id', authMiddleware, dataPostValidation, async (req, res) => {
   if (post.userId !== user.id) {
     return res.status(401).json({ message: 'Usuário não autorizado' });
   }
-  await Posts.update({ where: { id } }, {
-    title: title || post.title,
-    content: content || post.content,
-  });
-  return res.status(201).json({
-    title: title || post.title,
-    content: content || post.content,
+  await Posts.update({ title, content }, { where: { id } });
+  return res.status(200).json({
+    title,
+    content,
     userId: user.id });
 });
 
