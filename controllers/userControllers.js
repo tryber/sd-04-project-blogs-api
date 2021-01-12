@@ -14,7 +14,7 @@ const showToken = async (req, res) => {
   try {
     const { body, token } = req;
     let STATUS = 200;
-    console.log(token)
+
     if (Object.keys(body).length > 2) {
       await Users.create(body);
       STATUS = 201;
