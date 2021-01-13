@@ -30,9 +30,10 @@ function createToken(payload) {
 const validateUserEntries = async (req, res, next) => {
   try {
     const { body } = req;
-    const { error } = Object.keys(body).length > 2
-      ? USERSCHEMA.validate(body)
-      : LOGINSCHEMA.validate(body);
+    const { error } =
+      Object.keys(body).length > 2
+        ? USERSCHEMA.validate(body)
+        : LOGINSCHEMA.validate(body);
 
     if (error) throw new Error(error.details[0].message);
 
@@ -83,9 +84,24 @@ const validateKeys = async (req, res, next) => {
   }
 };
 
+const validaJWT = (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+
+    if (!token) res.status(401).json({ message: 'Token não encontrado' });
+
+    jwt.verify(token, SECRET);
+
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Token expirado ou inválido' });
+  }
+};
+
 module.exports = {
   validateUserEntries,
   validaIfExist,
   validaToken,
   validateKeys,
+  validaJWT,
 };

@@ -13,4 +13,10 @@ router.post(
   userControllers.showToken,
 );
 
+router.get(
+  '/',
+  userMiddlewares.validaJWT,
+  userControllers.getAll
+);
+
 module.exports = router;
