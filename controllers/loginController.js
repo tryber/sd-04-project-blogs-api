@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize');
-const { User } = require('../models');
+const { Users } = require('../models');
 const createToken = require('../auth/createToken');
 const isRequireds = require('../auth/isRequireds');
 
@@ -9,7 +9,7 @@ const loginRoute = express.Router();
 loginRoute.post('/', async (req, res) => {
   try {
     isRequireds(req.body, res);
-    const usuario = await User.findOne({
+    const usuario = await Users.findOne({
       where: {
         [Op.and]: [{ email: req.body.email, password: req.body.password }],
       },

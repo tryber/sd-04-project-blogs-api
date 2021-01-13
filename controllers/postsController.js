@@ -1,5 +1,5 @@
 const express = require('express');
-const { Post, User } = require('../models');
+const { Posts, Users } = require('../models');
 const validateToken = require('../auth/validateToken');
 const postsValidation = require('../services/postsValidation');
 
@@ -11,7 +11,7 @@ postsRouter.post('/', validateToken, async (req, res) => {
     const { title, content } = req.body;
     postsValidation({ ...req.body }, res);
     const { id } = req.user;
-    const createPost = await Post.create({ title, content, userId: id });
+    const createPost = await Posts.create({ title, content, userId: id });
     const { id: _, ...newPost } = createPost.dataValues;
     res.status(201).json(newPost);
   } catch (error) {
@@ -21,12 +21,24 @@ postsRouter.post('/', validateToken, async (req, res) => {
 
 postsRouter.get('/', validateToken, async (req, res) => {
   try {
-    const allPosts = await Post.findAll({
-      include: [{ model: User, as: 'users', attributes: { exclude: ['password'] } }],
+    const allPosts = await Posts.findAll({
+      include: [{ model: Users, as: 'users', attributes: { exclude: ['password'] } }],
+      attributes: { exclude: ['userId'] },
     });
     res.status(201).json(allPosts);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+postsRouter.get('/:id', validateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const allPosts = await Posts.findOne({ where: { id } });
+    if (!allPosts) return res.status(404).json({ message: 'Post não existe' });
+    res.status(200).json(allPosts);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
   }
 });
 

@@ -21,11 +21,14 @@ module.exports = {
         type: Sequelize.DATE,
       },
       userId: {
-        type: Sequelize.INTEGER,
         allowNull: false,
-        onUpdate: 'CASCADE',
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
         onDelete: 'CASCADE',
-        references: { model: 'Users', key: 'id' },
+        onUpdate: 'CASCADE',
       },
     });
   },

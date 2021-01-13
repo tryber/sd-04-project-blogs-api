@@ -1,6 +1,6 @@
-const Post = (sequelize, DataTypes) =>
-  sequelize.define(
-    'Post',
+const Post = (sequelize, DataTypes) => {
+  const Posts = sequelize.define(
+    'Posts',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -20,7 +20,7 @@ const Post = (sequelize, DataTypes) =>
       },
       userId: {
         type: DataTypes.INTEGER,
-        foreignKey: true,
+        foreingKey: true,
       },
     },
     {
@@ -28,8 +28,10 @@ const Post = (sequelize, DataTypes) =>
     },
   );
 
-Post.associate = (models) => {
-  Post.belongsTo(models.User, { foreign_key: 'userId', as: 'User' });
-};
+  Posts.associate = (models) => {
+    Posts.belongsTo(models.Users, { as: 'users', foreingKey: 'userId' });
+  };
 
+  return Posts;
+};
 module.exports = Post;

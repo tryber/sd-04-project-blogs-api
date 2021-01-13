@@ -1,5 +1,5 @@
 const express = require('express');
-const { User } = require('../models');
+const { Users } = require('../models');
 const validateToken = require('../auth/validateToken');
 const createToken = require('../auth/createToken');
 const isRequireds = require('../auth/isRequireds');
@@ -11,10 +11,10 @@ usersRoute.post('/', async (req, res) => {
   try {
     isRequireds({ ...req.body }, res);
 
-    const validation = await User.findOne({ where: { email: req.body.email } });
+    const validation = await Users.findOne({ where: { email: req.body.email } });
 
     if (!validation) {
-      const newUser = await User.create({ ...req.body });
+      const newUser = await Users.create({ ...req.body });
       const token = createToken(newUser.dataValues);
       res.status(201).json({ token });
     }
@@ -28,14 +28,14 @@ usersRoute.post('/', async (req, res) => {
 
 // GET PARA TRAZER TODOS OS USUARIOS DO BANCO DE DADOS
 usersRoute.get('/', validateToken, async (req, res) => {
-  const getAll = await User.findAll();
+  const getAll = await Users.findAll();
   res.status(200).json(getAll);
 });
 
 // GET PARA TRAZER APENAS UM USUARIO
 usersRoute.get('/:id', validateToken, async (req, res) => {
   const { id } = req.params;
-  const getAll = await User.findOne({ where: { id } });
+  const getAll = await Users.findOne({ where: { id } });
   if (!getAll) return res.status(404).json({ message: 'Usuário não existe' });
   res.status(200).json(getAll);
 });
@@ -43,7 +43,7 @@ usersRoute.get('/:id', validateToken, async (req, res) => {
 //  DELETE PARA ESCLUIR USUARIO DO BANCO DE DADOS
 usersRoute.delete('/me', validateToken, async (req, res) => {
   const { id } = req.user;
-  await User.destroy({ where: { id } });
+  await Users.destroy({ where: { id } });
   res.status(204).json();
 });
 
