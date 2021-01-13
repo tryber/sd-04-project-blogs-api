@@ -50,7 +50,7 @@ router.post('/', validator, async (req, res) => {
   }
 });
 
-router.delete('/me', async (req, res) => {
+router.delete('/me', validateJWT, async (req, res) => {
   const { id } = req.user;
   await User.destroy({ where: { id } });
   return res.status(204).json({});
