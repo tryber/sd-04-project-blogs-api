@@ -6,6 +6,7 @@ const isRequireds = require('../auth/isRequireds');
 
 const usersRoute = express.Router();
 
+// POST PARA CRIAR UM USUARIO NO BANCO
 usersRoute.post('/', async (req, res) => {
   try {
     isRequireds({ ...req.body }, res);
@@ -25,9 +26,25 @@ usersRoute.post('/', async (req, res) => {
   }
 });
 
+// GET PARA TRAZER TODOS OS USUARIOS DO BANCO DE DADOS
 usersRoute.get('/', validateToken, async (req, res) => {
   const getAll = await User.findAll();
   res.status(200).json(getAll);
+});
+
+// GET PARA TRAZER APENAS UM USUARIO
+usersRoute.get('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  const getAll = await User.findOne({ where: { id } });
+  if (!getAll) return res.status(404).json({ message: 'Usuário não existe' });
+  res.status(200).json(getAll);
+});
+
+//  DELETE PARA ESCLUIR USUARIO DO BANCO DE DADOS
+usersRoute.delete('/me', validateToken, async (req, res) => {
+  const { id } = req.user;
+  await User.destroy({ where: { id } });
+  res.status(204).json();
 });
 
 module.exports = usersRoute;

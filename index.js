@@ -22,4 +22,6 @@ app.use('/user', controllers.users);
 
 app.use('/login', controllers.login);
 
+app.use('/post', controllers.posts);
+
 app.listen(PORT, () => console.log(`Listening PORT: ${PORT}`));

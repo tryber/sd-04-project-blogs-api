@@ -2,6 +2,10 @@ const User = (sequelize, DataTypes) =>
   sequelize.define(
     'User',
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       displayName: {
         type: DataTypes.STRING,
         validate: {
@@ -40,5 +44,9 @@ const User = (sequelize, DataTypes) =>
       timestamps: false,
     },
   );
+
+User.associate = (models) => {
+  User.hasMany(models.Post, { foreign_key: 'id', as: 'posts' });
+};
 
 module.exports = User;
