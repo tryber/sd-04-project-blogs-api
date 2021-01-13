@@ -51,9 +51,10 @@ router.post('/', validator, async (req, res) => {
 });
 
 router.delete('/me', validateJWT, async (req, res) => {
-  const { id } = req.user;
-  await User.destroy({ where: { id } });
-  return res.status(204).json({});
+  const { email } = req.user;
+
+  await User.destroy({ where: { email } });
+  return res.status(204).end();
 });
 
 module.exports = router;

@@ -1,18 +1,26 @@
-const JWT = require('jsonwebtoken');
-require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
-const secret = process.env.SECRET;
+const secret = 'vinis2josias';
 
 const validateJWT = (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'Token não encontrado' });
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token não encontrado' });
+  }
+
   try {
-    const validation = JWT.verify(token, secret);
-    const { password: _, ...user } = validation;
-    req.user = user;
+    const data = jwt.verify(token, secret);
+
+    const { email } = data;
+
+    req.user = { email };
+
     next();
-  } catch (_err) {
-    res.status(401).json({ message: 'Token expirado ou inválido' });
+  } catch (err) {
+    console.error('validateToken', err.message);
+    return res.status(401).json({ message: 'Token expirado ou inválido' });
   }
 };
+
 module.exports = validateJWT;
