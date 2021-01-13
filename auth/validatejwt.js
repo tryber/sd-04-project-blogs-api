@@ -12,9 +12,9 @@ const validateJWT = (req, res, next) => {
   try {
     const data = jwt.verify(token, secret);
 
-    const { email } = data;
+    const { email, id } = data;
 
-    req.user = { email };
+    req.user = { email, id };
 
     next();
   } catch (err) {

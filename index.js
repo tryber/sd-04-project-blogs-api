@@ -17,5 +17,6 @@ app.get('/', (request, response) => {
 
 app.use('/user', controllers.users);
 app.use('/login', controllers.login);
+app.use('/post', controllers.post);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
