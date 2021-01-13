@@ -5,7 +5,7 @@ const middlewares = require('../middlewares');
 
 const router = express.Router();
 
-router.post('/', middlewares.validateUser, async (req, res) => {
+router.post('/', middlewares.validadeUsers, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   const user = await User.create({ displayName, email, password, image });
