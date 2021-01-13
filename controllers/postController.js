@@ -1,6 +1,6 @@
 const express = require('express');
 const validatejwt = require('../auth/validatejwt');
-const { Posts, User } = require('../models');
+const { Posts, Users } = require('../models');
 
 const router = express.Router();
 
@@ -32,7 +32,7 @@ router.get('/', validatejwt, async (req, res) => {
     const posts = await Posts.findAll({
       include: [
         {
-          model: User,
+          model: Users,
           as: 'user',
           attributes: { exclude: ['password'] },
         },
@@ -50,7 +50,7 @@ router.get('/:id', validatejwt, async (req, res) => {
     const post = await Posts.findByPk(req.params.id, {
       include: [
         {
-          model: User,
+          model: Users,
           as: 'user',
           attributes: { exclude: ['password'] },
         },
