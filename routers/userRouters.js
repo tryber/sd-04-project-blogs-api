@@ -19,4 +19,10 @@ router.get(
   userControllers.getAll
 );
 
+router.get(
+  '/:id',
+  userMiddlewares.validaJWT,
+  userControllers.getOne
+);
+
 module.exports = router;
