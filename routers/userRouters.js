@@ -16,13 +16,13 @@ router.post(
 router.get(
   '/',
   userMiddlewares.validaJWT,
-  userControllers.getAll
+  userControllers.getAll,
 );
 
 router.get(
   '/:id',
   userMiddlewares.validaJWT,
-  userControllers.getOne
+  userControllers.getOne,
 );
 
 module.exports = router;

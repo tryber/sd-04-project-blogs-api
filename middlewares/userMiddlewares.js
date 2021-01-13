@@ -30,10 +30,9 @@ function createToken(payload) {
 const validateUserEntries = async (req, res, next) => {
   try {
     const { body } = req;
-    const { error } =
-      Object.keys(body).length > 2
-        ? USERSCHEMA.validate(body)
-        : LOGINSCHEMA.validate(body);
+    const { error } = Object.keys(body).length > 2
+      ? USERSCHEMA.validate(body)
+      : LOGINSCHEMA.validate(body);
 
     if (error) throw new Error(error.details[0].message);
 
