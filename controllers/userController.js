@@ -5,8 +5,26 @@ const middlewares = require('../middlewares');
 
 const router = express.Router();
 
+// rouconst checkIfEmailExist = async (req, res, next) => {
+//   const { email } = req.body;
+//   const emailUser = await Users.findOne({ where: { email } });
+//   if (emailUser) {
+//     res.status(409).json({
+//       message: 'Usuário já existe',
+//     });
+//   }
+//   next();
+// };
+
 router.post('/', middlewares.validadeUsers, async (req, res) => {
   const { displayName, email, password, image } = req.body;
+
+  const emailUser = await User.findOne({ where: { email } });
+  if (emailUser) {
+    res.status(409).json({
+      message: 'Usuário já existe',
+    });
+  }
 
   const user = await User.create({ displayName, email, password, image });
 
