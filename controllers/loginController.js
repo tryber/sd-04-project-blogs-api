@@ -1,15 +1,15 @@
 const express = require('express');
 const middlewares = require('../middlewares');
+const { User } = require('../models');
 const JWT = require('../service');
-// const { auth, loginMiddleware } = require('../middlewares');
 
 const router = express.Router();
 
 router.post('/', middlewares.validadeLogin, async (req, res) => {
-  const { id, ...dataValues } = req.user.dataValues;
-
-  const token = await JWT.createJWT(dataValues);
-
+  const { email } = req.body;
+  const user = await User.findOne({ where: { email } });
+  const { id, displayName, image } = user.dataValues;
+  const token = await JWT.createJWT({ id, displayName, image });
   res.status(200).json({ token });
 });
 

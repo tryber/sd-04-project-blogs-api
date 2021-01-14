@@ -7,6 +7,7 @@ const schema = Joi.object({
 });
 
 const validadeLogin = (req, res, next) => {
+  // console.log(req);
   const { email, password } = req.body;
   const { error } = schema.validate({ email, password });
 
