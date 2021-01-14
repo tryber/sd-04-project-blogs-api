@@ -89,8 +89,10 @@ const validaJWT = (req, res, next) => {
 
     if (!token) res.status(401).json({ message: 'Token não encontrado' });
 
-    jwt.verify(token, SECRET);
+    const data = jwt.verify(token, SECRET);
 
+    req.user = data.dataValues;
+    
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Token expirado ou inválido' });

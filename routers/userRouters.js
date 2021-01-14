@@ -25,4 +25,6 @@ router.get(
   userControllers.getOne,
 );
 
+router.delete('/me', userMiddlewares.validaJWT, userControllers.deleteOne )
+
 module.exports = router;

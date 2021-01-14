@@ -23,6 +23,17 @@ const getOne = async (req, res) => {
   }
 };
 
+const deleteOne = async (req, res) => {
+  try {
+    const { email } = req.user;
+    await Users.destroy({ where: { email } });
+
+    res.status(204).json({ message: 'excluido' });
+  } catch (error) {
+    res.status(404).json({ message: 'nao pode ser excluido' });
+  }
+};
+
 const showToken = async (req, res) => {
   try {
     const { body, token } = req;
@@ -42,5 +53,6 @@ const showToken = async (req, res) => {
 module.exports = {
   getAll,
   getOne,
+  deleteOne,
   showToken,
 };
