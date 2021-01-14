@@ -17,6 +17,7 @@ router.post('/', middlewares.validadeUsers, async (req, res) => {
 
   const user = await User.create({ displayName, email, password, image });
 
+  // console.log(user.dataValues);
   const token = await JWT.createJWT(user.dataValues);
 
   res.status(201).json({ token });

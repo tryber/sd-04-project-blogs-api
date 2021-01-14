@@ -11,9 +11,14 @@ const validateJWT = (req, res, next) => {
     }
     const data = jwt.verify(token, secret);
 
-    const { email } = data;
+    // codigo antes da refatoração
 
-    req.user = { email };
+    // const { email } = data;
+    // req.user = { email };
+
+    // /////////////
+
+    req.user = data;
 
     next();
   } catch (err) {

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const secret = 'mayTheForceBeWithYou';
 
 const createJWT = (payload) => {
+  // console.log(payload);
   const headers = {
     expiresIn: '15m',
     algorithm: 'HS256',

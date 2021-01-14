@@ -7,10 +7,12 @@ const router = express.Router();
 
 router.post('/', JWT.validateJWT, middlewares.validadePosts, async (req, res) => {
   try {
+    // console.log('email');
     const { title, content } = req.body;
+    // console.log('log2');
 
     const { email } = req.user;
-
+    // console.log('log3');
     const user = await User.findOne({ where: { email } });
 
     const userId = user.dataValues.id;
