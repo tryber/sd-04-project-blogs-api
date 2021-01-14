@@ -6,16 +6,22 @@ const JWT = require('../service');
 const router = express.Router();
 
 router.post('/', JWT.validateJWT, middlewares.validadePosts, async (req, res) => {
-  const { title, content } = req.body;
-  const { email } = req.user;
+  try {
+    const { title, content } = req.body;
 
-  const user = await User.findOne({ where: { email } });
+    const { email } = req.user;
 
-  const userId = user.dataValues.id;
+    const user = await User.findOne({ where: { email } });
 
-  await Posts.create({ title, content, userId });
+    const userId = user.dataValues.id;
 
-  return res.status(201).json({ title, content, userId });
+    await Posts.create({ title, content, userId });
+
+    res.status(201).json({ title, content, userId });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ message: 'Something wrong... create new post' });
+  }
 });
 
 router.get('/', JWT.validateJWT, async (req, res) => {
