@@ -7,9 +7,15 @@ const router = express.Router();
 
 router.post('/', JWT.validateJWT, middlewares.validadePosts, async (req, res) => {
   const { title, content } = req.body;
-  const { id } = req.user;
-  const result = await Posts.create({ title, content, userId: id });
-  return res.status(201).json(result);
+  const { email } = req.user;
+
+  const user = await User.findOne({ where: { email } });
+
+  const userId = user.dataValues.id;
+
+  await Posts.create({ title, content, userId });
+
+  return res.status(201).json({ title, content, userId });
 });
 
 router.get('/', JWT.validateJWT, async (req, res) => {
