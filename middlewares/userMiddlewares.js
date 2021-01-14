@@ -92,7 +92,7 @@ const validaJWT = (req, res, next) => {
     const data = jwt.verify(token, SECRET);
 
     req.user = data.dataValues;
-    
+
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Token expirado ou inválido' });
