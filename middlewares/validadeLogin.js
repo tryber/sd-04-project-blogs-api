@@ -1,13 +1,11 @@
 const Joi = require('joi');
 
-// test
 const schema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
 
 const validadeLogin = (req, res, next) => {
-  // console.log(req);
   const { email, password } = req.body;
   const { error } = schema.validate({ email, password });
 

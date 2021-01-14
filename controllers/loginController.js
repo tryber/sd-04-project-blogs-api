@@ -8,6 +8,10 @@ const router = express.Router();
 router.post('/', middlewares.validadeLogin, async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ where: { email } });
+  // console.log(user);
+  if (!user) {
+    res.status(400).json({ message: 'Campos inválidos' });
+  }
   const { id, displayName, image } = user.dataValues;
   const token = await JWT.createJWT({ id, displayName, image });
   res.status(200).json({ token });
