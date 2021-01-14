@@ -2,21 +2,14 @@ const express = require('express');
 const { Posts, User } = require('../models');
 const middlewares = require('../middlewares');
 const JWT = require('../service');
-// const { validate } = require('../middlewares/auth');
-// const { postCreateMiddleware } = require('../middlewares');
 
 const router = express.Router();
 
 router.post('/', JWT.validateJWT, middlewares.validadePosts, async (req, res) => {
   const { title, content } = req.body;
-  const { email } = req.user;
-
-  const user = await User.findOne({ where: { email } });
-  const userId = user.dataValues.id;
-
-  await Posts.create({ title, content, userId });
-
-  return res.status(201).json({ title, content, userId });
+  const { id } = req.user;
+  const result = await Posts.create({ title, content, userId: id });
+  return res.status(201).json(result);
 });
 
 router.get('/', JWT.validateJWT, async (req, res) => {
