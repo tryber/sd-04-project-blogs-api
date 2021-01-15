@@ -8,7 +8,7 @@ const POSTSCHEMA = Joi.object({
 const validateUserEntries = async (req, res, next) => {
   try {
     const { body } = req;
-    const { error } = POSTSCHEMA.validate(body)
+    const { error } = POSTSCHEMA.validate(body);
 
     if (error) throw new Error(error.details[0].message);
 
@@ -22,4 +22,4 @@ const validateUserEntries = async (req, res, next) => {
 
 module.exports = {
   validateUserEntries,
-}
+};

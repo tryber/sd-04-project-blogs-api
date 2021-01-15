@@ -11,8 +11,8 @@ const addPost = async (req, res) => {
   } catch (error) {
     res.status(401).json({ message: 'bad erro' });
   }
-}
+};
 
 module.exports = {
   addPost,
-}
+};

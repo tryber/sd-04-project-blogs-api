@@ -10,7 +10,7 @@ router.post(
   '/',
   postMiddlewares.validateUserEntries,
   userMiddlewares.validaJWT,
-  postControllers.addPost
+  postControllers.addPost,
 );
 
 module.exports = router;

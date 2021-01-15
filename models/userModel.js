@@ -14,9 +14,9 @@ const createUser = (sequelize, DataTypes) => {
       foreingKey: 'userId',
       as: 'Posts',
     });
-  }
+  };
 
   return user;
-}
+};
 
 module.exports = createUser;

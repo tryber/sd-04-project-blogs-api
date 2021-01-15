@@ -8,7 +8,7 @@ const createPost = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    }
+    },
   );
 
   post.associate = (models) => {
