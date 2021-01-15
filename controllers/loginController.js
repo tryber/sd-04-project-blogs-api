@@ -13,7 +13,7 @@ router.post('/', middlewares.validadeLogin, async (req, res) => {
     res.status(400).json({ message: 'Campos inválidos' });
   }
   const { id, displayName, image } = user.dataValues;
-  const token = await JWT.createJWT({ id, displayName, image });
+  const token = await JWT.createJWT({ id, displayName, image, email });
   res.status(200).json({ token });
 });
 
