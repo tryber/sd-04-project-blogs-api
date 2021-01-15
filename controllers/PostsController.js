@@ -1,5 +1,4 @@
 const express = require('express');
-const { Op } = require('sequelize');
 const { Users, Posts } = require('../models');
 const { validateToken } = require('../auth/validateToken');
 const postsValidation = require('../middlewares/postsValidation');
@@ -66,11 +65,9 @@ router.delete(
   validateToken,
   postsValidation.validatePostAuthor, 
   async (req, res) => {
-    
-    await Posts.destroy({ where: { id: req.params.id } });
+  await Posts.destroy({ where: { id: req.params.id } });
 
-    return res.status(204).json({ message: 'Post deletado com sucesso' });
-
+  return res.status(204).json({ message: 'Post deletado com sucesso' });
 });
 
 module.exports = router;
