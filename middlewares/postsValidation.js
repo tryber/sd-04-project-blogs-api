@@ -36,4 +36,4 @@ const validatePostAuthor = async (req, res, next) => {
   return next();
 };
 
-module.exports = { validateTitle, validateContent, validatePostAuthor, validateUser };
+module.exports = { validateTitle, validateContent, validatePostAuthor };
