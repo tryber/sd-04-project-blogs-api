@@ -13,4 +13,5 @@ app.get('/', (request, response) => {
 });
 
 app.use('/user', controllers.users);
+app.use('/post', controllers.posts);
 app.post('/login', middlewares.userVal, controllers.login);

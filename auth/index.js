@@ -22,8 +22,8 @@ const validateToken = (req, res, next) => {
 
   try {
     const userData = jwt.verify(token, secret);
-    const { email } = userData;
-    req.user = { email };
+    const { email, id } = userData;
+    req.user = { email, id };
 
     return next();
   } catch (err) {

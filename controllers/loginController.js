@@ -1,10 +1,10 @@
 const { createJWT } = require('../auth');
-const { User } = require('../models');
+const { Users } = require('../models');
 
 const login = ('/', async (req, res) => {
   const { email } = req.body;
   try {
-    const emailValidation = await User.findOne({ where: { email } });
+    const emailValidation = await Users.findOne({ where: { email } });
     if (emailValidation) {
       const usrToken = createJWT(emailValidation.dataValues);
       return res.status(200).json({ token: usrToken });
