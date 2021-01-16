@@ -1,7 +1,8 @@
 const userController = require('express').Router();
 const { Users } = require('../models');
+const { validateName, validateEmail, validatePassword } = require('../middlewares/userValidations');
 
-userController.post('/', async (req, res) => {
+userController.post('/', validateName, validateEmail, validatePassword, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   try {
