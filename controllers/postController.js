@@ -6,11 +6,20 @@ const middlewares = require('../middlewares');
 
 const postRouter = Router();
 
-postRouter.delete('/me', validateToken, async (req, res) => {
+postRouter.delete('/:id', validateToken, async (req, res) => {
   try {
-    const { email } = req.user;
+    const { id } = req.user;
+    const { id: postId } = req.params;
 
-    await Posts.destroy({ where: { email } });
+    const post = await Posts.findOne({ where: { id: postId } });
+
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+    const deletedPost = await Posts.destroy({
+      where: { id: postId, userId: id },
+    });
+
+    if (deletedPost === 0) return res.status(401).json({ message: 'Usuário não autorizado' });
 
     return res.status(204).end();
   } catch (err) {
