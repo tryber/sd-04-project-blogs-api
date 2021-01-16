@@ -67,4 +67,30 @@ postRouter.post('/', validateToken, middlewares.postVal, async (req, res) => {
   }
 });
 
+postRouter.put('/:id', validateToken, middlewares.postVal, async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    const { id } = req.user;
+    const { id: postId } = req.params;
+    const updatePost = await Posts.update(
+      { title, content, userId: id },
+      { where: { id: postId, userId: id } },
+    );
+
+    if (updatePost[0] === 0) {
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+
+    const updatedPost = await Posts.findOne({
+      where: { id: req.params.id },
+      attributes: { exclude: ['published', 'updated'] },
+    });
+
+    return res.status(200).json(updatedPost);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err });
+  }
+});
+
 module.exports = postRouter;
