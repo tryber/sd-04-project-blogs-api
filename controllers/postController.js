@@ -37,11 +37,19 @@ postRouter.get('/:id', validateToken, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await Posts.findByPk(id);
+    const post = await Posts.findOne({
+      where: { id },
+      include: {
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      attributes: { exclude: ['userId'] },
+    });
 
-    if (!user) return res.status(404).json({ message: 'Usuário não existe' });
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
 
-    return res.status(200).json(user);
+    return res.status(200).json(post);
   } catch (err) {
     return res.status(500).json({ message: err });
   }
