@@ -23,9 +23,9 @@ const validateToken = (req, res, next) => {
 
     const verifiedToken = jwt.verify(token, secret);
 
-    const { email } = verifiedToken;
+    const { email, id, displayName, image } = verifiedToken;
 
-    req.user = { email };
+    req.user = { email, id, displayName, image };
 
     return next();
   } catch (_err) {

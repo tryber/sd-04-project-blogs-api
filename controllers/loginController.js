@@ -7,9 +7,7 @@ router.post('/',
   validations.verifyPassword,
   validations.verifyUserExists,
   async (req, res) => {
-    const { email, password } = req.body;
-
-    const token = createToken({ email, password });
+    const token = createToken(req.user);
 
     return res.status(200).json({ token });
   });

@@ -1,10 +1,5 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example: */
-
     const usersTable = await queryInterface.createTable('Users', {
       id: {
         allowNull: false,

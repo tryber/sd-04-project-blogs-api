@@ -12,9 +12,9 @@ router.post('/',
     try {
       const { displayName, email, password, image } = req.body;
 
-      await Users.create({ displayName, email, password, image });
+      const user = await Users.create({ displayName, email, password, image });
 
-      const token = createToken({ email, password });
+      const token = createToken({ id: user.dataValues.id, email, displayName, image });
 
       res.status(201).json({ token });
     } catch (error) {
