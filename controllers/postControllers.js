@@ -53,8 +53,7 @@ const updatePost = async (req, res) => {
 
     const post = await Posts.findOne({ where: { id } });
 
-    if (post.dataValues.userId !== userId)
-      throw new Error('Usuário não autorizado');
+    if (post.dataValues.userId !== userId) throw new Error('Usuário não autorizado');
 
     await Posts.update({ title, content }, { where: { id } });
 

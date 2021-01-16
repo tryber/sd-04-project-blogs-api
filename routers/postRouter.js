@@ -30,6 +30,6 @@ router.put(
   userMiddlewares.validaJWT,
   postMiddlewares.validateUserEntries,
   postControllers.updatePost,
-)
+);
 
 module.exports = router;
