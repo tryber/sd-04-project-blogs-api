@@ -25,4 +25,11 @@ router.get(
   postControllers.getPostById,
 );
 
+router.put(
+  '/:id',
+  userMiddlewares.validaJWT,
+  postMiddlewares.validateUserEntries,
+  postControllers.updatePost,
+)
+
 module.exports = router;

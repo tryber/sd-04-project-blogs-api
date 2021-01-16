@@ -45,8 +45,28 @@ const getPostById = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    const post = await Posts.findOne({ where: { id } });
+
+    if (post.dataValues.userId !== userId)
+      throw new Error('Usuário não autorizado');
+
+    await Posts.update({ title, content }, { where: { id } });
+
+    res.status(200).json({ title, content, userId });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
+
 module.exports = {
   addPost,
   getPost,
   getPostById,
+  updatePost,
 };
