@@ -19,4 +19,10 @@ router.get(
   postControllers.getPost,
 );
 
+router.get(
+  '/:id',
+  userMiddlewares.validaJWT,
+  postControllers.getPostById,
+);
+
 module.exports = router;
