@@ -7,14 +7,14 @@ const createPost = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
     },
     {
-      timestamps: false,
+      createdAt: 'published', updatedAt: 'updated',
     },
   );
 
   post.associate = (models) => {
     post.belongsTo(models.Users, {
       foreingKey: 'userId',
-      as: 'users',
+      as: 'user',
     });
   };
 

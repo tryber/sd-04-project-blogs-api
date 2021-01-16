@@ -1,4 +1,4 @@
-const { Posts } = require('../models');
+const { Users, Posts } = require('../models');
 
 const addPost = async (req, res) => {
   try {
@@ -13,6 +13,22 @@ const addPost = async (req, res) => {
   }
 };
 
+const getPost = async (_req, res) => {
+  try {
+    const posts = await Posts.findAll({
+      include: [
+        { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      ],
+    });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: 'bad status' });
+  }
+};
+
 module.exports = {
   addPost,
+  getPost,
 };

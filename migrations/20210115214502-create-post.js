@@ -26,7 +26,17 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        field: 'published',
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        field: 'updated',
+      },
     }),
 
-  down: async (queryInterface, _Sequelize) => queryInterface.dropTable('Post'),
+  down: async (queryInterface, _Sequelize) => queryInterface.dropTable('Posts'),
 };
