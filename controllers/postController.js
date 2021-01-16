@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { Op } = require('sequelize');
 const { validateToken } = require('../auth');
 const { Posts, Users } = require('../models');
 const middlewares = require('../middlewares');
@@ -27,6 +28,29 @@ postRouter.get('/', validateToken, async (_req, res) => {
       },
       attributes: { exclude: ['userId'] },
     });
+    return res.status(200).json(posts);
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+});
+
+postRouter.get('/search', validateToken, async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const posts = await Posts.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${q}%` } },
+          { content: { [Op.like]: `%${q}%` } },
+        ],
+      },
+      include: { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      attributes: { exclude: ['userId'] },
+    });
+
+    if (!posts) return res.status(200).json([]);
+
     return res.status(200).json(posts);
   } catch (err) {
     return res.status(500).json({ message: err });
