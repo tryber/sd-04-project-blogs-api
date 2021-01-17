@@ -1,7 +1,7 @@
 const usersController = require('express').Router();
 const { Users } = require('../models');
 const { validateName, validateEmail, validatePassword } = require('../middlewares/userValidations');
-const { createToken } = require('../authentication');
+const { createToken, validateToken } = require('../authentication');
 
 usersController.post('/', validateName, validateEmail, validatePassword, async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -14,6 +14,11 @@ usersController.post('/', validateName, validateEmail, validatePassword, async (
     console.error(err.message);
     res.status(500).json({ message: 'algo deu errado' });
   }
+});
+
+usersController.get('/', validateToken, async (req, res) => {
+  const users = await Users.findAll({ attributes: { exclude: ['password'] } });
+  return res.status(200).json(users);
 });
 
 module.exports = usersController;
