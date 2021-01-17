@@ -1,4 +1,5 @@
 const postsController = require('express').Router();
+const { Op } = require('sequelize');
 const { Posts, Users } = require('../models');
 const validatePost = require('../middlewares/postValidation');
 const { validateToken } = require('../authentication');
@@ -41,16 +42,28 @@ postsController.get('/', validateToken, async (_req, res) => {
 postsController.get('/search', validateToken, async (req, res) => {
   const { q: valueToSearch } = req.query;
 
-  console.log('Value to Search', valueToSearch);
-  console.log('Value to Search', valueToSearch);
   try {
     if (!valueToSearch) {
-      const posts = await Posts.findAll();
+      const posts = await Posts.findAll({
+        include: {
+          model: Users,
+          as: 'user',
+          attributes: { exclude: ['password'] },
+        },
+        attributes: { exclude: ['userId'] },
+      });
       return res.status(200).json(posts);
     }
 
-    const filteredPosts = await Posts.findAll();
-    console.log('FILTERED POSTS', filteredPosts);
+    const filteredPosts = await Posts.findAll({
+      include: {
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      where: { [Op.or]: [{ title: valueToSearch }, { content: valueToSearch }] },
+      attributes: { exclude: ['userId'] },
+    });
 
     if (!filteredPosts) return res.status(200).json([]);
 
