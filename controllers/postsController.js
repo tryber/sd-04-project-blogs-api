@@ -1,7 +1,23 @@
+const { Op } = require('sequelize');
 const router = require('express').Router();
 const { Users, Posts } = require('../models');
 const validation = require('../middlewares/validations');
 const auth = require('../middlewares/auth');
+
+router.get('/search', auth,
+  async (req, res) => {
+    const term = req.query.q;
+
+    const query = term ? { [Op.or]: [{ content: term }, { title: term }] } : {};
+
+    const result = await Posts.findAll({
+      where: query,
+      include: { model: Users, as: 'user' },
+      atributes: { exclude: ['userId'] },
+    });
+
+    return res.status(200).json(result);
+  });
 
 router.post('/', auth,
   validation.postValidator,
