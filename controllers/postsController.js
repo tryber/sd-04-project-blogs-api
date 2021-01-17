@@ -56,4 +56,32 @@ postsController.get('/:id', validateToken, async (req, res) => {
   }
 });
 
+postsController.put('/:id', validateToken, validatePost, async (req, res) => {
+  const {
+    params: { id },
+    body: { title, content },
+    user: { id: userId },
+  } = req;
+  try {
+    const post = await Posts.findByPk(id);
+
+    if (!post) return res.status(404).json(createMessageJSON('Post não existe'));
+
+    console.log(post.dataValues.userId !== userId);
+    if (post.dataValues.userId !== userId) {
+      return res.status(401).json(createMessageJSON('Usuário não autorizado'));
+    }
+
+    console.log('post', post);
+    console.log('UPDATED');
+    await Posts.update({ title, content, userId }, { where: { id } });
+    const updatedPost = await Posts.findByPk(id);
+    console.log('updatedPost', updatedPost);
+    return res.status(200).json(updatedPost);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json(createMessageJSON('Opss... algo deu errado :/'));
+  }
+});
+
 module.exports = postsController;
