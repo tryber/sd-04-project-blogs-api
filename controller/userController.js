@@ -1,56 +1,46 @@
-const { userModel } = require('../model');
-const { tokenCreate } = require('../service');
+const express = require('express');
+const { Users } = require('../model');
+const usersValidation = require('../middlewares/usersValidation');
+const tokenCreate = require('../service/tokenCreate');
+const { tokenValidation } = require('../service/tokenValidation');
 
-const createUser = async (req, res) => {
-  const { displayName, email, password, image } = req.body;
+const router = express.Router();
 
-  const userMail = await userModel.findAll({ where: { email } });
-  if (userMail.length > 0) {
-    return res.status(409).json({ message: 'Usuário já existe' });
-  }
+router.post(
+  '/',
+  usersValidation.validateDisplayName,
+  usersValidation.validateEmail,
+  usersValidation.validatePassword,
+  usersValidation.validateUserExistence,
+  async (req, res) => {
+    const { displayName, email, password, image } = req.body;
 
-  await userModel.create({ displayName, email, password, image });
-  const token = tokenCreate({ email, password });
-  return res.status(201).json({ token });
-};
+    const token = tokenCreate({ email, password });
 
-const loginControl = async (req, res) => {
-  const { email, password } = req.body;
+    await Users.create({ displayName, email, password, image });
 
-  const userMail = await userModel.findAll({ where: { email } });
-  if (userMail <= 0) {
-    return res.status(400).json({ message: 'Campos inválidos' });
-  }
+    return res.status(201).json({ token });
+  },
+);
 
-  const token = tokenCreate({ email, password });
-  return res.status(200).json({ token });
-};
+router.get('/', tokenValidation, async (_req, res) => {
+  const users = await Users.findAll({ attributes: { exclude: ['password'] } });
+  return res.status(200).json(users);
+});
 
-const findAllUser = async (_req, res) => {
-  const allUsers = await userModel.findAll({ attributes: { exclude: ['password'] } });
-  return res.status(200).json(allUsers);
-};
-
-const findUserId = async (req, res) => {
+router.get('/:id', tokenValidation, async (req, res) => {
   const { id } = req.params;
-  const user = await userModel.findOne({ where: { id } });
+  const user = await Users.findByPk(id, { attributes: { exclude: ['password'] } });
   if (!user) {
     return res.status(404).json({ message: 'Usuário não existe' });
   }
   return res.status(200).json(user);
-};
+});
 
-const deleteUser = async (req, res) => {
-  const { id } = req.body;
+router.delete('/me', tokenValidation, async (req, res) => {
+  const { email } = req.user;
+  await Users.destroy({ where: { email } });
+  return res.status(204).json({ message: 'Usuário deletado' });
+});
 
-  userModel.destroy({ where: { id } });
-  return res.status(204).json();
-};
-
-module.exports = {
-  createUser,
-  findAllUser,
-  findUserId,
-  deleteUser,
-  loginControl,
-};
+module.exports = router;

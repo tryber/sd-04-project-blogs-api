@@ -1,25 +1,39 @@
-const jooi = require('joi');
+const { Users, Posts } = require('../model');
 
-const schema = jooi.object({
-  title: jooi.string().required(),
-  content: jooi.string().required(),
-});
-
-const postsValidation = async (req, res, next) => {
-  const { title, content } = req.body;
-
-  const { error } = schema.validate({
-    title,
-    content,
-  });
-
-  if (error) {
-    return res.status(400).json({
-      message: error.message,
-    });
+const validateTitle = async (req, res, next) => {
+  const { title } = req.body;
+  if (title === undefined) {
+    return res.status(400).json({ message: '"title" is required' });
   }
-
-  next();
+  return next();
 };
 
-module.exports = postsValidation;
+const validateContent = async (req, res, next) => {
+  const { content } = req.body;
+  if (content === undefined) {
+    return res.status(400).json({ message: '"content" is required' });
+  }
+  return next();
+};
+
+const validatePostAuthor = async (req, res, next) => {
+  const { id } = req.params;
+  const { email } = req.user;
+
+  const user = await Users.findOne({ where: { email } });
+  const post = await Posts.findOne({ where: { id } });
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
+  }
+
+  if (user.dataValues.id !== post.dataValues.userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  req.user = { ...req.user, userId: user.dataValues.id };
+
+  return next();
+};
+
+module.exports = { validateTitle, validateContent, validatePostAuthor };

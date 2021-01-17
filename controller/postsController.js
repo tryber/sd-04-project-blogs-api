@@ -1,60 +1,69 @@
-const { Posts, Users } = require('../model');
+const express = require('express');
+const { Users, Posts } = require('../model');
+const { tokenValidation } = require('../service/tokenValidation');
+const postsValidation = require('../middlewares/postsValidation');
 
-const postsCreate = async (req, res) => {
-  const { title, content } = req.body;
-  const { email } = req.user;
+const router = express.Router();
 
-  const user = await Users.findOne({ where: { email } });
-  const post = await Posts.create({ userId: user.id, title, content });
+router.post(
+  '/',
+  tokenValidation,
+  postsValidation.validateTitle,
+  postsValidation.validateContent,
+  async (req, res) => {
+    const { email } = req.user;
 
-  return res.status(201).json({
-    title: post.title,
-    content: post.content,
-    userId: post.userId,
-  });
-};
+    const { title, content } = req.body;
 
-const findAllPost = async (req, res) => {
+    const user = await Users.findOne({ where: { email } });
+
+    const userId = user.dataValues.id;
+
+    await Posts.create({ title, content, userId });
+    return res.status(201).json({ title, content, userId });
+  },
+);
+
+router.get('/', tokenValidation, async (_req, res) => {
   const allPosts = await Posts.findAll({
-    include: { model: Users, as: 'user' },
-    atributes: { exclude: ['userId'] },
+    include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
   });
-
   return res.status(200).json(allPosts);
-};
+});
 
-const findPostById = async (req, res) => {
+router.get('/:id', tokenValidation, async (req, res) => {
   const { id } = req.params;
-  const post = await Posts.findOne({
-    where: { id },
-    include: { model: Users, as: 'user' },
-    atributes: { exclude: ['userId'] },
+  const post = await Posts.findByPk(id, {
+    include: [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }],
   });
 
-  if (!post) return res.status(404).json({ message: 'Post não existe' });
-  return res.status(200).json(post);
-};
-
-const updatePost = async (req, res) => {
-  const { title, content } = req.body;
-  const { email } = req.user;
-
-  const post = await Posts.findOne({ where: { id: req.params.id } });
-  const user = await Users.findOne({ where: { email } });
-
-  if (!post) return res.status(404).json({ message: 'Post não existe' });
-  if (post.dataValues.userId !== user.dataValues.id) {
-    return res.status(401).json({ message: 'Usuário não autorizado' });
+  if (!post) {
+    return res.status(404).json({ message: 'Post não existe' });
   }
 
-  Posts.update({ title, content }, { where: { id: req.params.id } });
+  return res.status(200).json(post);
+});
 
-  return res.status(200).json({ title, content, userId: post.dataValues.userId });
-};
+router.put(
+  '/:id',
+  tokenValidation,
+  postsValidation.validateTitle,
+  postsValidation.validateContent,
+  postsValidation.validatePostAuthor,
+  async (req, res) => {
+    const { userId } = req.user;
+    const { id } = req.params;
+    const { title, content } = req.body;
 
-module.exports = {
-  postsCreate,
-  findAllPost,
-  findPostById,
-  updatePost,
-};
+    await Posts.update({ title, content }, { where: { id } });
+    return res.status(200).json({ title, content, userId });
+  },
+);
+
+router.delete('/:id', tokenValidation, postsValidation.validatePostAuthor, async (req, res) => {
+  await Posts.destroy({ where: { id: req.params.id } });
+
+  return res.status(204).json({ message: 'Post deletado com sucesso' });
+});
+
+module.exports = router;
