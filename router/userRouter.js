@@ -5,9 +5,9 @@ const middlewares = require('../middlewares');
 
 const userRouter = Router();
 
-userRouter.post('/', middlewares.userValidation, userController.createUser);
 userRouter.get('/', tokenValidation, userController.findAllUser);
 userRouter.get('/:id', tokenValidation, userController.findUserId);
 userRouter.delete('/me', tokenValidation, userController.deleteUser);
+userRouter.post('/', middlewares.userValidation, userController.createUser);
 
 module.exports = userRouter;
