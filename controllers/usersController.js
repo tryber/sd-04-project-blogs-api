@@ -1,9 +1,9 @@
-const userController = require('express').Router();
+const usersController = require('express').Router();
 const { Users } = require('../models');
 const { validateName, validateEmail, validatePassword } = require('../middlewares/userValidations');
 const { createToken } = require('../authentication');
 
-userController.post('/', validateName, validateEmail, validatePassword, async (req, res) => {
+usersController.post('/', validateName, validateEmail, validatePassword, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   try {
@@ -16,4 +16,4 @@ userController.post('/', validateName, validateEmail, validatePassword, async (r
   }
 });
 
-module.exports = userController;
+module.exports = usersController;
