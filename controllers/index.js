@@ -1,3 +1,6 @@
-const usersControllers = require('./usersControllers');
+const loginController = require('./loginController');
+const userController = require('./userController');
+const blogPostController = require('./blogPostController');
 
-module.exports = { users: usersControllers };
+
+module.exports = { login: loginController, user: userController, blogPost: blogPostController };

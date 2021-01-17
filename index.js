@@ -13,4 +13,8 @@ app.get('/', (request, response) => {
   response.send('Conectado');
 });
 
-app.use('/user', controllers.users);
+app.use('/login', controllers.login);
+
+app.use('/user', controllers.user);
+
+app.use('/post', controllers.blogPost);
