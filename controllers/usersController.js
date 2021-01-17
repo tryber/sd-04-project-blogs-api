@@ -39,4 +39,15 @@ usersController.get('/:id', validateToken, async (req, res) => {
   }
 });
 
+usersController.delete('/me', validateToken, async (req, res) => {
+  const { id, email } = req.user;
+  try {
+    await Users.destroy({ where: { email, id } });
+    res.sendStatus(204);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json(createMessageJSON('Opss... algo deu errado :/'));
+  }
+});
+
 module.exports = usersController;
