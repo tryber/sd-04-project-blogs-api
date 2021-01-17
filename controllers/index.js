@@ -1,4 +1,3 @@
-const { use } = require('frisby');
 const usersController = require('./usersController');
 
 module.exports = {
