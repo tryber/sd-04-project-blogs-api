@@ -31,4 +31,11 @@ router.get('/', auth,
     }
   });
 
+router.delete('/me', auth,
+  async (req, res) => {
+    const { email } = req.user;
+    await Users.destroy({ where: { email } });
+    return res.status(204).send();
+  });
+
 module.exports = router;

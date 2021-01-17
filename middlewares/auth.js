@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const auth = async (req, res, next) => {
   try {
-    const secret = 'blogapi';
+    const secret = 'blogsapisenha';
     const token = req.headers.authorization;
 
     if (!token) {

@@ -6,7 +6,6 @@ router.post(
   '/',
   validation.emailValidator,
   validation.passwordValidator,
-  validation.uniqueEmailValidator,
   validation.loginValidator,
   async (req, res) => {
     const { email, password } = req.body;

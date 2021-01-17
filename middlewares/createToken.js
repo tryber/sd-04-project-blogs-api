@@ -1,9 +1,9 @@
-const secret = 'blogapi';
+const secret = 'blogsapisenha';
 const jwt = require('jsonwebtoken');
 
 const createToken = (payload) => {
   const jwtConfig = {
-    expiresIn: '30m',
+    expiresIn: '50m',
     algorithm: 'HS256',
   };
   const token = jwt.sign(payload, secret, jwtConfig);
