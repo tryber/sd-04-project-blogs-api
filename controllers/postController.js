@@ -72,4 +72,27 @@ router.put('/:id', jwt.validateJWT, async (req, res) => {
   res.status(200).json(editedPost);
 });
 
+router.delete('/:id', jwt.validateJWT, async (req, res) => {
+  const token = req.headers.authorization;
+  const decoded = encrypt.verify(token, process.env.SECRET);
+
+  const post = await Post.findOne({
+    where: { id: req.params.id },
+  });
+
+  // post validation
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+  const { userId } = post;
+
+  //  usuário validation
+  if (decoded.data.id !== userId) {
+    return res.status(401).json({ message: 'Usuário não autorizado' });
+  }
+
+  await Post.destroy({ where: { id: req.params.id } });
+
+  res.status(204).end();
+});
+
 module.exports = router;
