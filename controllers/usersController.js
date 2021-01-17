@@ -21,6 +21,21 @@ router.post('/',
     }
   });
 
+router.get('/:id', auth,
+  async (req, res) => {
+    try {
+      const user = await Users.findOne({ where: { id: req.params.id } });
+
+      if (!user) {
+        return res.status(404).send({ message: 'Usuário não existe' });
+      }
+
+      return res.status(200).send(user);
+    } catch (err) {
+      return res.status(500).json({ message: 'Algo errado!', err });
+    }
+  });
+
 router.get('/', auth,
   async (_req, res) => {
     const users = await Users.findAll();
