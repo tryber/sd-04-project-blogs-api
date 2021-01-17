@@ -12,8 +12,9 @@ router.post('/', async (req, res) => {
   if (!email) return res.status(400).json({ message: '"email" is required' });
 
   //  password validation
-  if (password === '')
+  if (password === '') {
     return res.status(400).json({ message: '"password" is not allowed to be empty' });
+  }
   if (!password) return res.status(400).json({ message: '"password" is required' });
 
   //  user validation
