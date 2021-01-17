@@ -144,23 +144,19 @@ router.put('/:id', validateJWT, async (req, res) => {
 });
 
 router.delete('/:id', validateJWT, async (req, res) => {
-  // Localiza o Post
   const postById = await Posts.findOne({
     where: { id: req.params.id },
   });
-  // Verifica se o Post existe
   if (!postById) {
     res.status(404).json({ message: 'Post não existe' });
   }
-  // Localiza o usuario logado
+
   const user = await Users.findOne({ where: { displayName: req.user.data } });
 
-  // Verifica se o usuario logado é o mesmo que criou o post
   if (postById.userId !== user.id) {
     res.status(401).json({ message: 'Usuário não autorizado' });
   }
 
-  // Deleta o Post
   await Posts.destroy({ where: { id: req.params.id } });
   res.status(204).json();
 });

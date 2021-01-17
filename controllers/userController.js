@@ -1,3 +1,4 @@
+const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const { Router } = require('express');
 const validateJWT = require('../auth/validateJWT');
@@ -5,7 +6,7 @@ const { Users } = require('../models');
 
 const router = Router();
 
-// Cria a config do token JWT
+// Configura o jwt
 const jwtConfig = {
   expiresIn: '7d',
   algorithm: 'HS256',
@@ -39,8 +40,7 @@ router.post('/', async (req, res) => {
     });
   }
 
-  const validaEmail = /[A-Z0-9]{1,}@[A-Z0-9]{2,}\.[A-Z0-9]{2,}/i.test(email);
-  if (!validaEmail) {
+  if (!validator.isEmail(email)) {
     res.status(400).json({
       message: '"email" must be a valid email',
     });
@@ -60,14 +60,12 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', validateJWT, async (req, res) => {
-  // Retorna todos os usuarios cadastrados
   const users = await Users.findAll();
 
   res.status(200).json(users);
 });
 
 router.get('/:id', validateJWT, async (req, res) => {
-  // Retorna usuario por ID
   const user = await Users.findByPk(req.params.id);
 
   if (!user) {
@@ -80,7 +78,6 @@ router.get('/:id', validateJWT, async (req, res) => {
 router.delete('/me', validateJWT, async (req, res) => {
   const { data } = req.user;
 
-  // Exclui usuario pelo nome
   await Users.destroy({ where: { displayName: data } });
 
   res.status(204).json();
