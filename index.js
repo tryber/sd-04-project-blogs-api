@@ -11,4 +11,5 @@ app.get('/', (request, response) => {
 app.get('/user', (req, res) => {
   res.send('teste');
 });
+
 app.listen(PORT, () => console.log(`ouvidno na porta ${PORT}`));
