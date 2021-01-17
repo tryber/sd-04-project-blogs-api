@@ -34,6 +34,14 @@ module.exports = {
         allowNull: false,
         field: 'updated',
       },
+      published: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
     return Posts;
   },

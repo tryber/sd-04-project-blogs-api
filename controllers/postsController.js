@@ -4,6 +4,7 @@ const validation = require('../middlewares/validations');
 const auth = require('../middlewares/auth');
 
 router.post('/', auth,
+  validation.postValidator,
   async (req, res) => {
     const { email } = req.user;
     const { title, content } = req.body;
