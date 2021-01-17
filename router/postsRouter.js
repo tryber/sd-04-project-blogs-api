@@ -6,7 +6,7 @@ const { tokenValidation } = require('../service');
 const postsRouter = Router();
 
 postsRouter.post('/', tokenValidation, middleware.postsValidation, postsController.postsCreate);
-postsRouter.get('/', tokenValidation, postsController.findAllPostControl);
+// postsRouter.get('/', tokenValidation, postsController.findAllPostControl);
 postsRouter.get('/:id', tokenValidation, postsController.findPostById);
 postsRouter.put('/:id', tokenValidation, middleware.postsValidation, postsController.updatePost);
 
