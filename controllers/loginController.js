@@ -19,6 +19,8 @@ router.post('/', async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log(req.body);
+
     if (email === undefined) {
       res.status(400).json({
         message: '"email" is required',
