@@ -115,4 +115,26 @@ postsController.put('/:id', validateToken, validatePost, async (req, res) => {
   }
 });
 
+postsController.delete('/:id', validateToken, async (req, res) => {
+  const {
+    params: { id },
+    user: { id: userId },
+  } = req;
+  try {
+    const post = await Posts.findByPk(id);
+
+    if (!post) return res.status(404).json(createMessageJSON('Post não existe'));
+
+    if (post.dataValues.userId !== userId) {
+      return res.status(401).json(createMessageJSON('Usuário não autorizado'));
+    }
+
+    await Posts.destroy({ where: { id, userId } });
+
+    return res.sendStatus(204);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 module.exports = postsController;
