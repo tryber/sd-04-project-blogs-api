@@ -6,7 +6,7 @@ const headers = {
   algorithm: 'HS256',
 };
 
-const secret = process.env.TOKEN_SECRET ?? 'pantaLover';
+const secret = process.env.TOKEN_SECRET || 'pantaLover';
 
 const createToken = (payload) => {
   const token = jwt.sign(payload, secret, headers);
