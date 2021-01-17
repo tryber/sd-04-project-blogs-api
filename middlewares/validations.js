@@ -18,12 +18,10 @@ const emailValidator = (req, res, next) => {
   const testEmailRegex = mailRegex.test(email);
 
   if (!email) {
-    // eslint-disable-next-line quotes
-    return res.status(400).send({ message: "\"email\" is required" });
+    return res.status(400).send({ message: '"email" is required' });
   }
   if (!testEmailRegex) {
-    // eslint-disable-next-line quotes
-    return res.status(400).send({ message: "\"email\" must be a valid email" });
+    return res.status(400).send({ message: '"email" must be a valid email' });
   }
 
   next();
@@ -37,14 +35,6 @@ const passwordValidator = (req, res, next) => {
   if (password.length < 6) {
     return res.status(400).send({ message: '"password" length must be 6 characters long' });
   }
-  next();
-};
-
-const uniqueEmailValidator = async (req, res, next) => {
-  const email = await Users.findOne({ where: { email: req.body.email } });
-  if (email) {
-    return res.status(409).send({ message: 'Usuário já existe' });
-  }
 
   next();
 };
@@ -54,8 +44,24 @@ const loginValidator = async (req, res, next) => {
   if (email === '') {
     return res.status(400).send({ message: '"email" is not allowed to be empty' });
   }
+  if (!email) {
+    return res.status(400).send({ message: '"email" is required' });
+  }
+
   if (password === '') {
     return res.status(400).send({ message: '"password" is not allowed to be empty' });
+  }
+  if (!password) {
+    return res.status(400).send({ message: '"password" is required' });
+  }
+
+  next();
+};
+
+const uniqueEmailValidator = async (req, res, next) => {
+  const email = await Users.findOne({ where: { email: req.body.email } });
+  if (email) {
+    return res.status(409).send({ message: 'Usuário já existe' });
   }
 
   next();
@@ -94,8 +100,8 @@ module.exports = {
   displayNameValidator,
   emailValidator,
   passwordValidator,
-  uniqueEmailValidator,
   loginValidator,
+  uniqueEmailValidator,
   postValidator,
   authorValidator,
 };
