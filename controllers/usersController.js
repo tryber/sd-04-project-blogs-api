@@ -1,4 +1,6 @@
 const express = require('express');
+const encrypt = require('jsonwebtoken');
+require('dotenv/config');
 const { User } = require('../models');
 
 const router = express.Router();
@@ -57,6 +59,15 @@ router.get('/:id', jwt.validateJWT, async (req, res) => {
   const { id, displayName, email, image } = user;
 
   res.status(200).json({ id, displayName, email, image });
+});
+
+router.delete('/me', jwt.validateJWT, async (req, res) => {
+  const token = req.headers.authorization;
+  const decoded = encrypt.verify(token, process.env.SECRET);
+
+  await User.destroy({ where: { email: decoded.data.email } });
+
+  res.status(204).end();
 });
 
 module.exports = router;
