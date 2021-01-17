@@ -17,10 +17,12 @@ const emailValidator = (req, res, next) => {
   const regex = /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
 
   if (!email) {
-    return res.status(400).send({ message: '"email" is required' });
+    // eslint-disable-next-line quotes
+    return res.status(400).send({ message: "\"email\" is required" });
   }
   if (!regex.test(email)) {
-    return res.status(400).send({ message: '"email" must be a valid email' });
+    // eslint-disable-next-line quotes
+    return res.status(400).send({ message: "\"email\" must be a valid email" });
   }
 
   next();
