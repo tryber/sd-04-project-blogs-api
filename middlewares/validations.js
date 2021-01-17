@@ -14,7 +14,7 @@ const displayNameValidator = (req, res, next) => {
 
 const emailValidator = (req, res, next) => {
   const { email } = req.body;
-  const regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+  const regex = /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
 
   if (!email) {
     return res.status(400).send({ message: '"email" is required' });
