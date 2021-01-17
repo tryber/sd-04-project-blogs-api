@@ -33,4 +33,16 @@ router.get('/', jwt.validateJWT, async (req, res) => {
   res.status(200).json(posts);
 });
 
+router.get('/:id', jwt.validateJWT, async (req, res) => {
+  const post = await Post.findOne({
+    where: { id: req.params.id },
+    attributes: { exclude: ['userId'] },
+    include: { model: User, as: 'user' },
+  });
+
+  if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+  res.status(200).json(post);
+});
+
 module.exports = router;
