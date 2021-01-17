@@ -15,4 +15,6 @@ app.get('/', (request, response) => {
 
 app.use('/user', controllers.users);
 
+app.use('/login', controllers.login);
+
 app.listen(PORT, () => console.log(`Hey, listen! ${PORT}`));
