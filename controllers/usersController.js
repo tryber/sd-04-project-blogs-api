@@ -13,25 +13,25 @@ router.post('/', async (req, res) => {
   if (displayName.length < 8) {
     return res
       .status(400)
-      .json({ message: '\"displayName\" length must be at least 8 characters long' });
+      .json({ message: '"displayName" length must be at least 8 characters long' });
   }
 
   //  email validation
-  if (!email) return res.status(400).json({ message: '\"email\" is required' });
+  if (!email) return res.status(400).json({ message: '"email" is required' });
 
-  if (!mailValidate.test(email)) return res.status(400).json({ message: '\"email\" must be a valid email' });
+  if (!mailValidate.test(email)) {
+    return res.status(400).json({ message: '"email" must be a valid email' });
+  }
 
   //  user validation
   const userExists = await User.findOne({ where: { email } });
   if (userExists) return res.status(409).json({ message: 'Usuário já existe' });
 
   //  password validation
-  if (!password) return res.status(400).json({ message: '\"password\" is required' });
+  if (!password) return res.status(400).json({ message: '"password" is required' });
 
   if (password.length < 6) {
-    return res
-      .status(400)
-      .json({ message: '\"password\" length must be 6 characters long' });
+    return res.status(400).json({ message: '"password" length must be 6 characters long' });
   }
 
   const user = { displayName, email, password, image };
