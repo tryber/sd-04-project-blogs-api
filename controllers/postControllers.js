@@ -53,11 +53,32 @@ const updatePost = async (req, res) => {
 
     const post = await Posts.findOne({ where: { id } });
 
-    if (post.dataValues.userId !== userId) throw new Error('Usuário não autorizado');
+    if (post.dataValues.userId !== userId)
+      throw new Error('Usuário não autorizado');
 
     await Posts.update({ title, content }, { where: { id } });
 
     res.status(200).json({ title, content, userId });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
+
+const deletePost = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    const post = await Posts.findOne({ where: { id } });
+
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
+
+    if (post.dataValues.userId !== userId)
+      throw new Error('Usuário não autorizado');
+
+    await Posts.destroy({ where: { id } });
+
+    res.status(204).json({ message: 'excluido' });
   } catch (error) {
     res.status(401).json({ message: error.message });
   }
@@ -68,4 +89,5 @@ module.exports = {
   getPost,
   getPostById,
   updatePost,
+  deletePost,
 };

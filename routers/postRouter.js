@@ -32,4 +32,10 @@ router.put(
   postControllers.updatePost,
 );
 
+router.delete(
+  '/:id',
+  userMiddlewares.validaJWT,
+  postControllers.deletePost,
+);
+
 module.exports = router;
