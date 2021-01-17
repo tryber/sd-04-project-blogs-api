@@ -2,7 +2,6 @@ const postsController = require('express').Router();
 const { Posts, Users } = require('../models');
 const validatePost = require('../middlewares/postValidation');
 const { validateToken } = require('../authentication');
-const { usersController } = require('.');
 
 const createMessageJSON = (message) => ({ message });
 
@@ -39,6 +38,29 @@ postsController.get('/', validateToken, async (_req, res) => {
   }
 });
 
+postsController.get('/search', validateToken, async (req, res) => {
+  const { q: valueToSearch } = req.query;
+
+  console.log('Value to Search', valueToSearch);
+  console.log('Value to Search', valueToSearch);
+  try {
+    if (!valueToSearch) {
+      const posts = await Posts.findAll();
+      return res.status(200).json(posts);
+    }
+
+    const filteredPosts = await Posts.findAll();
+    console.log('FILTERED POSTS', filteredPosts);
+
+    if (!filteredPosts) return res.status(200).json([]);
+
+    return res.status(200).json(filteredPosts);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json(createMessageJSON('Opss... algo deu errado :/'));
+  }
+});
+
 postsController.get('/:id', validateToken, async (req, res) => {
   const { id } = req.params;
   try {
@@ -67,19 +89,15 @@ postsController.put('/:id', validateToken, validatePost, async (req, res) => {
 
     if (!post) return res.status(404).json(createMessageJSON('Post não existe'));
 
-    console.log(post.dataValues.userId !== userId);
     if (post.dataValues.userId !== userId) {
       return res.status(401).json(createMessageJSON('Usuário não autorizado'));
     }
-
-    console.log('post', post);
-    console.log('UPDATED');
     await Posts.update({ title, content, userId }, { where: { id } });
+
     const updatedPost = await Posts.findByPk(id);
-    console.log('updatedPost', updatedPost);
+
     return res.status(200).json(updatedPost);
   } catch (err) {
-    console.error(err.message);
     return res.status(500).json(createMessageJSON('Opss... algo deu errado :/'));
   }
 });
