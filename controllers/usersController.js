@@ -43,4 +43,10 @@ router.post('/', async (req, res) => {
   res.status(201).json({ token });
 });
 
+router.get('/', jwt.validateJWT, async (req, res) => {
+  const users = await User.findAll();
+
+  res.status(200).json(users);
+});
+
 module.exports = router;
