@@ -7,7 +7,7 @@ const auth = require('../middlewares/auth');
 router.post('/',
   validation.displayNameValidator,
   validation.emailValidator,
-  validation.passwordValidator.apply,
+  validation.passwordValidator,
   validation.uniqueEmailValidator,
   async (req, res) => {
     try {

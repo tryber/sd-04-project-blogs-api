@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { Users } = require('../models');
 
 const displayNameValidator = (req, res, next) => {
   const { displayName } = req.body;
@@ -14,13 +14,14 @@ const displayNameValidator = (req, res, next) => {
 
 const emailValidator = (req, res, next) => {
   const { email } = req.body;
-  const regex = /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+  const mailRegex = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
+  const testEmailRegex = mailRegex.test(email);
 
   if (!email) {
     // eslint-disable-next-line quotes
     return res.status(400).send({ message: "\"email\" is required" });
   }
-  if (!regex.test(email)) {
+  if (!testEmailRegex) {
     // eslint-disable-next-line quotes
     return res.status(400).send({ message: "\"email\" must be a valid email" });
   }
@@ -34,13 +35,13 @@ const passwordValidator = (req, res, next) => {
     return res.status(400).send({ message: '"password" is required' });
   }
   if (password.length < 6) {
-    return res.status(400).send({ message: '"password" length must be at least 6 characters long' });
+    return res.status(400).send({ message: '"password" length must be 6 characters long' });
   }
   next();
 };
 
 const uniqueEmailValidator = async (req, res, next) => {
-  const email = await User.findOne({ where: { email: req.body.email } });
+  const email = await Users.findOne({ where: { email: req.body.email } });
   if (email) {
     return res.status(409).send({ message: 'Usuário já existe' });
   }
@@ -74,9 +75,9 @@ const postValidator = (req, res, next) => {
 
 const authorValidator = async (req, res, next) => {
   const { email } = req.user;
-  const user = await User.findOne({ where: { email } });
+  const user = await Users.findOne({ where: { email } });
   const { id } = req.params;
-  const post = await User.findOne({ where: { id } });
+  const post = await Users.findOne({ where: { id } });
 
   if (!user) {
     return res.status(400).send({ message: '"content" is required' });
