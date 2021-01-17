@@ -3,6 +3,8 @@ const { Users } = require('../models');
 const { validateName, validateEmail, validatePassword } = require('../middlewares/userValidations');
 const { createToken, validateToken } = require('../authentication');
 
+const createMessageJSON = (message) => ({ message });
+
 usersController.post('/', validateName, validateEmail, validatePassword, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
@@ -16,9 +18,25 @@ usersController.post('/', validateName, validateEmail, validatePassword, async (
   }
 });
 
-usersController.get('/', validateToken, async (req, res) => {
+usersController.get('/', validateToken, async (_, res) => {
   const users = await Users.findAll({ attributes: { exclude: ['password'] } });
   return res.status(200).json(users);
+});
+
+usersController.get('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await Users.findByPk(id, { attributes: { exclude: ['password'] } });
+
+    if (!user) {
+      return res.status(404).json(createMessageJSON('Usuário não existe'));
+    }
+
+    return res.status(200).json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json(createMessageJSON('Opss... algo deu errado :/'));
+  }
 });
 
 module.exports = usersController;
