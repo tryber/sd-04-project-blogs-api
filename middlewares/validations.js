@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { Users, Posts } = require('../models');
 
 const displayNameValidator = (req, res, next) => {
   const { displayName } = req.body;
@@ -83,15 +83,18 @@ const authorValidator = async (req, res, next) => {
   const { email } = req.user;
   const user = await Users.findOne({ where: { email } });
   const { id } = req.params;
-  const post = await Users.findOne({ where: { id } });
+  const post = await Posts.findOne({ where: { id } });
 
+  if (!post) {
+    return res.status(404).send({ message: 'Post não existe' });
+  }
   if (!user) {
     return res.status(400).send({ message: '"content" is required' });
   }
-  if (user.dataValues.id !== post.dataValues.userId) {
+  if (user.id !== post.userId) {
     return res.status(401).send({ message: 'Usuário não autorizado' });
   }
-  req.user = { ...req.user, userId: user.dataValues.id };
+  req.user = { ...req.user, userId: user.id };
 
   next();
 };

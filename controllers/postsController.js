@@ -23,13 +23,13 @@ router.get('/', auth,
         attributes: { exclude: ['password'] },
       }],
     });
-    return res.status(201).json(pagePosts);
+    return res.status(200).json(pagePosts);
   });
 
 router.get('/:id', auth,
   async (req, res) => {
     const { id } = req.params;
-    const userPost = await Posts.findByPk({
+    const userPost = await Posts.findOne({
       where: { id },
       include: { model: Users, as: 'user' },
       atributes: { exclude: ['userId'] },
@@ -55,7 +55,6 @@ router.put('/:id',
   });
 
 router.delete('/:id', auth,
-  validation.postValidator,
   validation.authorValidator,
   async (req, res) => {
     await Posts.destroy({ where: { id: req.params.id } });
