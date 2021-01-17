@@ -31,7 +31,25 @@ postsController.get('/', validateToken, async (_req, res) => {
       },
       attributes: { exclude: ['userId'] },
     });
+
     return res.status(200).json(posts);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json(createMessageJSON('Opss... algo deu errado :/'));
+  }
+});
+
+postsController.get('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await Posts.findByPk(id, {
+      include: { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      attributes: { excludes: ['userId'] },
+    });
+
+    if (!post) return res.status(404).json(createMessageJSON('Post não existe'));
+
+    return res.status(200).json(post);
   } catch (err) {
     console.error(err.message);
     return res.status(500).json(createMessageJSON('Opss... algo deu errado :/'));
