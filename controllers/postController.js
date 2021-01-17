@@ -1,7 +1,7 @@
 const express = require('express');
 const encrypt = require('jsonwebtoken');
 require('dotenv/config');
-const { Post } = require('../models');
+const { Post, User } = require('../models');
 
 const router = express.Router();
 const jwt = require('../middlewares/auth');
@@ -22,6 +22,15 @@ router.post('/', jwt.validateJWT, async (req, res) => {
   await Post.create(newPost);
 
   res.status(201).json(newPost);
+});
+
+router.get('/', jwt.validateJWT, async (req, res) => {
+  const posts = await Post.findAll({
+    attributes: { exclude: ['userId'] },
+    include: { model: User, as: 'user' },
+  });
+
+  res.status(200).json(posts);
 });
 
 module.exports = router;
