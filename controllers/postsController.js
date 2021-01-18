@@ -52,4 +52,23 @@ router.get('/:id', validateToken, async (req, res) => {
   }
 });
 
+router.put('/:id', validateToken, verifyFields, async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    const userId = req.user.id;
+    const { id } = req.params;
+    const updatedPost = await Posts.update({ title, content, userId }, { where: { id, userId } });
+    if (updatedPost[0] === 0) {
+      return res.status(401).json({ message: 'Usuário não autorizado' });
+    }
+
+    const postUpdated = await Posts.findOne({
+      where: { id },
+    });
+    return res.status(200).json(postUpdated);
+  } catch (_err) {
+    return res.status(500).json({ message: 'algo deu errado' });
+  }
+});
+
 module.exports = router;
