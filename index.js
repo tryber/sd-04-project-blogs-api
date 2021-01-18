@@ -12,8 +12,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/login', controllers.login);
 app.use('/user', controllers.user);
+app.use('/login', controllers.login);
 app.use('/post', controllers.blogPost);
 
 app.listen(PORT, () => console.log(`ouvidno na porta ${PORT}....`));
