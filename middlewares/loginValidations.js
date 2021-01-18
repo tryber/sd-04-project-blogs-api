@@ -39,6 +39,9 @@ const verifyUserExists = async (req, res, next) => {
     return res.status(400).json({ message: 'Campos inválidos' });
   }
 
+  const { id, displayName, image } = user.dataValues;
+  req.user = { email, id, displayName, image };
+
   return next();
 };
 
