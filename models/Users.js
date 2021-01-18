@@ -1,24 +1,13 @@
-const createUsers = (sequelize, DataTypes) => {
-  const Users = sequelize.define(
+const Users = (sequelize, DataTypes) =>
+  sequelize.define(
     'Users',
     {
-      id: { type: DataTypes.INTEGER, primaryKey: true },
       displayName: DataTypes.STRING,
-      email: DataTypes.INTEGER,
+      email: DataTypes.STRING,
       password: DataTypes.STRING,
+      image: DataTypes.STRING,
     },
-    {
-      timestamps: false,
-    },
+    { timestamps: false },
   );
 
-  Users.associate = (models) => {
-    Users.belongsTo(models.Posts, {
-      foreignKey: 'userId',
-      as: 'Users',
-    });
-  };
-  return Users;
-};
-
-module.exports = createUsers;
+module.exports = Users;

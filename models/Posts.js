@@ -1,22 +1,24 @@
-const createPost = (sequelize, DataTypes) => {
-  const Posts = sequelize.define('Post', {
-    id: { type: DataTypes.INTEGER, primaryKey: true },
-    title: DataTypes.STRING,
-    constent: DataTypes.INTEGER,
-    userId: { type: DataTypes.INTEGER, foreignKey: true },
-    password: DataTypes.INTEGER,
-    published: DataTypes.DATE,
-    updated: DataTypes.DATE,
-  });
+const createPosts = (sequelize, DataTypes) => {
+  const Posts = sequelize.define(
+    'Posts',
+    {
+      title: DataTypes.STRING,
+      content: DataTypes.STRING,
+      userId: { type: DataTypes.INTEGER, foreignKey: true },
+      published: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+      updated: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+    },
+    { timestamps: false },
+  );
 
   Posts.associate = (models) => {
     Posts.belongsTo(models.Users, {
       foreignKey: 'userId',
-      as: 'Users',
+      as: 'user',
     });
   };
 
   return Posts;
 };
 
-module.exports = createPost;
+module.exports = createPosts;
