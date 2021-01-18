@@ -1,6 +1,4 @@
-const Boom = require('@hapi/boom');
 const { Users } = require('../models');
-
 
 const validateEmail = (req, res, next) => {
   const { email } = req.body;
