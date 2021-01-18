@@ -26,12 +26,12 @@ usersController.get('/:id', validateToken, async (req, res) => {
     const user = await Users.findByPk(id, { attributes: { exclude: ['password'] } });
 
     if (!user) {
-      return res.status(404).json({ message : 'Usuário não existe' });
+      return res.status(404).json({ message: 'Usuário não existe' });
     }
 
     return res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ message : 'badRequest' });
+    res.status(500).json({ message: 'badRequest' });
   }
 });
 
@@ -41,7 +41,7 @@ usersController.delete('/me', validateToken, async (req, res) => {
     await Users.destroy({ where: { email, id } });
     res.sendStatus(204);
   } catch (err) {
-    res.status(500).json({ message : 'badRequest' });
+    res.status(500).json({ message: 'badRequest' });
   }
 });
 

@@ -14,7 +14,7 @@ postsController.post('/', validateToken, validatePost, async (req, res) => {
     const post = await Posts.create({ title, content, userId });
     return res.status(201).json(post);
   } catch (err) {
-    return res.status(500).json({ message : 'badRequest' });
+    return res.status(500).json({ message: 'badRequest' });
   }
 });
 
@@ -31,7 +31,7 @@ postsController.get('/', validateToken, async (_req, res) => {
 
     return res.status(200).json(posts);
   } catch (err) {
-    return res.status(500).json({ message : 'badRequest' });
+    return res.status(500).json({ message: 'badRequest' });
   }
 });
 
@@ -65,7 +65,7 @@ postsController.get('/search', validateToken, async (req, res) => {
 
     return res.status(200).json(filteredPosts);
   } catch (err) {
-    return res.status(500).json({ message : 'badRequest' });
+    return res.status(500).json({ message: 'badRequest' });
   }
 });
 
@@ -77,11 +77,11 @@ postsController.get('/:id', validateToken, async (req, res) => {
       attributes: { excludes: ['userId'] },
     });
 
-    if (!post) return res.status(404).json({ message : 'Post não existe' });
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
 
     return res.status(200).json(post);
   } catch (err) {
-    return res.status(500).json({ message : 'Bad' });
+    return res.status(500).json({ message: 'Bad' });
   }
 });
 
@@ -94,10 +94,10 @@ postsController.put('/:id', validateToken, validatePost, async (req, res) => {
   try {
     const post = await Posts.findByPk(id);
 
-    if (!post) return res.status(404).json({ message : 'Post não existe' });
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
 
     if (post.dataValues.userId !== userId) {
-      return res.status(401).json({ message : 'Usuário não autorizado' });
+      return res.status(401).json({ message: 'Usuário não autorizado' });
     }
     await Posts.update({ title, content, userId }, { where: { id } });
 
@@ -105,7 +105,7 @@ postsController.put('/:id', validateToken, validatePost, async (req, res) => {
 
     return res.status(200).json(updatedPost);
   } catch (err) {
-    return res.status(500).json({ message : 'badRequest' });
+    return res.status(500).json({ message: 'badRequest' });
   }
 });
 
@@ -117,10 +117,10 @@ postsController.delete('/:id', validateToken, async (req, res) => {
   try {
     const post = await Posts.findByPk(id);
 
-    if (!post) return res.status(404).json({ message : 'Post não existe' });
+    if (!post) return res.status(404).json({ message: 'Post não existe' });
 
     if (post.dataValues.userId !== userId) {
-      return res.status(401).json({ message : 'Usuário não autorizado' });
+      return res.status(401).json({ message: 'Usuário não autorizado' });
     }
 
     await Posts.destroy({ where: { id, userId } });
